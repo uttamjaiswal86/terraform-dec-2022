@@ -263,7 +263,7 @@ git clone https://github.com/tektutor/terraform-dec-2022.git
 cd terraform-dec-2022
 ```
 
-## Lab - Running your first terraform script 
+## ⛹️‍♂️ Lab - Running your first terraform script 
 ```
 cd ~/terraform-dec-2022
 git pull
