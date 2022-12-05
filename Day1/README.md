@@ -241,3 +241,14 @@ jegan@ubuntu:~/Desktop$ <b>az version</b>
   "extensions": {}
 }
 </pre>
+
+## Docker Containers vs Virtual Machines
+1. Containers shares the Host OS kernel
+2. Virtual Machines has their own dedicated OS Kernel
+3. Virtual Machine is an fully functional OS, whereas container is an application process
+4. Every container has its own file system just like Virtual Machines
+5. Every container has its own Network stack(OSI Layers) just like Virtual Machines
+6. Every container has its own Network Card(s) just like Virtual Machines
+7. Every container get its own IP address just like Virtual Machines
+9. Containers appears like a Virtual machines in many ways but it is just a lightweight application process
+10. Containers is a complementing technolgoy to virtualization, hence Containers will not be able to replaces a Virtual Machine or an OS.
