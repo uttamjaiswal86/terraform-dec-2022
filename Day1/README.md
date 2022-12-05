@@ -167,12 +167,15 @@ yet another classification
   - runC
 
 ## What is Docker Image?
+- is a specification of container
+- docker image is similar to VMWare OS images
+- similar to OS ISO images
 
 ## What is Docker container ?
 - container is a running instance of Container image
+- with one container image, you could create many containers
 - container represents one application
 - container from OS point of view it is a normal application process that runs in a separate namespace
-- 
 
 ## Installing Docker Community Edition in Ubuntu (Issue the below commands one by on on RPS Ubuntu Terminal )
 ```
