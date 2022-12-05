@@ -128,6 +128,52 @@ another classification
 yet another classification
 - Static and Dynamic IP
 
+## Container Technology
+- is an application virtualization technology
+- Linux Technology
+  - Linux Kernel supports
+    1. Namespace ( isolation of containers are taken care )
+    2. Control Groups (CGroups)
+       - allows applying resource quota restrication on containers
+       - for instance, 
+         - we can restrict how many cpu cores a container access at the max.
+         - how much maximum RAM a container can access
+ - Some examples of Container softwares
+   - LXC
+   - Rkt
+   - Containerd
+   - Docker
+   - Podman
+
+## What is Container Engine ?
+- a user-friendly high-level tool
+- provides easy commands to manage container images and containers
+- internally it depends on Container Runtimes to manage containers
+- internally it depends on other container image management tools to manage images
+- Examples
+  1. Docker 
+  2. Podman 
+- Docker depends on Containerd to manage dockers
+- Containerd depends on runC container runtime to manage containers
+
+## What is Container Runtime ?
+- is a software that manages containers
+  - it can create, list, rename, edit, delete a container
+- low-level tool with not so user-friendly commands
+- normally end-users almost never the Container Runtimes directly, only Container Engines use Container Runtimes to manage containers
+- Examples
+  - CRI-O
+  - Rkt
+  - runC
+
+## What is Docker Image?
+
+## What is Docker container ?
+- container is a running instance of Container image
+- container represents one application
+- container from OS point of view it is a normal application process that runs in a separate namespace
+- 
+
 ## Installing Docker Community Edition in Ubuntu (Issue the below commands one by on on RPS Ubuntu Terminal )
 ```
 sudo apt-get update
