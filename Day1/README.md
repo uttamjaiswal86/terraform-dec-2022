@@ -146,9 +146,19 @@ docker --version
 docker images
 ```
 
+Expected output
+<pre>
+jegan@ubuntu:~/Desktop$ <b>docker --version</b>
+Docker version 20.10.21, build baeda1f
+
+jegan@ubuntu:~/Desktop$ <b>docker images</b>
+REPOSITORY   TAG       IMAGE ID   CREATED   SIZE
+</pre>
+
 ## Installing the below tools ( RPS Ubuntu Terminal )
 ```
-sudo apt update && sudo apt install -y vim git tree azure-cli
+sudo apt update && sudo apt install -y vim git tree
+curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 sudo snap install terraform --classic
 
 git --version
