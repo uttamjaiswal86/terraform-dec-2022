@@ -128,7 +128,7 @@ another classification
 yet another classification
 - Static and Dynamic IP
 
-## Installing Docker Community Edition in Ubuntu
+## Installing Docker Community Edition in Ubuntu (Issue the below commands one by on on RPS Ubuntu Terminal )
 ```
 sudo apt-get update
 sudo apt-get install ca-certificates curl gnupg lsb-release -y
@@ -144,4 +144,14 @@ sudo usermod -aG docker $USER
 sudo su $USER
 docker --version
 docker images
+```
+
+## Installing the below tools ( RPS Ubuntu Terminal )
+```
+sudo apt update && sudo apt install -y vim git tree azure-cli
+sudo snap install terraform --classic
+
+git --version
+az --version
+terraform --version
 ```
