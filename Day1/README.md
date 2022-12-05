@@ -174,3 +174,24 @@ git --version
 az --version
 terraform --version
 ```
+
+Expected output
+<pre>
+jegan@ubuntu:~/Desktop$ <b>git version</b>
+git version 2.25.1
+
+jegan@ubuntu:~/Desktop$ <b>terraform version</b>
+Terraform v1.3.5
+on linux_amd64
+
+Your version of Terraform is out of date! The latest version
+is 1.3.6. You can update by downloading from https://www.terraform.io/downloads.html
+
+jegan@ubuntu:~/Desktop$ <b>az version</b>
+{
+  "azure-cli": "2.42.0",
+  "azure-cli-core": "2.42.0",
+  "azure-cli-telemetry": "1.0.8",
+  "extensions": {}
+}
+</pre>
