@@ -276,7 +276,7 @@ terraform apply
 Expected output
 <pre>
 
-jegan@ubuntu:~/terraform-dec-2022/Day1/create-docker-container-using-terraform$ terraform init
+jegan@ubuntu:~/terraform-dec-2022/Day1/create-docker-container-using-terraform$ <b>terraform init</b>
 
 Initializing the backend...
 
