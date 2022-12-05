@@ -256,6 +256,34 @@ jegan@ubuntu:~/Desktop$ <b>az version</b>
 9. Containers appears like a Virtual machines in many ways but it is just a lightweight application process
 10. Containers is a complementing technolgoy to virtualization, hence Containers will not be able to replaces a Virtual Machine or an OS.
 
+
+## What is a Container Orchestration Tool
+1. Docker SWARM
+2. Google Kubernetes
+   - supports CLI
+   - opensource
+3. Red Hat OpenShift 
+   - Red Hat's distribution of Kubernetes
+   - Developed on top Google Kubernetes
+   - requires license
+   - supports WebConsole
+   - Supports many additional features on top of Kubernetes
+
+4. Azure Red Hat OpenShift (ARO) - Managed Red Hat OpenShift - PaaS from Azure
+5. AWS Red Hat OpenShift (ROSA) - Managed Red Hat OpenShift - PaaS from AWS
+
+#### What are the features supported by Container Orchestration Tools
+- you can deploy any containerized application like Microservices into these Orchestration Tools
+- provides an environment where you can make your application Highly Available (HA)
+- supports inbuilt monitoring features
+- it can repair your faulty application by restarting or by replacing with another good instance
+- it can help in scaling up/down your application instances based user traffic on demand
+- it can help upgrading/downgrading your application version from one to other without any down time aka Rolling update
+- it supports service discovery
+- it also supports deploying traditional application(non-microservices) which are containerized
+
+
+
 ## Cloning this repository
 ```
 cd ~
