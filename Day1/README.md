@@ -11,3 +11,119 @@ http://www.microsoftazurepass.com/Home/HowTo?Length=5
 2. If you are using your personal azure account that has a free credit, applying the azure pass on that account makes your Free credit invalid imediately.
 3. If you have already an Azure pass on the Azure account, your new azure will become invalid
 
+## How multiple Operating Systems were installed on the same machine?
+- Boot Loaders [ is installed in Sector 0, Byte 0 of your Hard Disk - Master Boot Record(MBR) ]
+  - LILO
+  - GRUB 2
+  - BootCamp (Mac OS-X)
+- Only one OS can be active at a time, let's you have installed Windows 10 and Ubuntu 16.04 on your laptop using GRUB 2 Boot Loader, either Windows OS will active or your Ubuntu OS will be active at point of time.
+
+## What is Virtualization?
+- aka Hypervisors 
+- Hypervisor refers virtualization software
+- Hardware requirements
+  - CPU Cores
+  - RAM
+  - Disk
+- each Virtual Machine needs to allocated with its own dedicated
+  - CPU Cores
+  - RAM
+  - Storage Disk
+- What is the deciding factors to compute the max number of Virtual Machines(VM or Guest OS)
+  Processor
+  - AMD Processor
+    - Virtualization Feature
+      - AMD-V is the virtualization feature
+  - Intel Processor
+    - Virtualization Feature
+      - VT-X is the virtualization feature
+- Two types of Virtualization
+  1. Type 1 Hypervisor
+     - meant for Workstations/Servers 
+     - Bare-metal Hypervisor
+     - Host OS is not required
+     - Examples
+       - VMWare vSphere/vCenter ( requires License )
+  2. Type 2 Hypervisor
+     - they are suitable for Laptops/Desktops/Workstations
+     - it can only be installed on top a Host OS ( Windows, Mac, Linux )
+     - Examples
+       - VMWare Workstation ( Windows Host OS, Linux Host OS ) - requires License
+       - VMWare Fusion ( Mac OS-X Host OS ) - requires License
+       - Oracle Virtual Box ( Free )
+       - Parallels ( Mac OS-X ) - requires License
+       - KVM - Opensource Hypervisor that can be installed on any Linux OS Distributions
+
+## Processors
+- these days supports multiple CPU Cores
+- Intel Processor it supports Hyperthreading
+  - each Physical core is seen as 2 Virtual cores by your Hypervisor software
+  - modern Processors even support upto 8 virtual cores/physical core
+- AMD Processor it supports SMT (Simultaneous Multi Threading - equivalent to Intel's Hyperthreading )
+  - each Physical core is seen as 2 Virtual cores by your Hypervisor software
+  - modern Processors even support upto 8 virtual cores/physical core
+- supports two types of Packing
+  1. SCM
+     - Single Chip Module ( one IC will contain 1 Processor )
+  2. MCM
+    - Multiple Chip Module ( one IC will contain multiple Processors )
+    - Certain AMD Processors supports even 8 Processors in a single IC
+    - each Processor could support 8,16,32,48,64,128,256,512 cores, etc.,
+  Just image a Motherboad with Dual Processor sockets, each with MCM Processor with 2 Processor on each IC with 256 Physical core
+  How many total virtual cores  256 x 2 x 2 x 2= 2 Sockets = 256 x 8 = 2048 virtual cores  
+
+## RAM 
+- Types of RAM
+  UDIMM - used in desktops
+  SODIMM - used in laptops
+  RDIMM - used in servers
+ 
+ ## What is cloud computing?
+ - Types of cloud
+   1. Public cloud ( AWS, Azure, GCP, Digital Ocean, etc., )
+   2. Private cloud 
+      - Datacenter owned by your organization
+      - compute resources of different configurations can be provisioned over Internet
+      - storage resources of different capacity and type can be provisioned over Internet
+   3. Hybrid cloud
+      combination of Private cloud and Public cloud
+      
+ ### Different types of Cloud services
+ 1. Infrastructure as a Service (IaaS)
+ - You can rent the compute resources(hardware), storage and Internet from the public cloud vendor (AWS,Azure, etc.,)
+ - Cloud vendors provides 
+   - Just the Hardware, Storage, Network and Internet provided by Cloud vendor
+ - OS has to be managed by us
+ 
+ 2. Platform as a Service (PaaS)
+ - Provided by vendor
+   - Virtual machine - Hardware, storage, network and Internet
+   - OS is managed by Cloud vendor
+   - Examples
+     Red Hat OpenShift ( ROSA )
+     Google Kubernetes ( AWS - EKS, Azure - AKS )
+     
+ 3. Software as a Service (SaaS)
+ - Microsot Office 365
+ - Gmail
+ - Netflix
+ - Intuit QuickBooks ( Inventory software available over Internet )
+ - Database Services
+ - Application Servers
+ - Cloud Vendor
+   - manages the Virtual machine, storage, network and Internet
+   - OS 
+   - Software
+
+## Different types of IP
+Two types
+- IPv4 and IPv6
+
+IPv4 - 32 bits ( 4 bytes )
+256 x 256 x 256 x 256 = Total unique IPs possible on Internet
+
+another classification
+- Private IP and Public IP
+  - scope of this kind of IP address is limited to the local machine where the VM is running
+yet another classification
+- Static and Dynamic IP
