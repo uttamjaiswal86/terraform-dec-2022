@@ -17,6 +17,6 @@ resource "docker_image" "ubuntu_image" {
 
 resource "docker_container"  "ubuntu-container" {
    name = "c1"
-   image = docker_image.ubuntu_image.id
+   image = docker_image.ubuntu_image.image_id
 }
    
