@@ -383,3 +383,44 @@ docker_container.ubuntu-container: Creation complete after 1s [id=a8ae039361614d
 
 Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 </pre>
+
+## Lab - Terraform plan
+Terraform plan will dry-run the terraform automation script and prints the plan.  You may optionally save the plan and run the plan.  This is a best practice as you know upfront what Terraform is about to do as opposed to directly performing apply.
+
+#### Print the plan
+```
+cd ~/terraform-dec-2022
+git pull
+
+cd Day1/create-docker-container-using-terraform
+terraform plan
+```
+
+Expected output
+<pre>
+</pre>
+
+#### Saving the plan to a file
+```
+cd ~/terraform-dec-2022
+git pull
+
+cd Day1/create-docker-container-using-terraform
+terraform plan -out main.tfplan
+```
+Expected output
+<pre>
+</pre>
+
+
+#### Executing the plan file
+```
+cd ~/terraform-dec-2022
+git pull
+
+cd Day1/create-docker-container-using-terraform
+terraform apply main.tfplan
+```
+Expected output
+<pre>
+</pre>
