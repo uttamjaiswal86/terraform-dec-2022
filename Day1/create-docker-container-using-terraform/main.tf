@@ -18,5 +18,6 @@ resource "docker_image" "ubuntu_image" {
 resource "docker_container"  "ubuntu-container" {
    name = "c1"
    image = docker_image.ubuntu_image.image_id
+   command = [ "/bin/bash", "-c", "sleep 9999999" ] 
 }
    
