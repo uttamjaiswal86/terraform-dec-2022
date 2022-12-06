@@ -411,7 +411,11 @@ Apply complete! Resources: 9 added, 0 changed, 0 destroyed.
 
 ### Destroy all resources created by Terraform
 ```
-
+cd ~/terraform-dec-2022
+git pull
+cd Day2/create-azure-vm-using-terraform
+terraform init
+terraform destroy --auto-approve
 ```
 
 Expected outupt
@@ -714,3 +718,72 @@ azurerm_resource_group.tektutor_resource_group: Destruction complete after 1m26s
 
 Destroy complete! Resources: 9 destroyed.
 </pre>
+
+
+## Rerun the scripts to see the output variable printed on the screen
+```
+cd ~/terraform-dec-2022
+git pull
+cd Day2/create-azure-vm-using-terraform
+terraform init
+terraform validate
+terraform apply --auto-approve
+```
+
+Expected output
+<pre>
+jegan@ubuntu:~/terraform-dec-2022/Day2/create-azure-vm-using-terraform$ terraform apply --auto-approve
+tls_private_key.my_key_pair: Refreshing state... [id=040e514c129196298295fc677f63c543f667effd]
+azurerm_resource_group.tektutor_resource_group: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group]
+azurerm_virtual_network.my_virtual_network: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group/providers/Microsoft.Network/virtualNetworks/my-virtual-network]
+azurerm_public_ip.my_vm_public_ip: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group/providers/Microsoft.Network/publicIPAddresses/my-vm-public-ip]
+azurerm_network_security_group.my_vm_firewall: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group/providers/Microsoft.Network/networkSecurityGroups/my-vm-firewall]
+azurerm_subnet.my_subnet: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group/providers/Microsoft.Network/virtualNetworks/my-virtual-network/subnets/my-subnet]
+azurerm_network_interface.my_network_card: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group/providers/Microsoft.Network/networkInterfaces/my-network-card]
+azurerm_network_interface_security_group_association.apply_firewall_rules_on_network_card: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group/providers/Microsoft.Network/networkInterfaces/my-network-card|/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group/providers/Microsoft.Network/networkSecurityGroups/my-vm-firewall]
+azurerm_linux_virtual_machine.my_linux_vm: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group/providers/Microsoft.Compute/virtualMachines/my-linux-vm]
+
+Note: Objects have changed outside of Terraform
+
+Terraform detected the following changes made outside of Terraform since the last "terraform apply" which may have
+affected this plan:
+
+  # azurerm_linux_virtual_machine.my_linux_vm has changed
+  ~ resource "azurerm_linux_virtual_machine" "my_linux_vm" {
+        id                              = "/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group/providers/Microsoft.Compute/virtualMachines/my-linux-vm"
+        name                            = "my-linux-vm"
+      + public_ip_address               = "20.172.230.168"
+        tags                            = {}
+        # (22 unchanged attributes hidden)
+
+        # (3 unchanged blocks hidden)
+    }
+
+
+Unless you have made equivalent changes to your configuration, or ignored the relevant attributes using
+ignore_changes, the following plan may include actions to undo or respond to these changes.
+
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Changes to Outputs:
+  + private_key       = (sensitive value)
+  + public_ip_address = "20.172.230.168"
+
+You can apply this plan to save these new output values to the Terraform state, without changing any real
+infrastructure.
+
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+private_key = <sensitive>
+public_ip_address = "20.172.230.168"
+</pre>
+
+#### SSH into the Virtual machine we created using Terraform
+```
+terraform output private_key
+terraform output private_key > ./key.pem
+chmod 400 ./key.pem
+ssh -i ./key.pem azureuser@20.172.230.168
+```
