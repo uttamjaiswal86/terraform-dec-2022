@@ -8,6 +8,9 @@ resource "azurerm_virtual_network" "my_virtual_network" {
   resource_group_name = azurerm_resource_group.tektutor_resource_group.name
   address_space = [ "10.20.0.0/16" ]
   location = azurerm_resource_group.tektutor_resource_group.location 
+  depends_on = [
+	azurerm_resource_group.tektutor_resource_group
+  ]
 }
   
 resource "azurerm_subnet" "my_subnet" {
@@ -15,6 +18,9 @@ resource "azurerm_subnet" "my_subnet" {
   resource_group_name = azurerm_resource_group.tektutor_resource_group.name
   virtual_network_name = azurerm_virtual_network.my_virtual_network.name 
   address_prefixes = [ "10.20.1.0/24" ] 
+  depends_on = [
+	azurerm_virtual_network.my_virtual_network
+  ]
 }
 
 resource "azurerm_network_interface" "my_network_card" {
@@ -29,6 +35,10 @@ resource "azurerm_network_interface" "my_network_card" {
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id = azurerm_public_ip.my_vm_public_ip.id
   }
+
+  depends_on = [
+	azurerm_subnet.my_subnet
+  ]
 }
 
 resource "azurerm_network_security_group" "my_vm_firewall" {
@@ -73,11 +83,19 @@ resource "azurerm_network_security_group" "my_vm_firewall" {
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
+
+  depends_on = [
+	azurerm_resource_group.tektutor_resource_group
+  ]
 }
 
 resource "azurerm_network_interface_security_group_association" "apply_firewall_rules_on_network_card"  {
-   network_interface_id = azurerm_network_interface.my_network_card.id
-   network_security_group_id = azurerm_network_security_group.my_vm_firewall.id
+  network_interface_id = azurerm_network_interface.my_network_card.id
+  network_security_group_id = azurerm_network_security_group.my_vm_firewall.id
+  depends_on = [
+	azurerm_network_interface.my_network_card,
+	azurerm_network_security_group.my_vm_firewall
+  ]
 }
 
 resource "azurerm_public_ip" "my_vm_public_ip" {
@@ -85,6 +103,9 @@ resource "azurerm_public_ip" "my_vm_public_ip" {
   resource_group_name = azurerm_resource_group.tektutor_resource_group.name
   location = azurerm_resource_group.tektutor_resource_group.location 
   allocation_method = "Dynamic"
+  depends_on = [
+	azurerm_resource_group.tektutor_resource_group
+  ]
 }
 
 resource "tls_private_key" "my_key_pair" {
@@ -122,6 +143,24 @@ resource "azurerm_linux_virtual_machine" "my_linux_vm" {
     sku       = "18.04-LTS"
     version   = "latest"
   }
+  depends_on = [
+	azurerm_network_interface.my_network_card,
+	tls_private_key.my_key_pair 
+  ]
+}
+
+resource "local_file" "private_key_file" {
+  content = tls_private_key.my_key_pair.private_key_pem
+  filename = "./key.pem"
+}
+
+resource "null_resource" "change_private_key_file_permission" {
+  provisioner "local-exec" {  
+     command = "chmod 400 ./key.pem"
+  }
+  depends_on = [
+    local_file.private_key_file
+  ]
 }
 
 output "public_ip_address" {
@@ -132,3 +171,4 @@ output "private_key" {
   value = tls_private_key.my_key_pair.private_key_pem
   sensitive = true
 }
+
