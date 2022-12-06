@@ -27,6 +27,7 @@ resource "azurerm_network_interface" "my_network_card" {
     name                          = "internal"
     subnet_id                     = azurerm_subnet.my_subnet.id
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id = azurerm_public_ip.my_vm_public_ip.id
   }
 }
 
@@ -121,4 +122,13 @@ resource "azurerm_linux_virtual_machine" "my_linux_vm" {
     sku       = "18.04-LTS"
     version   = "latest"
   }
+}
+
+output "public_ip_address" {
+  value = azurerm_linux_virtual_machine.my_linux_vm.public_ip_address
+}
+
+output "private_key" {
+  value = tls_private_key.my_key_pair.private_key_pem
+  sensitive = true
 }
