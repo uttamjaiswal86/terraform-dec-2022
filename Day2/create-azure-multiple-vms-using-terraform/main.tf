@@ -1,6 +1,6 @@
 resource "azurerm_resource_group" "tektutor_resource_group" {
-  name     = "tektutor-resource-group"
-  location = "eastus"
+  name     = var.resource_group_name 
+  location = var.location 
 }
 
 resource "azurerm_virtual_network" "my_virtual_network" {
@@ -24,7 +24,7 @@ resource "azurerm_subnet" "my_subnet" {
 }
 
 resource "azurerm_network_interface" "my_network_card" {
-  count = 3
+  count = var.vm_count 
   name = "my-network-card-${count.index}"
 
   resource_group_name = azurerm_resource_group.tektutor_resource_group.name
@@ -34,7 +34,7 @@ resource "azurerm_network_interface" "my_network_card" {
     name                          = "internal"
     subnet_id                     = azurerm_subnet.my_subnet.id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id = azurerm_public_ip.my_vm_public_ip.id
+    public_ip_address_id = azurerm_public_ip.my_vm_public_ip[count.index].id
   }
 
   depends_on = [
@@ -43,7 +43,7 @@ resource "azurerm_network_interface" "my_network_card" {
 }
 
 resource "azurerm_network_security_group" "my_vm_firewall" {
-  count = 3
+  count = var.vm_count 
 
   name = "my-vm-firewall-${count.index}"
 
@@ -92,7 +92,7 @@ resource "azurerm_network_security_group" "my_vm_firewall" {
 }
 
 resource "azurerm_network_interface_security_group_association" "apply_firewall_rules_on_network_card"  {
-  count = 3
+  count = var.vm_count 
   network_interface_id = azurerm_network_interface.my_network_card[count.index].id
   network_security_group_id = azurerm_network_security_group.my_vm_firewall[count.index].id
   depends_on = [
@@ -102,7 +102,7 @@ resource "azurerm_network_interface_security_group_association" "apply_firewall_
 }
 
 resource "azurerm_public_ip" "my_vm_public_ip" {
-  count = 3
+  count = var.vm_count 
   name = "my-vm-public-ip-${count.index}"
   resource_group_name = azurerm_resource_group.tektutor_resource_group.name
   location = azurerm_resource_group.tektutor_resource_group.location 
@@ -118,7 +118,7 @@ resource "tls_private_key" "my_key_pair" {
 }
 
 resource "azurerm_linux_virtual_machine" "my_linux_vm" {
-  count = 3
+  count = var.vm_count 
   name                = "my-linux-vm-${count.index}"
 
   resource_group_name = azurerm_resource_group.tektutor_resource_group.name
@@ -166,6 +166,32 @@ resource "null_resource" "change_private_key_file_permission" {
   depends_on = [
     local_file.private_key_file
   ]
+}
+
+resource "time_sleep" "wait_120_seconds" {
+  depends_on = [azurerm_linux_virtual_machine.my_linux_vm]   
+
+  create_duration = "120s"
+}
+
+resource "null_resource" "install_nginx_web_server_on_azure_vms" {
+  depends_on = [time_sleep.wait_120_seconds]
+
+  count = var.vm_count
+
+  connection {
+     type = "ssh"
+     user = "azureuser"
+     private_key = tls_private_key.my_key_pair.private_key_pem
+     host = azurerm_linux_virtual_machine.my_linux_vm[count.index].public_ip_address   
+  }
+
+  provisioner "remote-exec" {
+	inline = [
+	    "sudo apt update",
+            "sudo apt install -y nginx"
+        ]
+  }
 }
 
 output "public_ip_address" {
