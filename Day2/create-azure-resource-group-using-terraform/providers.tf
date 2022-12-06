@@ -9,5 +9,5 @@ terraform {
 
 provider "azurerm" {
   features {}
-  subscription_id = "9eb2e122-36af-4b34-9186-2cc8053669e3"
+  subscription_id = "11223344-8899-1234-abcd-1234abcadf343" #Replace this with your subscription_id before init/approve/destroy
 }
