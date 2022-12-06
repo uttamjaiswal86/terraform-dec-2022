@@ -17,3 +17,68 @@ cd Day2/create-azure-resource-group-using-terraform
 terraform init
 terraform apply
 ```
+
+Expected output
+<pre>
+jegan@ubuntu:~/terraform-dec-2022/Day2/create-azure-resource-group-using-terraform$ <b>terraform apply --auto-approve</b>
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with
+the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # azurerm_resource_group.tektutor_resource_group will be created
+  + resource "azurerm_resource_group" "tektutor_resource_group" {
+      + id       = (known after apply)
+      + location = "eastus"
+      + name     = "tektutor-resource-group"
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+azurerm_resource_group.tektutor_resource_group: Creating...
+azurerm_resource_group.tektutor_resource_group: Creation complete after 8s [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group]
+
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
+</pre>
+
+
+
+#### Delete all the resources created by terraform
+```
+terraform destroy --auto-approve
+```
+
+Expected output
+<pre>
+jegan@ubuntu:~/terraform-dec-2022/Day2/create-azure-resource-group-using-terraform$ terraform destroy --auto-approve
+azurerm_resource_group.tektutor_resource_group: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group]
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with
+the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # azurerm_resource_group.tektutor_resource_group will be destroyed
+  - resource "azurerm_resource_group" "tektutor_resource_group" {
+      - id       = "/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group" -> null
+      - location = "eastus" -> null
+      - name     = "tektutor-resource-group" -> null
+      - tags     = {} -> null
+    }
+
+Plan: 0 to add, 0 to change, 1 to destroy.
+azurerm_resource_group.tektutor_resource_group: Destroying... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group]
+azurerm_resource_group.tektutor_resource_group: Still destroying... [id=/subscriptions/9eb2e122-36af-4b34-9186-...resourceGroups/tektutor-resource-group, 10s elapsed]
+azurerm_resource_group.tektutor_resource_group: Still destroying... [id=/subscriptions/9eb2e122-36af-4b34-9186-...resourceGroups/tektutor-resource-group, 20s elapsed]
+azurerm_resource_group.tektutor_resource_group: Still destroying... [id=/subscriptions/9eb2e122-36af-4b34-9186-...resourceGroups/tektutor-resource-group, 30s elapsed]
+azurerm_resource_group.tektutor_resource_group: Still destroying... [id=/subscriptions/9eb2e122-36af-4b34-9186-...resourceGroups/tektutor-resource-group, 40s elapsed]
+azurerm_resource_group.tektutor_resource_group: Still destroying... [id=/subscriptions/9eb2e122-36af-4b34-9186-...resourceGroups/tektutor-resource-group, 50s elapsed]
+azurerm_resource_group.tektutor_resource_group: Still destroying... [id=/subscriptions/9eb2e122-36af-4b34-9186-...resourceGroups/tektutor-resource-group, 1m0s elapsed]
+azurerm_resource_group.tektutor_resource_group: Still destroying... [id=/subscriptions/9eb2e122-36af-4b34-9186-...resourceGroups/tektutor-resource-group, 1m10s elapsed]
+azurerm_resource_group.tektutor_resource_group: Still destroying... [id=/subscriptions/9eb2e122-36af-4b34-9186-...resourceGroups/tektutor-resource-group, 1m20s elapsed]
+azurerm_resource_group.tektutor_resource_group: Destruction complete after 1m27s
+
+Destroy complete! Resources: 1 destroyed.
+</pre>
