@@ -76,7 +76,7 @@ terraform destroy --auto-approve
 
 Expected output
 <pre>
-jegan@ubuntu:~/terraform-dec-2022/Day2/create-azure-resource-group-using-terraform$ terraform destroy --auto-approve
+jegan@ubuntu:~/terraform-dec-2022/Day2/create-azure-resource-group-using-terraform$ <b>terraform destroy --auto-approve</b>
 azurerm_resource_group.tektutor_resource_group: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group]
 
 Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with
