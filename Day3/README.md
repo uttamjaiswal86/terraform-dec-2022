@@ -272,3 +272,21 @@ terraform apply --auto-approve
   - there are two types
     1. static inventory ( text file, almost looks like widows INI file )
     2. dynamic inventory ( this can be python script )
+
+
+## Installing Ansible in Ubuntu
+```
+sudo apt install -y ansible
+ansible --version
+```
+
+Expected output
+<pre>
+jegan@tektutor:~/terraform-dec-2022/Day3$ <b>ansible --version</b>
+ansible 2.9.6
+  config file = /etc/ansible/ansible.cfg
+  configured module search path = ['/home/jegan/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python3/dist-packages/ansible
+  executable location = /usr/bin/ansible
+  python version = 3.8.10 (default, Jun 22 2022, 20:18:18) [GCC 9.4.0]
+</pre>
