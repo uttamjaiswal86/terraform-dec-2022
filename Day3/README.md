@@ -142,3 +142,18 @@ public_ip_address = [
 ssh_command = "ssh -i ./key.pem azureuser@vm-public-ip"
 ssh_user_name = "azureuser"
 </pre>
+
+#### Testing the load balancer
+```
+curl load-balancer-public-ip
+```
+
+## Lab - Creating an Azure Kubernetes Cluster managed service using Terraform
+```
+cd ~/terraform-dec-2022
+git pull
+cd Day3/provision-aks-cluster
+
+terraform init
+terraform apply --auto-approve
+```
