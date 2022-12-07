@@ -787,3 +787,14 @@ terraform output private_key > ./key.pem
 chmod 400 ./key.pem
 ssh -i ./key.pem azureuser@20.172.230.168
 ```
+
+## Lab - Creating multiple virtual machines using Terraform
+```
+cd ~/terraform-dec-2022
+git pull
+cd Day2/create-azure-multiple-vms-using-terraform
+terraform init
+terraform apply --auto-approve
+```
+
+
