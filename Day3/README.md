@@ -142,3 +142,56 @@ public_ip_address = [
 ssh_command = "ssh -i ./key.pem azureuser@vm-public-ip"
 ssh_user_name = "azureuser"
 </pre>
+
+#### Testing the load balancer
+```
+curl load-balancer-public-ip
+```
+
+## ⛹️‍♀️ Lab - Creating an Azure Kubernetes Cluster managed service using Terraform
+```
+cd ~/terraform-dec-2022
+git pull
+cd Day3/provision-aks-cluster
+
+terraform init
+terraform apply --auto-approve
+```
+
+### Installing kubectl client tool on your RPS lab machine
+```
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+chmod +x ./kubectl
+sudo mv ./kubectl /usr/local/bin
+kubectl version
+```
+
+### Creating a config file
+```
+terraform output kube_config > config
+mkdir -p ~/.kube
+mv config /home/rps/.kube
+kubectl get nodes
+```
+You need to remove the EOT at the begining and end of the config file and save it.
+
+#### Once your AKS cluster is ready, you can try the below 
+```
+kubectl get nodes
+kubectl create deploy nginx --image=bitnami/nginx:latest --replicas=3
+kubectl expose deploy/nginx --port=8080 --type=LoadBalancer
+kubectl get svc
+kubectl describe svc/nginx
+kubectl get deploy,rs,pods
+```
+
+Access the service using the external ip displayed in the nginx loadbalancer service.
+
+
+#### Dispose the cluster once you are done with the exercise
+```
+cd ~/terraform-dec-2022
+git pull
+cd Day3/provision-aks-cluster
+terraform destroy --auto-approve
+```
