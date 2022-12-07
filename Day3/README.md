@@ -266,4 +266,3 @@ terraform apply --auto-approve
      - Software requirements
        1. Powershell
        2. WinRM
-     
