@@ -218,7 +218,7 @@ terraform init
 terraform apply --auto-approve
 ```
 
-## ⛹️‍♂️ Lab - Creating a Linux Virtual Machine Scale sets
+## ⛹️‍♂️ Lab - Creating a Cosmos DB Managed service using Terraform
 Cosmos DB is a Document based nosql managed service from Azure cloud. In this lab exercise, we have automated the cosmodb managed service using Terraform.
 
 ```
