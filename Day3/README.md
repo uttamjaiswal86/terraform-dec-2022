@@ -266,3 +266,9 @@ terraform apply --auto-approve
      - Software requirements
        1. Powershell
        2. WinRM
+- Ansible Inventory
+  - text file
+  - it has SSH/RDP connection details to the Ansible Nodes
+  - there are two types
+    1. static inventory ( text file, almost looks like widows INI file )
+    2. dynamic inventory ( this can be python script )
