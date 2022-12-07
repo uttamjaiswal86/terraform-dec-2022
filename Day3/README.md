@@ -166,6 +166,15 @@ sudo mv ./kubectl /usr/local/bin
 kubectl version
 ```
 
+### Creating a config file
+```
+terraform output kube_config > config
+mkdir -p ~/.kube
+mv config /home/rps/.kube
+kubectl get nodes
+```
+You need to remove the EOT at the begining and end of the config file and save it.
+
 #### Once your AKS cluster is ready, you can try the below 
 ```
 kubectl get nodes
