@@ -219,7 +219,9 @@ terraform apply --auto-approve
 ```
 
 ## ⛹️‍♂️ Lab - Creating a Cosmos DB Managed service using Terraform
-Cosmos DB is a azure managed service.  Cosmos DB stores and retrieves Document based. In this lab exercise, we have automated the cosmodb managed service using Terraform.
+Cosmos DB is a azure managed service.  Cosmos DB stores and retrieves Document based data. In this lab exercise, we have automated the cosmodb managed service using Terraform.
+
+For example, MongoDB nosql database stores records(officially documents) as JSON objects.  Even the query is written in javascript like syntax.  MongoDB doesn't support SQL(Structured Query Langauage like RDBMS supports ).
 
 ```
 cd ~/terraform-dec-2022
