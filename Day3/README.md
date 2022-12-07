@@ -195,3 +195,15 @@ git pull
 cd Day3/provision-aks-cluster
 terraform destroy --auto-approve
 ```
+
+## ⛹️‍♂️ Lab - Creating a Windows virtual machine in Azure portal using Terraform
+```
+cd ~/terraform-dec-2022
+git pull
+cd Day3/create-windows-azure-virtual-machine
+
+terraform init
+terraform apply --auto-approve
+```
+
+
