@@ -9,3 +9,136 @@ cd Day3/loadbalancer
 terraform init
 terraform apply --auto-approve
 ```
+
+Expected output
+<pre>
+jegan@ubuntu:~/terraform-dec-2022/Day3/loadbalancer$ <b>terraform apply --auto-approve</b>
+var.vm_count
+  Enter a value: 4
+
+tls_private_key.my_key_pair: Refreshing state... [id=6be9ea38fde1946be30ab4f955fad0db2ebb56b6]
+local_file.private_key_file: Refreshing state... [id=a9471202ecd87caaeecaa651fa663509b0bfd1b8]
+null_resource.change_private_key_file_permission: Refreshing state... [id=4009265864602550990]
+azurerm_resource_group.tektutor_resource_group: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2]
+azurerm_public_ip.lb_public_ip: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Network/publicIPAddresses/PublicIPForLB]
+azurerm_public_ip.my_vm_public_ip[1]: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Network/publicIPAddresses/my-vm-public-ip-1]
+azurerm_public_ip.my_vm_public_ip[2]: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Network/publicIPAddresses/my-vm-public-ip-2]
+azurerm_public_ip.my_vm_public_ip[3]: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Network/publicIPAddresses/my-vm-public-ip-3]
+azurerm_virtual_network.my_virtual_network: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Network/virtualNetworks/my-virtual-network]
+azurerm_public_ip.my_vm_public_ip[0]: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Network/publicIPAddresses/my-vm-public-ip-0]
+azurerm_network_security_group.my_vm_firewall[0]: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Network/networkSecurityGroups/my-vm-firewall-0]
+azurerm_network_security_group.my_vm_firewall[1]: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Network/networkSecurityGroups/my-vm-firewall-1]
+azurerm_network_security_group.my_vm_firewall[2]: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Network/networkSecurityGroups/my-vm-firewall-2]
+azurerm_network_security_group.my_vm_firewall[3]: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Network/networkSecurityGroups/my-vm-firewall-3]
+azurerm_subnet.my_subnet: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Network/virtualNetworks/my-virtual-network/subnets/my-subnet]
+azurerm_network_interface.my_network_card[3]: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Network/networkInterfaces/my-network-card-3]
+azurerm_lb.my_loadbalancer: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Network/loadBalancers/my-load-balancer]
+azurerm_network_interface.my_network_card[2]: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Network/networkInterfaces/my-network-card-2]
+azurerm_network_interface.my_network_card[0]: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Network/networkInterfaces/my-network-card-0]
+azurerm_network_interface.my_network_card[1]: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Network/networkInterfaces/my-network-card-1]
+azurerm_network_interface_security_group_association.apply_firewall_rules_on_network_card[2]: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Network/networkInterfaces/my-network-card-2|/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Network/networkSecurityGroups/my-vm-firewall-2]
+azurerm_network_interface_security_group_association.apply_firewall_rules_on_network_card[3]: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Network/networkInterfaces/my-network-card-3|/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Network/networkSecurityGroups/my-vm-firewall-3]
+azurerm_network_interface_security_group_association.apply_firewall_rules_on_network_card[1]: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Network/networkInterfaces/my-network-card-1|/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Network/networkSecurityGroups/my-vm-firewall-1]
+azurerm_network_interface_security_group_association.apply_firewall_rules_on_network_card[0]: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Network/networkInterfaces/my-network-card-0|/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Network/networkSecurityGroups/my-vm-firewall-0]
+azurerm_linux_virtual_machine.my_linux_vm[3]: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Compute/virtualMachines/my-linux-vm-3]
+azurerm_linux_virtual_machine.my_linux_vm[2]: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Compute/virtualMachines/my-linux-vm-2]
+azurerm_linux_virtual_machine.my_linux_vm[0]: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Compute/virtualMachines/my-linux-vm-0]
+azurerm_linux_virtual_machine.my_linux_vm[1]: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Compute/virtualMachines/my-linux-vm-1]
+azurerm_lb_backend_address_pool.lb_backend: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Network/loadBalancers/my-load-balancer/backendAddressPools/LBBackendAddressPool]
+azurerm_lb_rule.rule_for_forwarding_lb_port_80_traffic_to_backend_vms: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Network/loadBalancers/my-load-balancer/loadBalancingRules/LBRule]
+time_sleep.wait_120_seconds: Refreshing state... [id=2022-12-07T04:59:29Z]
+azurerm_lb_backend_address_pool_address.vms[1]: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Network/loadBalancers/my-load-balancer/backendAddressPools/LBBackendAddressPool/addresses/add-vm-1-to-lb-pool]
+azurerm_lb_backend_address_pool_address.vms[0]: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Network/loadBalancers/my-load-balancer/backendAddressPools/LBBackendAddressPool/addresses/add-vm-0-to-lb-pool]
+azurerm_lb_backend_address_pool_address.vms[2]: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Network/loadBalancers/my-load-balancer/backendAddressPools/LBBackendAddressPool/addresses/add-vm-2-to-lb-pool]
+null_resource.install_nginx_web_server_on_azure_vms[1]: Refreshing state... [id=3564913806900666715]
+null_resource.install_nginx_web_server_on_azure_vms[0]: Refreshing state... [id=704917517918503858]
+null_resource.install_nginx_web_server_on_azure_vms[3]: Refreshing state... [id=976159449919619021]
+null_resource.install_nginx_web_server_on_azure_vms[2]: Refreshing state... [id=3557420501242467080]
+azurerm_lb_backend_address_pool_address.vms[3]: Refreshing state... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Network/loadBalancers/my-load-balancer/backendAddressPools/LBBackendAddressPool/addresses/add-vm-3-to-lb-pool]
+
+Note: Objects have changed outside of Terraform
+
+Terraform detected the following changes made outside of Terraform since the last "terraform apply" which may have
+affected this plan:
+
+  # azurerm_public_ip.lb_public_ip has changed
+  ~ resource "azurerm_public_ip" "lb_public_ip" {
+        id                      = "/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Network/publicIPAddresses/PublicIPForLB"
+      + ip_tags                 = {}
+        name                    = "PublicIPForLB"
+      + tags                    = {}
+      + zones                   = []
+        # (9 unchanged attributes hidden)
+    }
+
+
+Unless you have made equivalent changes to your configuration, or ignored the relevant attributes using
+ignore_changes, the following plan may include actions to undo or respond to these changes.
+
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Changes to Outputs:
+  + lb_public_ip = {
+      + allocation_method       = "Static"
+      + ddos_protection_mode    = "VirtualNetworkInherited"
+      + ddos_protection_plan_id = null
+      + domain_name_label       = null
+      + edge_zone               = ""
+      + fqdn                    = null
+      + id                      = "/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Network/publicIPAddresses/PublicIPForLB"
+      + idle_timeout_in_minutes = 4
+      + ip_address              = "52.249.196.66"
+      + ip_tags                 = {}
+      + ip_version              = "IPv4"
+      + location                = "eastus"
+      + name                    = "PublicIPForLB"
+      + public_ip_prefix_id     = null
+      + resource_group_name     = "tektutor-resource-group-2"
+      + reverse_fqdn            = null
+      + sku                     = "Standard"
+      + sku_tier                = "Regional"
+      + tags                    = {}
+      + timeouts                = null
+      + zones                   = []
+    }
+
+You can apply this plan to save these new output values to the Terraform state, without changing any real
+infrastructure.
+
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+lb_public_ip = {
+  "allocation_method" = "Static"
+  "ddos_protection_mode" = "VirtualNetworkInherited"
+  "ddos_protection_plan_id" = tostring(null)
+  "domain_name_label" = tostring(null)
+  "edge_zone" = ""
+  "fqdn" = tostring(null)
+  "id" = "/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group-2/providers/Microsoft.Network/publicIPAddresses/PublicIPForLB"
+  "idle_timeout_in_minutes" = 4
+  "ip_address" = "52.249.196.66"
+  "ip_tags" = tomap({})
+  "ip_version" = "IPv4"
+  "location" = "eastus"
+  "name" = "PublicIPForLB"
+  "public_ip_prefix_id" = tostring(null)
+  "resource_group_name" = "tektutor-resource-group-2"
+  "reverse_fqdn" = tostring(null)
+  "sku" = "Standard"
+  "sku_tier" = "Regional"
+  "tags" = tomap({})
+  "timeouts" = null /* object */
+  "zones" = toset([])
+}
+private_key = <sensitive>
+public_ip_address = [
+  "172.174.58.231",
+  "20.169.246.111",
+  "20.232.137.46",
+  "20.25.42.245",
+]
+ssh_command = "ssh -i ./key.pem azureuser@vm-public-ip"
+ssh_user_name = "azureuser"
+</pre>
