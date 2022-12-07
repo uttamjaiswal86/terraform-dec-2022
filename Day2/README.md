@@ -8,7 +8,7 @@ The above command will display an URL and a code.  You can launch the URL in you
 
 Make sure, when you login to azure portal with the azure account credentials you created yesterday for this training.
 
-## Lab - Creating a Resource group in azure using Terraform
+## ⛹️‍♂️ Lab - Creating a Resource group in azure using Terraform
 ```
 cd ~/terraform-dec-2022
 git pull
@@ -96,20 +96,13 @@ Terraform will perform the following actions:
 Plan: 0 to add, 0 to change, 1 to destroy.
 azurerm_resource_group.tektutor_resource_group: Destroying... [id=/subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourceGroups/tektutor-resource-group]
 azurerm_resource_group.tektutor_resource_group: Still destroying... [id=/subscriptions/9eb2e122-36af-4b34-9186-...resourceGroups/tektutor-resource-group, 10s elapsed]
-azurerm_resource_group.tektutor_resource_group: Still destroying... [id=/subscriptions/9eb2e122-36af-4b34-9186-...resourceGroups/tektutor-resource-group, 20s elapsed]
-azurerm_resource_group.tektutor_resource_group: Still destroying... [id=/subscriptions/9eb2e122-36af-4b34-9186-...resourceGroups/tektutor-resource-group, 30s elapsed]
-azurerm_resource_group.tektutor_resource_group: Still destroying... [id=/subscriptions/9eb2e122-36af-4b34-9186-...resourceGroups/tektutor-resource-group, 40s elapsed]
-azurerm_resource_group.tektutor_resource_group: Still destroying... [id=/subscriptions/9eb2e122-36af-4b34-9186-...resourceGroups/tektutor-resource-group, 50s elapsed]
-azurerm_resource_group.tektutor_resource_group: Still destroying... [id=/subscriptions/9eb2e122-36af-4b34-9186-...resourceGroups/tektutor-resource-group, 1m0s elapsed]
-azurerm_resource_group.tektutor_resource_group: Still destroying... [id=/subscriptions/9eb2e122-36af-4b34-9186-...resourceGroups/tektutor-resource-group, 1m10s elapsed]
-azurerm_resource_group.tektutor_resource_group: Still destroying... [id=/subscriptions/9eb2e122-36af-4b34-9186-...resourceGroups/tektutor-resource-group, 1m20s elapsed]
 azurerm_resource_group.tektutor_resource_group: Destruction complete after 1m27s
 
 Destroy complete! Resources: 1 destroyed.
 </pre>
 
 
-## Lab - Creating an Azure Virtual machine using Terraform
+## ⛹️‍♀️ Lab - Creating an Azure Virtual machine using Terraform
 ```
 cd ~/terraform-dec-2022
 git pull
@@ -399,11 +392,6 @@ azurerm_network_interface_security_group_association.apply_firewall_rules_on_net
 azurerm_linux_virtual_machine.my_linux_vm: Creating...
 azurerm_network_interface_security_group_association.apply_firewall_rules_on_network_card: Creation complete after 3s [id=/subscriptions/5eaa0abd-72f4-44fa-8395-3f7a030c9d44/resourceGroups/tektutor-resource-group/providers/Microsoft.Network/networkInterfaces/my-network-card|/subscriptions/5eaa0abd-72f4-44fa-8395-3f7a030c9d44/resourceGroups/tektutor-resource-group/providers/Microsoft.Network/networkSecurityGroups/my-vm-firewall]
 azurerm_linux_virtual_machine.my_linux_vm: Still creating... [10s elapsed]
-azurerm_linux_virtual_machine.my_linux_vm: Still creating... [20s elapsed]
-azurerm_linux_virtual_machine.my_linux_vm: Still creating... [30s elapsed]
-azurerm_linux_virtual_machine.my_linux_vm: Still creating... [40s elapsed]
-azurerm_linux_virtual_machine.my_linux_vm: Still creating... [50s elapsed]
-azurerm_linux_virtual_machine.my_linux_vm: Still creating... [1m0s elapsed]
 azurerm_linux_virtual_machine.my_linux_vm: Creation complete after 1m3s [id=/subscriptions/5eaa0abd-72f4-44fa-8395-3f7a030c9d44/resourceGroups/tektutor-resource-group/providers/Microsoft.Compute/virtualMachines/my-linux-vm]
 
 Apply complete! Resources: 9 added, 0 changed, 0 destroyed.
@@ -788,7 +776,7 @@ chmod 400 ./key.pem
 ssh -i ./key.pem azureuser@20.172.230.168
 ```
 
-## Lab - Creating multiple virtual machines using Terraform
+## ⛹️‍♀️ Lab - Creating multiple virtual machines using Terraform
 ```
 cd ~/terraform-dec-2022
 git pull
@@ -796,5 +784,3 @@ cd Day2/create-azure-multiple-vms-using-terraform
 terraform init
 terraform apply --auto-approve
 ```
-
-
