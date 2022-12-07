@@ -209,16 +209,3 @@ resource "null_resource" "install_nginx_web_server_on_azure_vms" {
   }
 }
 
-output "public_ip_address" {
-  value = azurerm_linux_virtual_machine.my_linux_vm.*.public_ip_address
-}
-
-output "ssh_connections" {
-  count = var.vm_count
-  value = "ssh -i ./key.pem azureuser@azurerm_linux_virtual_machine.my_linux_vm[count.index].public_ip_address"
-}
-
-output "private_key" {
-  value = tls_private_key.my_key_pair.private_key_pem
-  sensitive = true
-}
