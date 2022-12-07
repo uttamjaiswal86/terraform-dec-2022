@@ -196,7 +196,7 @@ cd Day3/provision-aks-cluster
 terraform destroy --auto-approve
 ```
 
-## Lab - Creating a Window virtual machine in Azure portal using Terraform
+## ⛹️‍♂️ Lab - Creating a Window virtual machine in Azure portal using Terraform
 ```
 cd ~/terraform-dec-2022
 git pull
