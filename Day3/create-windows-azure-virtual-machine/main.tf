@@ -49,13 +49,13 @@ resource "azurerm_network_security_group" "my_vm_firewall" {
   location = azurerm_resource_group.tektutor_resource_group.location 
 
   security_rule {
-    name                       = "AllowSSH"
+    name                       = "AllowRDP"
     priority                   = 300 
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
-    destination_port_range     = "22"
+    destination_port_range     = "3389"
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
@@ -108,8 +108,8 @@ resource "azurerm_public_ip" "my_vm_public_ip" {
   ]
 }
 
-resource "azurerm_windows_virtual_machine" "my_linux_vm" {
-  name                = "my-linux-vm"
+resource "azurerm_windows_virtual_machine" "my_windows_vm" {
+  name                = "my-windows-vm"
 
   resource_group_name = azurerm_resource_group.tektutor_resource_group.name
   location = azurerm_resource_group.tektutor_resource_group.location 
@@ -139,5 +139,5 @@ resource "azurerm_windows_virtual_machine" "my_linux_vm" {
 }
 
 output "public_ip_address" {
-  value = azurerm_windows_virtual_machine.my_linux_vm.public_ip_address
+  value = azurerm_windows_virtual_machine.my_windows_vm.public_ip_address
 }
