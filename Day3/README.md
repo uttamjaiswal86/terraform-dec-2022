@@ -290,3 +290,22 @@ ansible 2.9.6
   executable location = /usr/bin/ansible
   python version = 3.8.10 (default, Jun 22 2022, 20:18:18) [GCC 9.4.0]
 </pre>
+
+## Lab - Understanding ansible static inventry and ansible ad-hoc command
+We will provision 3 virtual machine and use them as our Ansible nodes.
+
+Head over to Day2 below folder and provision 3 virtual machines
+```
+cd ~/terraform-dec-2022
+git pull
+cd Day2/create-azure-multiple-vms-using-terraform
+
+terraform init
+terraform apply --auto-approve
+```
+
+Copy the pem file to Day3 ansible folder
+```
+cp ~/terraform-dec-2022/Day2/create-azure-multiple-vms-using-terraform/key.pem  ~/terraform-dec-2022/Day3/ansible
+```
+
