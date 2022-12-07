@@ -148,7 +148,7 @@ ssh_user_name = "azureuser"
 curl load-balancer-public-ip
 ```
 
-## Lab - Creating an Azure Kubernetes Cluster managed service using Terraform
+## ⛹️‍♀️ Lab - Creating an Azure Kubernetes Cluster managed service using Terraform
 ```
 cd ~/terraform-dec-2022
 git pull
