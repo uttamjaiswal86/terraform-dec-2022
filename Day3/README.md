@@ -217,3 +217,15 @@ cd Day3/virtual-machine-scale-sets
 terraform init
 terraform apply --auto-approve
 ```
+
+## ⛹️‍♂️ Lab - Creating a Linux Virtual Machine Scale sets
+Cosmos DB is a Document based nosql managed service from Azure cloud. In this lab exercise, we have automated the cosmodb managed service using Terraform.
+
+```
+cd ~/terraform-dec-2022
+git pull
+cd Day3/cosmos-db
+
+terraform init
+terraform apply --auto-approve
+```
