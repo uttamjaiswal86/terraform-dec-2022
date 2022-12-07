@@ -231,3 +231,39 @@ cd Day3/cosmos-db
 terraform init
 terraform apply --auto-approve
 ```
+
+## Ansible
+- Configuration Management Tool from a company called Ansible Inc
+- Michael Deehan is the founder of Ansible Inc
+- Michael Deehan was a former employee of Red Hat
+- Ansible comes in flavours
+  1. Ansible Core 
+     - opensource
+     - supports only command line interface
+     - no support from Red Hat [ only community support - stackoverflow :) ]
+     - well documented tool
+  2. Red Hat Ansible Tower 
+    - is developed on top opensource Ansible Core
+    - supports Web Console (GUI)
+ - Ansible is developed in Python
+ - Ansible Doman Specific Language (DSL - YAML)
+ - Playbooks are written in YAML
+ - Ansible comes with many built-in modules
+ - Ansible Modules are
+   - Python scripts to automate configuration management in Unix/Linux/Mac
+   - Powershell scripts to automate configuration management in Windows
+ - Ansible Controller Machine (ACM)
+   - this is the machine where Ansible is installed and playbooks are executed
+   - only a Unix/Linux/Mac machine can act as an ACM
+ - Ansible Nodes
+   - these are server where software installation and configuration you wanted to automate
+   - can be Unix, Linux, Mac, Windows, Cisco Routers, Switches, etc.,
+   - Unix/Mac/Linux
+     - Software requirements
+       1. Python
+       2. SSH Server
+   - Windows 
+     - Software requirements
+       1. Powershell
+       2. WinRM
+     
