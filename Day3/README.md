@@ -206,4 +206,14 @@ terraform init
 terraform apply --auto-approve
 ```
 
+## ⛹️‍♂️ Lab - Creating a Linux Virtual Machine Scale sets
+This will create bunch of virtual machines and put in behind a load balancer.  Virtual machine scale sets allows us to setup either manual/automatic virtual machine scale up/down on demand.
 
+```
+cd ~/terraform-dec-2022
+git pull
+cd Day3/virtual-machine-scale-sets
+
+terraform init
+terraform apply --auto-approve
+```
