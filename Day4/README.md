@@ -74,3 +74,15 @@ terraform apply --auto-approve
 - supports Linux and Windows hosting
 - enables automated deployments from GitHub, Azure DevOps or any Git based repository
 - supports CI/CD
+- Three ways the App Service ( Web applications ) can be deployed into the Azure Service Plan
+  1. Souce code from GitHub, version controls
+  2. Docker Containers
+  3. Static web pages deployed onto the Virtual Machine that comes with Service Plan
+
+## What is Azure Service Plan?
+- This is the infrastructure i.e Virtual Machine with Linux/Windows where your App Service ( web application) can be deployed
+- A single Service plan can allow multiple App Service deployments
+- Here you can choose the machine configuration
+  - How many CPU cores you want?
+  - RAM
+  - Disk size etc.,
