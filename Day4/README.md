@@ -32,10 +32,20 @@ terraform init
 terraform apply --auto-approve
 ```
 
-### Passing value to variables to terraform from command line
+### ⛹️‍♀️ Lab - Passing value to variables to terraform from command line
 In the below command, root_module_vm_count is a variable declared in the Terraform root module that we wrote.  
 ```
 terraform apply --auto-approve -var root_module_vm_count=3
+```
+
+##  ⛹️‍♀️ Lab - Using for_each terraform loop
+```
+cd ~/terraform-dec-2022
+git pull
+
+cd Day4/for-each/
+terraform init
+terraform apply --auto-approve
 ```
 
 
