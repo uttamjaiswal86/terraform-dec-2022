@@ -11,7 +11,7 @@ variable "contacts" {
 variable "names" {
   type = list(string)
 
-  default = [ "virtual machine","resource group","network card" ] 
+  default = [ "virtualmachine","resourcegroup","networkcard" ] 
 }
 
 output "map_values" {
