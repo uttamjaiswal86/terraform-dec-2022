@@ -300,6 +300,13 @@ jegan@ubuntu:~/Desktop$ <b>az version</b>
 - it also supports deploying traditional application(non-microservices) which are containerized
 
 
+## Terraform overview
+- is a infrastructure as a code tool
+- precisely it is a provisional tool
+- it can automate provisioning infrastructure in on-prem & all types of cloud environments
+
+![Terraform](terraform.png)
+
 
 ## Cloning this repository
 ```
