@@ -48,6 +48,15 @@ terraform init
 terraform apply --auto-approve
 ```
 
+##  ⛹️‍♀️ Lab - Using for terraform loop
+```
+cd ~/terraform-dec-2022
+git pull
+
+cd Day4/for/
+terraform init
+terraform apply --auto-approve
+```
 
 ## What is Azure App Service?
 - enables you to build and host web apps, mobile backends and RESTful APIs in the programming language of your choice without managing infrastructure
