@@ -1,5 +1,5 @@
 variable "contacts" {
-   type = map
+   type = map(string)
 
    default = {
      "Ram"    = "123-456-7890"
@@ -8,8 +8,26 @@ variable "contacts" {
    }
 }
 
+variable "names" {
+  type = list(string)
+
+  default = [ "virtual machine","resource group","network card" ] 
+}
+
 output "map_values" {
   value = {
     for k,v in var.contacts : k => v
   }
+}
+
+output "list_values" {
+  value = {
+    for v in var.names : v =>  v
+  }
+}
+
+resource "local_file" "file" {
+  for_each = toset(var.names)
+  filename = each.key
+  content = each.value
 }
