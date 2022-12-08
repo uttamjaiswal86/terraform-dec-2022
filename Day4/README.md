@@ -22,6 +22,23 @@
     - outputs.tf - this file wiil have all the output variables that are printed on the terminal screen once the provisioning is complete
     - main.tf - this has the main automation code
 
+## ⛹️‍♀️ Lab - Understanding Terraform child modules
+```
+cd ~/terraform-dec-2022
+git pull
+
+cd Day4/custom-modules/
+terraform init
+terraform apply --auto-approve
+```
+
+### Passing value to variables to terraform from command line
+In the below command, root_module_vm_count is a variable declared in the Terraform root module that we wrote.  
+```
+terraform apply --auto-approve -var root_module_vm_count=3
+```
+
+
 ## What is Azure App Service?
 - enables you to build and host web apps, mobile backends and RESTful APIs in the programming language of your choice without managing infrastructure
 - it offers auto-scaling, high-availability
