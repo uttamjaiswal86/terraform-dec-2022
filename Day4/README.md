@@ -86,3 +86,21 @@ terraform apply --auto-approve
   - How many CPU cores you want?
   - RAM
   - Disk size etc.,
+
+## Assignement - 1
+
+Try to deploy an Azure App Service manually with docker container
+tektutor/hello-ms:3.0
+
+## Assignment - 2 (GitHub Actions)
+
+Try to deploy an Azure App Service manually
+
+Language Stack - Java 11
+
+From GitHub repo https://github.com/tektutor/spring-ms.git
+You need to fork the above GitHub into your GitHub account, as App Service requires GitHub authorization. Once you have forked the above repo, use your spring-ms GitHub repo to deploy the App Service.
+
+Once you are done with this exercise, please confirm via WebEx chat.
+
+Please feel free to share your screen if you need any help.
