@@ -22,7 +22,7 @@
     - outputs.tf - this file wiil have all the output variables that are printed on the terminal screen once the provisioning is complete
     - main.tf - this has the main automation code
 
-## Lab - Understanding Terraform child modules
+## ⛹️‍♀️ Lab - Understanding Terraform child modules
 ```
 cd ~/terraform-dec-2022
 git pull
