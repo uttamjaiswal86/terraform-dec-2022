@@ -113,3 +113,12 @@ cd Day4/AppService/docker-basic
 terraform init
 terraform apply --auto-approve
 ```
+
+##  ⛹️‍♀️ Lab - Deploying a multi-container Azure AppService using Terraform using Docker Compose file
+```
+cd ~/terraform-dec-2022/
+git pull
+cd Day4/AppService/docker-compose
+terraform init
+terraform apply --auto-approve
+```
