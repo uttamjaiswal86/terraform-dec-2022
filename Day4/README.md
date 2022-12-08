@@ -87,12 +87,12 @@ terraform apply --auto-approve
   - RAM
   - Disk size etc.,
 
-## Assignement - 1
+## Assignment 1 - Create an App Service using Docker container
 
 Try to deploy an Azure App Service manually with docker container
 tektutor/hello-ms:3.0
 
-## Assignment - 2 (GitHub Actions)
+## Assignment 2 - Create an App Service using GitHub Repository source code using GitHub Actions
 
 Try to deploy an Azure App Service manually
 
