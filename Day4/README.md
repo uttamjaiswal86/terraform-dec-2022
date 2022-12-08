@@ -105,7 +105,7 @@ Once you are done with this exercise, please confirm via WebEx chat.
 
 Please feel free to share your screen if you need any help.
 
-## Lab - Deploying your first Azure AppService using Terraform using Docker Image from Docker Hub
+##  ⛹️‍♀️ Lab - Deploying your first Azure AppService using Terraform using Docker Image from Docker Hub
 ```
 cd ~/terraform-dec-2022/
 git pull
