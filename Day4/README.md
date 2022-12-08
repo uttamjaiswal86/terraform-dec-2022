@@ -74,6 +74,7 @@ terraform apply --auto-approve
 - supports Linux and Windows hosting
 - enables automated deployments from GitHub, Azure DevOps or any Git based repository
 - supports CI/CD
+- Azure App Service is integrated with other Azure services including Azure Container Apps or Azure Functions
 - Three ways the App Service ( Web applications ) can be deployed into the Azure Service Plan
   1. Souce code from GitHub, version controls
   2. Docker Containers
@@ -86,6 +87,29 @@ terraform apply --auto-approve
   - How many CPU cores you want?
   - RAM
   - Disk size etc.,
+
+## What is Azure Container Apps ?
+- enables you to build serverless microservices based on containers
+- optimized for running general purpose containers, especially for applications that span many microservices deployed in containers
+- powered by Kubernetes and open-source technologies like Dapr, KEDA, and envoy.
+- Supports Kubernetes-style apps and microservices with features like service discovery and traffic splitting.
+- enables event-driven application architectures by supporting scale based on traffic and pulling from event sources like queues, including scale to zero.
+- support of long running processes and can run background tasks.
+
+### Points to note
+- Azure Container Apps doesn't provide direct access to the underlying Kubernetes APIs
+- if you require access to the Kubernetes APIs and control plane, you should use Azure Kubernetes Service. 
+- if you would like to build Kubernetes-style applications and don't require direct access to all the native Kubernetes APIs and cluster management, Container Apps provides a fully managed experience based on best-practices. 
+
+## What is Azure Container Instances ?
+- Azure Container Instances (ACI) provides a single pod of Hyper-V isolated containers on demand. 
+- lower-level "building block" option compared to Container Apps. 
+- Concepts like scale, load balancing, and certificates are not provided with ACI containers. 
+- For example, to scale to five container instances, you create five distinct container instances. 
+- Azure Container Apps provide many application-specific concepts on top of containers, including certificates, revisions, scale, and environments. 
+- Users often interact with Azure Container Instances through other services. 
+- For example, Azure Kubernetes Service can layer orchestration and scale on top of ACI through virtual nodes. 
+- If you need a less "opinionated" building block that doesn't align with the scenarios Azure Container Apps is optimizing for, Azure Container Instances is an ideal option.
 
 ## Assignment 1 - Create an App Service using Docker container
 
