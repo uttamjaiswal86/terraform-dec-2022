@@ -27,7 +27,7 @@
 cd ~/terraform-dec-2022
 git pull
 
-cd Day4/custom-modules/
+cd Day4/root-module/
 terraform init
 terraform apply --auto-approve
 ```
