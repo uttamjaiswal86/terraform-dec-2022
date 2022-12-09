@@ -152,7 +152,7 @@ cd ~/terraform-dec-2022
 git pull
 cd Day5/self-hosted-azure-pipeline-linux-agent
 
-export export AZDO_ORG_SERVICE_URL=https://dev.azure.com/jegantektutor
+export AZDO_ORG_SERVICE_URL=https://dev.azure.com/jegantektutor
 export AZDO_PERSONAL_ACCESS_TOKEN=your-azuredevops-organization-personal-access-token
 
 terraform init
@@ -165,7 +165,7 @@ cd ~/terraform-dec-2022
 git pull
 cd Day5/self-hosted-azure-pipeline-windows-agent
 
-export export AZDO_ORG_SERVICE_URL=https://dev.azure.com/jegantektutor
+export AZDO_ORG_SERVICE_URL=https://dev.azure.com/jegantektutor
 export AZDO_PERSONAL_ACCESS_TOKEN=your-azuredevops-organization-personal-access-token
 
 terraform init
