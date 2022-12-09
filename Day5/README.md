@@ -196,7 +196,7 @@ git pull
 cd Day5/centrally-stored-terraform-state
 
 terraform init
-``
+```
 When it prompts to migrate, you say 'yes'
 
 You may go to your azure portal, locate the storage account, container and then download and verify the terraform state stored in the azure storage account.
