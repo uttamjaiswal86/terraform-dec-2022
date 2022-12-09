@@ -188,3 +188,17 @@ cd Day5/centrally-stored-terraform-state
 terraform init
 terraform apply --auto-approve
 ```
+
+Now you need to uncomment the backend block in the providers.tf file so that when you do 'terraform init' it would be able to migrate the local terraform state to the centralized azure storage account.
+```
+cd ~/terraform-dec-2022
+git pull
+cd Day5/centrally-stored-terraform-state
+
+terraform init
+``
+When it prompts to migrate, you say 'yes'
+
+You may go to your azure portal, locate the storage account, container and then download and verify the terraform state stored in the azure storage account.
+
+
