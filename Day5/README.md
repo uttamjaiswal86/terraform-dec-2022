@@ -202,6 +202,25 @@ When it prompts to migrate, you say 'yes'
 You may go to your azure portal, locate the storage account, container and then download and verify the terraform state stored in the azure storage account.
 
 
+## Terraform import
+- Let's day your IT Team created a Virtual Machine manually 
+- In case you wish to use the existing Virtual Machine in your Terraform script, you need to import the details of existing Azure VM by creating resource block with dummy mandatory parameters and import as shown below
+```
+terraform import azurerm_virtual_machine.existing /subscriptions/9eb2e122-36af-4b34-9186-2cc8053669e3/resourcegroups/centralized-state-rg/providers/Microsoft.Compute/virtualMachines/vm1
+```
+
+#### Points to note
+If you perform terraform destroy, the imported resources will also be deleted just like other resources
+
+
+## Terraform datasource (data block)
+- Let's day your IT Team created a Virtual Machine manually 
+- In case you wish to use the existing Virtual Machine in your Terraform script but you don't want Terraform to manage the existing resource ( i.e create/update/delete ) then you can follow the below instructions
+- create a main.tf with data blocks with the mandatory argruments as per Terraform documentation
+- Perform a terraform init
+- Perform a terraform apply
+
+
 ## Please complete the Terraform post-test
 <pre>
 https://app.mymapit.in/code4/tiny/s7t2aj
@@ -212,6 +231,3 @@ https://app.mymapit.in/code4/tiny/s7t2aj
 <pre>
 https://tcheck.co/nts888
 </pre>
-
-
-
