@@ -202,3 +202,16 @@ When it prompts to migrate, you say 'yes'
 You may go to your azure portal, locate the storage account, container and then download and verify the terraform state stored in the azure storage account.
 
 
+## Please complete the Terraform post-test
+<pre>
+https://app.mymapit.in/code4/tiny/s7t2aj
+</pre>
+
+ 
+## Kindly provide your Feedback link 
+<pre>
+https://tcheck.co/nts888
+</pre>
+
+
+
