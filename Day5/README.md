@@ -67,7 +67,9 @@ Once you have created your new organization, create a Personal Access Token with
 2. Install azure cli, terraform cli and ansible
 ```
 sudo apt update
-sudo apt install -y git ansible tree vim
+sudo apt install -y git ansible tree vim default-jdk maven
+curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+sudo snap install terraform --classic
 ```
 3. From the terminal, type the below command, copy the code and paste the code on the web page that popped up and login to your azure portal to authenticate.
 ```
