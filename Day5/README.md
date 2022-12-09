@@ -178,3 +178,40 @@ Create a Azure DevOps Pipeline using the below GitHub. Please fork the below Git
 ```
 https://github.com/tektutor/terraform-azure-pipelines.git
 ```
+
+##  ⛹️‍♂️ Lab - Storing Terraform state in Azure storage account to share with other team members
+```
+cd ~/terraform-dec-2022
+git pull
+cd Day5/centrally-stored-terraform-state
+
+terraform init
+terraform apply --auto-approve
+```
+
+Now you need to uncomment the backend block in the providers.tf file so that when you do 'terraform init' it would be able to migrate the local terraform state to the centralized azure storage account.
+```
+cd ~/terraform-dec-2022
+git pull
+cd Day5/centrally-stored-terraform-state
+
+terraform init
+```
+When it prompts to migrate, you say 'yes'
+
+You may go to your azure portal, locate the storage account, container and then download and verify the terraform state stored in the azure storage account.
+
+
+## Please complete the Terraform post-test
+<pre>
+https://app.mymapit.in/code4/tiny/s7t2aj
+</pre>
+
+ 
+## Kindly provide your Feedback link 
+<pre>
+https://tcheck.co/nts888
+</pre>
+
+
+
