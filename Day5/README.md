@@ -174,7 +174,7 @@ terraform apply --auto-approve
 
 ## ⛹️‍♂️ Lab - Creating an azure pipeline that invokes Terraform scripts
 
-Create a Azure DevOps Pipeline using the below GitHub
+Create a Azure DevOps Pipeline using the below GitHub. Please fork the below GitHub repository to your GitHub account, before creating the Azure pipeline.
 ```
 https://github.com/tektutor/terraform-azure-pipelines.git
 ```
