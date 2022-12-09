@@ -156,7 +156,7 @@ export export AZDO_ORG_SERVICE_URL=https://dev.azure.com/jegantektutor
 export AZDO_PERSONAL_ACCESS_TOKEN=your-azuredevops-organization-personal-access-token
 
 terraform init
-terraform apply --auto-approve
+terraform apply --auto-approve  -var your_devops_organization_name=jegantektutor -var your_devops_organization_personal_access_token=your-pat
 ```
 
 ## ⛹️‍♂️ Lab -Creating a Windows Azure Pipeline self-hosted agent using Terraform
