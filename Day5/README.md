@@ -145,3 +145,16 @@ Scanning for tool capabilities.
 Connecting to the server.
 2022-11-25 00:15:55Z: Listening for Jobs
 </pre>
+
+## Creating an Linux Azure Pipeline self-hosted agent using Terraform
+```
+cd ~/terraform-dec-2022
+git pull
+cd Day5/self-hosted-azure-pipeline-linux-agent
+
+export export AZDO_ORG_SERVICE_URL=https://dev.azure.com/jegantektutor
+export AZDO_PERSONAL_ACCESS_TOKEN=your-azuredevops-organization-personal-access-token
+
+terraform init
+terraform apply --auto-approve
+```
