@@ -55,7 +55,7 @@ module "aci-devops-agent" {
 
   windows_agents_configuration = {
     agent_name_prefix = "windows-agent"
-    agent_pool_name   = "Default" 
+    agent_pool_name   = azuredevops_agent_pool.self_hosted_azure_pipeline_windows_pool.name
     count             = 2,
     docker_image      = "jcorioland/aci-devops-agent"
     docker_tag        = "0.2-win"
