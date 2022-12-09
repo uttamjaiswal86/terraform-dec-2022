@@ -70,6 +70,15 @@ sudo apt update
 sudo apt install -y git ansible tree vim default-jdk maven docker.io
 curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 sudo snap install terraform --classic
+sudo usermod -aG docker $USER
+sudo su $USER
+docker --version
+docker images
+mvn --version
+javac -version
+git -version
+az version
+terraform version
 ```
 3. From the terminal, type the below command, copy the code and paste the code on the web page that popped up and login to your azure portal to authenticate.
 ```
