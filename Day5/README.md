@@ -171,3 +171,10 @@ export AZDO_PERSONAL_ACCESS_TOKEN=your-azuredevops-organization-personal-access-
 terraform init
 terraform apply --auto-approve
 ```
+
+## ⛹️‍♂️ Lab - Creating an azure pipeline that invokes Terraform scripts
+
+Create a Azure DevOps Pipeline using the below GitHub
+```
+https://github.com/tektutor/terraform-azure-pipelines.git
+```
