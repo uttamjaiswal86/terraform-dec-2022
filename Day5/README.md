@@ -178,3 +178,13 @@ Create a Azure DevOps Pipeline using the below GitHub. Please fork the below Git
 ```
 https://github.com/tektutor/terraform-azure-pipelines.git
 ```
+
+##  ⛹️‍♂️ Lab - Storing Terraform state in Azure storage account to share with other team members
+```
+cd ~/terraform-dec-2022
+git pull
+cd Day5/centrally-stored-terraform-state
+
+terraform init
+terraform apply --auto-approve
+```
