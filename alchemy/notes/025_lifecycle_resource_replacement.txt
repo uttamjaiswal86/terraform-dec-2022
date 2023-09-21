@@ -1,0 +1,419 @@
+saravanans@skillsasap-vm24:~$ mkdir tf_replace_trigger
+saravanans@skillsasap-vm24:~$ cd tf_replace_trigger
+saravanans@skillsasap-vm24:~/tf_replace_trigger$ nano main.tf
+saravanans@skillsasap-vm24:~/tf_replace_trigger$ cat main.tf
+
+resource "random_string" "rs" {
+  length = "10"
+}
+
+resource "random_string" "rs2" {
+  length = "9"
+}
+
+
+resource "random_string" "rs3" {
+  length = "15"
+}
+
+saravanans@skillsasap-vm24:~/tf_replace_trigger$ terraform init
+
+Initializing the backend...
+
+Initializing provider plugins...
+- Finding latest version of hashicorp/random...
+- Installing hashicorp/random v3.5.1...
+- Installed hashicorp/random v3.5.1 (signed by HashiCorp)
+
+Terraform has created a lock file .terraform.lock.hcl to record the provider
+selections it made above. Include this file in your version control repository
+so that Terraform can guarantee to make the same selections by default when
+you run "terraform init" in the future.
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+saravanans@skillsasap-vm24:~/tf_replace_trigger$ terraform apply
+
+Terraform used the selected providers to generate the following execution plan. Resource
+actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # random_string.rs will be created
+  + resource "random_string" "rs" {
+      + id          = (known after apply)
+      + length      = 10
+      + lower       = true
+      + min_lower   = 0
+      + min_numeric = 0
+      + min_special = 0
+      + min_upper   = 0
+      + number      = true
+      + numeric     = true
+      + result      = (known after apply)
+      + special     = true
+      + upper       = true
+    }
+
+  # random_string.rs2 will be created
+  + resource "random_string" "rs2" {
+      + id          = (known after apply)
+      + length      = 9
+      + lower       = true
+      + min_lower   = 0
+      + min_numeric = 0
+      + min_special = 0
+      + min_upper   = 0
+      + number      = true
+      + numeric     = true
+      + result      = (known after apply)
+      + special     = true
+      + upper       = true
+    }
+
+  # random_string.rs3 will be created
+  + resource "random_string" "rs3" {
+      + id          = (known after apply)
+      + length      = 15
+      + lower       = true
+      + min_lower   = 0
+      + min_numeric = 0
+      + min_special = 0
+      + min_upper   = 0
+      + number      = true
+      + numeric     = true
+      + result      = (known after apply)
+      + special     = true
+      + upper       = true
+    }
+
+Plan: 3 to add, 0 to change, 0 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+random_string.rs2: Creating...
+random_string.rs2: Creation complete after 0s [id=>M}uGV%C:]
+random_string.rs: Creating...
+random_string.rs: Creation complete after 0s [id=[Zl>=EIU)@]
+random_string.rs3: Creating...
+random_string.rs3: Creation complete after 0s [id=+r]zIrUqBG2&jz1]
+
+Apply complete! Resources: 3 added, 0 changed, 0 destroyed.
+saravanans@skillsasap-vm24:~/tf_replace_trigger$ terraform apply
+random_string.rs2: Refreshing state... [id=>M}uGV%C:]
+random_string.rs3: Refreshing state... [id=+r]zIrUqBG2&jz1]
+random_string.rs: Refreshing state... [id=[Zl>=EIU)@]
+
+No changes. Your infrastructure matches the configuration.
+
+Terraform has compared your real infrastructure against your configuration and found no
+differences, so no changes are needed.
+
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+saravanans@skillsasap-vm24:~/tf_replace_trigger$ nano
+saravanans@skillsasap-vm24:~/tf_replace_trigger$ nano main.tf
+saravanans@skillsasap-vm24:~/tf_replace_trigger$ cat main.tf
+
+resource "random_string" "rs" {
+  length = "10"
+}
+
+resource "random_string" "rs2" {
+  length = "9"
+}
+
+
+resource "random_string" "rs3" {
+  length = "20"
+}
+
+saravanans@skillsasap-vm24:~/tf_replace_trigger$ terraform apply
+random_string.rs: Refreshing state... [id=[Zl>=EIU)@]
+random_string.rs3: Refreshing state... [id=+r]zIrUqBG2&jz1]
+random_string.rs2: Refreshing state... [id=>M}uGV%C:]
+
+Terraform used the selected providers to generate the following execution plan. Resource
+actions are indicated with the following symbols:
+-/+ destroy and then create replacement
+
+Terraform will perform the following actions:
+
+  # random_string.rs3 must be replaced
+-/+ resource "random_string" "rs3" {
+      ~ id          = "+r]zIrUqBG2&jz1" -> (known after apply)
+      ~ length      = 15 -> 20 # forces replacement
+      ~ result      = "+r]zIrUqBG2&jz1" -> (known after apply)
+        # (9 unchanged attributes hidden)
+    }
+
+Plan: 1 to add, 0 to change, 1 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+random_string.rs3: Destroying... [id=+r]zIrUqBG2&jz1]
+random_string.rs3: Destruction complete after 0s
+random_string.rs3: Creating...
+random_string.rs3: Creation complete after 0s [id=nS@P$yY_]2i%{Q)%?gv?]
+
+Apply complete! Resources: 1 added, 0 changed, 1 destroyed.
+saravanans@skillsasap-vm24:~/tf_replace_trigger$
+saravanans@skillsasap-vm24:~/tf_replace_trigger$
+saravanans@skillsasap-vm24:~/tf_replace_trigger$ nano main.tf
+saravanans@skillsasap-vm24:~/tf_replace_trigger$ cat main.tf
+
+resource "random_string" "rs" {
+  length = "10"
+}
+
+resource "random_string" "rs2" {
+  length = "9"
+  lifecycle {
+    replace_triggered_by = [random_string.rs3.length]
+  }
+
+}
+
+
+resource "random_string" "rs3" {
+  length = "20"
+}
+
+saravanans@skillsasap-vm24:~/tf_replace_trigger$ terraform apply
+random_string.rs3: Refreshing state... [id=nS@P$yY_]2i%{Q)%?gv?]
+random_string.rs: Refreshing state... [id=[Zl>=EIU)@]
+random_string.rs2: Refreshing state... [id=>M}uGV%C:]
+
+No changes. Your infrastructure matches the configuration.
+
+Terraform has compared your real infrastructure against your configuration and found no
+differences, so no changes are needed.
+
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+saravanans@skillsasap-vm24:~/tf_replace_trigger$ nano main.tf
+saravanans@skillsasap-vm24:~/tf_replace_trigger$ cat main.tf
+
+resource "random_string" "rs" {
+  length = "10"
+}
+
+resource "random_string" "rs2" {
+  length = "9"
+  lifecycle {
+    replace_triggered_by = [random_string.rs3.length]
+  }
+
+}
+
+
+resource "random_string" "rs3" {
+  length = "24"
+}
+
+saravanans@skillsasap-vm24:~/tf_replace_trigger$ terraform apply
+random_string.rs3: Refreshing state... [id=nS@P$yY_]2i%{Q)%?gv?]
+random_string.rs: Refreshing state... [id=[Zl>=EIU)@]
+random_string.rs2: Refreshing state... [id=>M}uGV%C:]
+
+Terraform used the selected providers to generate the following execution plan. Resource
+actions are indicated with the following symbols:
+-/+ destroy and then create replacement
+
+Terraform will perform the following actions:
+
+  # random_string.rs2 will be replaced due to changes in replace_triggered_by
+-/+ resource "random_string" "rs2" {
+      ~ id          = ">M}uGV%C:" -> (known after apply)
+      ~ result      = ">M}uGV%C:" -> (known after apply)
+        # (10 unchanged attributes hidden)
+    }
+
+  # random_string.rs3 must be replaced
+-/+ resource "random_string" "rs3" {
+      ~ id          = "nS@P$yY_]2i%{Q)%?gv?" -> (known after apply)
+      ~ length      = 20 -> 24 # forces replacement
+      ~ result      = "nS@P$yY_]2i%{Q)%?gv?" -> (known after apply)
+        # (9 unchanged attributes hidden)
+    }
+
+Plan: 2 to add, 0 to change, 2 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+random_string.rs2: Destroying... [id=>M}uGV%C:]
+random_string.rs2: Destruction complete after 0s
+random_string.rs3: Destroying... [id=nS@P$yY_]2i%{Q)%?gv?]
+random_string.rs3: Destruction complete after 0s
+random_string.rs3: Creating...
+random_string.rs3: Creation complete after 0s [id=S0<m<]}e:f]k9IY5Mzz%pcaA]
+random_string.rs2: Creating...
+random_string.rs2: Creation complete after 0s [id=+1QV?Mv!l]
+
+Apply complete! Resources: 2 added, 0 changed, 2 destroyed.
+saravanans@skillsasap-vm24:~/tf_replace_trigger$ terraform apply
+random_string.rs: Refreshing state... [id=[Zl>=EIU)@]
+random_string.rs3: Refreshing state... [id=S0<m<]}e:f]k9IY5Mzz%pcaA]
+random_string.rs2: Refreshing state... [id=+1QV?Mv!l]
+
+No changes. Your infrastructure matches the configuration.
+
+Terraform has compared your real infrastructure against your configuration and found no
+differences, so no changes are needed.
+
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+saravanans@skillsasap-vm24:~/tf_replace_trigger$
+saravanans@skillsasap-vm24:~/tf_replace_trigger$ cat main.tf
+
+resource "random_string" "rs" {
+  length = "10"
+}
+
+resource "random_string" "rs2" {
+  length = "9"
+  lifecycle {
+    replace_triggered_by = [random_string.rs3.length]
+  }
+
+}
+
+
+resource "random_string" "rs3" {
+  length = "24"
+}
+
+saravanans@skillsasap-vm24:~/tf_replace_trigger$ nano main.tf
+saravanans@skillsasap-vm24:~/tf_replace_trigger$ cat main.tf
+
+resource "random_string" "rs" {
+  length = "10"
+}
+
+resource "random_string" "rs2" {
+  length = "9"
+  lifecycle {
+    replace_triggered_by = [random_string.rs3.length,[random_string.rs.length]
+  }
+
+}
+
+
+resource "random_string" "rs3" {
+  length = "24"
+}
+
+saravanans@skillsasap-vm24:~/tf_replace_trigger$ nano main.tf
+saravanans@skillsasap-vm24:~/tf_replace_trigger$ cat main.tf
+
+resource "random_string" "rs" {
+  length = "10"
+}
+
+resource "random_string" "rs2" {
+  length = "9"
+  lifecycle {
+    replace_triggered_by = [random_string.rs3.length,random_string.rs.length]
+  }
+
+}
+
+
+resource "random_string" "rs3" {
+  length = "24"
+}
+
+saravanans@skillsasap-vm24:~/tf_replace_trigger$
+saravanans@skillsasap-vm24:~/tf_replace_trigger$ terraform apply
+random_string.rs: Refreshing state... [id=[Zl>=EIU)@]
+random_string.rs3: Refreshing state... [id=S0<m<]}e:f]k9IY5Mzz%pcaA]
+random_string.rs2: Refreshing state... [id=+1QV?Mv!l]
+
+No changes. Your infrastructure matches the configuration.
+
+Terraform has compared your real infrastructure against your configuration and found no
+differences, so no changes are needed.
+
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+saravanans@skillsasap-vm24:~/tf_replace_trigger$ nano main.tf
+saravanans@skillsasap-vm24:~/tf_replace_trigger$ cat main.tf
+
+resource "random_string" "rs" {
+  length = "18"
+}
+
+resource "random_string" "rs2" {
+  length = "9"
+  lifecycle {
+    replace_triggered_by = [random_string.rs3.length,random_string.rs.length]
+  }
+
+}
+
+
+resource "random_string" "rs3" {
+  length = "24"
+}
+
+saravanans@skillsasap-vm24:~/tf_replace_trigger$ terraform apply
+random_string.rs: Refreshing state... [id=[Zl>=EIU)@]
+random_string.rs3: Refreshing state... [id=S0<m<]}e:f]k9IY5Mzz%pcaA]
+random_string.rs2: Refreshing state... [id=+1QV?Mv!l]
+
+Terraform used the selected providers to generate the following execution plan. Resource
+actions are indicated with the following symbols:
+-/+ destroy and then create replacement
+
+Terraform will perform the following actions:
+
+  # random_string.rs must be replaced
+-/+ resource "random_string" "rs" {
+      ~ id          = "[Zl>=EIU)@" -> (known after apply)
+      ~ length      = 10 -> 18 # forces replacement
+      ~ result      = "[Zl>=EIU)@" -> (known after apply)
+        # (9 unchanged attributes hidden)
+    }
+
+  # random_string.rs2 will be replaced due to changes in replace_triggered_by
+-/+ resource "random_string" "rs2" {
+      ~ id          = "+1QV?Mv!l" -> (known after apply)
+      ~ result      = "+1QV?Mv!l" -> (known after apply)
+        # (10 unchanged attributes hidden)
+    }
+
+Plan: 2 to add, 0 to change, 2 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+random_string.rs2: Destroying... [id=+1QV?Mv!l]
+random_string.rs2: Destruction complete after 0s
+random_string.rs: Destroying... [id=[Zl>=EIU)@]
+random_string.rs: Destruction complete after 0s
+random_string.rs: Creating...
+random_string.rs: Creation complete after 0s [id=Iz7w%figI(riO>+mTt]
+random_string.rs2: Creating...
+random_string.rs2: Creation complete after 0s [id=ir$Z<nIi%]
+
+Apply complete! Resources: 2 added, 0 changed, 2 destroyed.
+saravanans@skillsasap-vm24:~/tf_replace_trigger$ 

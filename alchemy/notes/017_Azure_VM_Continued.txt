@@ -1,0 +1,679 @@
+saravanans@skillsasap-vm24:~/tf_azure_network$ nano virtual_machine.tf
+saravanans@skillsasap-vm24:~/tf_azure_network$ cat virtual_machine.tf
+resource "random_string" "vm_prefix" {
+  length  = 6
+  special = false
+}
+
+resource "azurerm_linux_virtual_machine" "myterraformvm" {
+  name                  = "${random_string.vm_prefix.result}myAdmaticVM"
+  location              = var.location
+  resource_group_name   = azurerm_resource_group.myterraformgroup.name
+  network_interface_ids = [azurerm_network_interface.myterraformnic.id]
+
+  size = "Standard_B2s"
+
+  os_disk {
+    name                 = "myOsDisk"
+    caching              = "ReadWrite"
+    storage_account_type = "Premium_LRS"
+  }
+
+  source_image_reference {
+    publisher = "Canonical"
+    offer     = "UbuntuServer"
+    sku       = "18.04-LTS"
+    version   = "latest"
+  }
+
+  admin_username = var.ssh_user
+  admin_password = random_string.sshpassword.result
+  disable_password_authentication = false
+}
+
+
+resource "random_string" "sshpassword" {
+  length  = 20
+  special = true
+}
+saravanans@skillsasap-vm24:~/tf_azure_network$
+
+
+saravanans@skillsasap-vm24:~/tf_azure_network$ nano variables.tf
+saravanans@skillsasap-vm24:~/tf_azure_network$ cat variables.tf
+variable "location" {
+	description = "mention the region / location"
+	default = "westus"
+}
+
+variable "rgsuffix" {
+	description = "suffix for rg"
+        default = "fromDefault"
+}
+
+variable "ssh_user" {
+	default = "saravanans"
+}
+
+saravanans@skillsasap-vm24:~/tf_azure_network$
+
+saravanans@skillsasap-vm24:~/tf_azure_network$ terraform validate
+Success! The configuration is valid.
+
+saravanans@skillsasap-vm24:~/tf_azure_network$ terraform plan
+random_string.rgprefix: Refreshing state... [id=NlQHiSaOX]
+azurerm_resource_group.myterraformgroup: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault]
+azurerm_network_security_group.myterraformnsg: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup]
+azurerm_virtual_network.myterraformnetwork: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/virtualNetworks/myVnet]
+azurerm_subnet.myterraformsubnet: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnnet]
+azurerm_network_interface.myterraformnic: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/networkInterfaces/myNIC]
+azurerm_network_interface_security_group_association.example: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/networkInterfaces/myNIC|/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup]
+
+Terraform used the selected providers to generate the following execution plan.
+Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # azurerm_linux_virtual_machine.myterraformvm will be created
+  + resource "azurerm_linux_virtual_machine" "myterraformvm" {
+      + admin_password                                         = (sensitive value)
+      + admin_username                                         = "saravanans"
+      + allow_extension_operations                             = true
+      + bypass_platform_safety_checks_on_user_schedule_enabled = false
+      + computer_name                                          = (known after apply)
+      + disable_password_authentication                        = false
+      + extensions_time_budget                                 = "PT1H30M"
+      + id                                                     = (known after apply)
+      + location                                               = "westus"
+      + max_bid_price                                          = -1
+      + name                                                   = (known after apply)
+      + network_interface_ids                                  = [
+          + "/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/networkInterfaces/myNIC",
+        ]
+      + patch_assessment_mode                                  = "ImageDefault"
+      + patch_mode                                             = "ImageDefault"
+      + platform_fault_domain                                  = -1
+      + priority                                               = "Regular"
+      + private_ip_address                                     = (known after apply)
+      + private_ip_addresses                                   = (known after apply)
+      + provision_vm_agent                                     = true
+      + public_ip_address                                      = (known after apply)
+      + public_ip_addresses                                    = (known after apply)
+      + resource_group_name                                    = "NlQHiSaOXrgdemo-fromDefault"
+      + size                                                   = "Standard_B2s"
+      + virtual_machine_id                                     = (known after apply)
+
+      + os_disk {
+          + caching                   = "ReadWrite"
+          + disk_size_gb              = (known after apply)
+          + name                      = "myOsDisk"
+          + storage_account_type      = "Premium_LRS"
+          + write_accelerator_enabled = false
+        }
+
+      + source_image_reference {
+          + offer     = "UbuntuServer"
+          + publisher = "Canonical"
+          + sku       = "18.04-LTS"
+          + version   = "latest"
+        }
+    }
+
+  # random_string.sshpassword will be created
+  + resource "random_string" "sshpassword" {
+      + id          = (known after apply)
+      + length      = 20
+      + lower       = true
+      + min_lower   = 0
+      + min_numeric = 0
+      + min_special = 0
+      + min_upper   = 0
+      + number      = true
+      + numeric     = true
+      + result      = (known after apply)
+      + special     = true
+      + upper       = true
+    }
+
+  # random_string.vm_prefix will be created
+  + resource "random_string" "vm_prefix" {
+      + id          = (known after apply)
+      + length      = 6
+      + lower       = true
+      + min_lower   = 0
+      + min_numeric = 0
+      + min_special = 0
+      + min_upper   = 0
+      + number      = true
+      + numeric     = true
+      + result      = (known after apply)
+      + special     = false
+      + upper       = true
+    }
+
+Plan: 3 to add, 0 to change, 0 to destroy.
+
+──────────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't
+guarantee to take exactly these actions if you run "terraform apply" now.
+
+saravanans@skillsasap-vm24:~/tf_azure_network$ terraform apply
+random_string.rgprefix: Refreshing state... [id=NlQHiSaOX]
+azurerm_resource_group.myterraformgroup: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault]
+azurerm_virtual_network.myterraformnetwork: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/virtualNetworks/myVnet]
+azurerm_network_security_group.myterraformnsg: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup]
+azurerm_subnet.myterraformsubnet: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnnet]
+azurerm_network_interface.myterraformnic: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/networkInterfaces/myNIC]
+azurerm_network_interface_security_group_association.example: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/networkInterfaces/myNIC|/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup]
+
+Terraform used the selected providers to generate the following execution plan.
+Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # azurerm_linux_virtual_machine.myterraformvm will be created
+  + resource "azurerm_linux_virtual_machine" "myterraformvm" {
+      + admin_password                                         = (sensitive value)
+      + admin_username                                         = "saravanans"
+      + allow_extension_operations                             = true
+      + bypass_platform_safety_checks_on_user_schedule_enabled = false
+      + computer_name                                          = (known after apply)
+      + disable_password_authentication                        = false
+      + extensions_time_budget                                 = "PT1H30M"
+      + id                                                     = (known after apply)
+      + location                                               = "westus"
+      + max_bid_price                                          = -1
+      + name                                                   = (known after apply)
+      + network_interface_ids                                  = [
+          + "/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/networkInterfaces/myNIC",
+        ]
+      + patch_assessment_mode                                  = "ImageDefault"
+      + patch_mode                                             = "ImageDefault"
+      + platform_fault_domain                                  = -1
+      + priority                                               = "Regular"
+      + private_ip_address                                     = (known after apply)
+      + private_ip_addresses                                   = (known after apply)
+      + provision_vm_agent                                     = true
+      + public_ip_address                                      = (known after apply)
+      + public_ip_addresses                                    = (known after apply)
+      + resource_group_name                                    = "NlQHiSaOXrgdemo-fromDefault"
+      + size                                                   = "Standard_B2s"
+      + virtual_machine_id                                     = (known after apply)
+
+      + os_disk {
+          + caching                   = "ReadWrite"
+          + disk_size_gb              = (known after apply)
+          + name                      = "myOsDisk"
+          + storage_account_type      = "Premium_LRS"
+          + write_accelerator_enabled = false
+        }
+
+      + source_image_reference {
+          + offer     = "UbuntuServer"
+          + publisher = "Canonical"
+          + sku       = "18.04-LTS"
+          + version   = "latest"
+        }
+    }
+
+  # random_string.sshpassword will be created
+  + resource "random_string" "sshpassword" {
+      + id          = (known after apply)
+      + length      = 20
+      + lower       = true
+      + min_lower   = 0
+      + min_numeric = 0
+      + min_special = 0
+      + min_upper   = 0
+      + number      = true
+      + numeric     = true
+      + result      = (known after apply)
+      + special     = true
+      + upper       = true
+    }
+
+  # random_string.vm_prefix will be created
+  + resource "random_string" "vm_prefix" {
+      + id          = (known after apply)
+      + length      = 6
+      + lower       = true
+      + min_lower   = 0
+      + min_numeric = 0
+      + min_special = 0
+      + min_upper   = 0
+      + number      = true
+      + numeric     = true
+      + result      = (known after apply)
+      + special     = false
+      + upper       = true
+    }
+
+Plan: 3 to add, 0 to change, 0 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+random_string.vm_prefix: Creating...
+random_string.sshpassword: Creating...
+random_string.sshpassword: Creation complete after 0s [id=IRd-7I2B)(Qp1?0R:%{!]
+random_string.vm_prefix: Creation complete after 0s [id=M0F471]
+azurerm_linux_virtual_machine.myterraformvm: Creating...
+azurerm_linux_virtual_machine.myterraformvm: Still creating... [10s elapsed]
+azurerm_linux_virtual_machine.myterraformvm: Still creating... [20s elapsed]
+azurerm_linux_virtual_machine.myterraformvm: Creation complete after 22s [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Compute/virtualMachines/M0F471myAdmaticVM]
+
+Apply complete! Resources: 3 added, 0 changed, 0 destroyed.
+saravanans@skillsasap-vm24:~/tf_azure_network$
+
+saravanans@skillsasap-vm24:~/tf_azure_network$ nano outputs.tf
+saravanans@skillsasap-vm24:~/tf_azure_network$ cat outputs.tf
+output "ssh_password" {
+  value = random_string.sshpassword.result
+}
+
+output "sshuser" {
+  value = var.ssh_user
+}
+saravanans@skillsasap-vm24:~/tf_azure_network$ terraform refresh
+random_string.vm_prefix: Refreshing state... [id=M0F471]
+random_string.rgprefix: Refreshing state... [id=NlQHiSaOX]
+random_string.sshpassword: Refreshing state... [id=IRd-7I2B)(Qp1?0R:%{!]
+azurerm_resource_group.myterraformgroup: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault]
+azurerm_network_security_group.myterraformnsg: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup]
+azurerm_virtual_network.myterraformnetwork: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/virtualNetworks/myVnet]
+azurerm_subnet.myterraformsubnet: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnnet]
+azurerm_network_interface.myterraformnic: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/networkInterfaces/myNIC]
+azurerm_network_interface_security_group_association.example: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/networkInterfaces/myNIC|/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup]
+azurerm_linux_virtual_machine.myterraformvm: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Compute/virtualMachines/M0F471myAdmaticVM]
+
+Outputs:
+
+ssh_password = "IRd-7I2B)(Qp1?0R:%{!"
+sshuser = "saravanans"
+saravanans@skillsasap-vm24:~/tf_azure_network$
+
+
+
+
+saravanans@skillsasap-vm24:~/tf_azure_network$
+saravanans@skillsasap-vm24:~/tf_azure_network$ nano public_ip.tf
+saravanans@skillsasap-vm24:~/tf_azure_network$ cat public_ip.tf
+resource "azurerm_public_ip" "myterraformpublicip" {
+  name                = "myPublicIP"
+  location            = var.location
+  resource_group_name = azurerm_resource_group.myterraformgroup.name
+  allocation_method   = "Dynamic"
+
+}
+
+saravanans@skillsasap-vm24:~/tf_azure_network$ nano virtual_machine.tf
+saravanans@skillsasap-vm24:~/tf_azure_network$ nano network.tf
+saravanans@skillsasap-vm24:~/tf_azure_network$ cat network.tf
+resource "azurerm_virtual_network" "myterraformnetwork" {
+        name = "myVnet"
+        address_space = ["10.0.0.0/16"]
+	location = var.location
+        resource_group_name = azurerm_resource_group.myterraformgroup.name
+}
+
+resource "azurerm_subnet" "myterraformsubnet" {
+        name = "mySubnnet"
+        resource_group_name = azurerm_resource_group.myterraformgroup.name
+        virtual_network_name = azurerm_virtual_network.myterraformnetwork.name
+        address_prefixes = ["10.0.1.0/24"]
+}
+
+resource "azurerm_network_security_group" "myterraformnsg" {
+        name                = "myNetworkSecurityGroup"
+	location = var.location
+        resource_group_name = azurerm_resource_group.myterraformgroup.name
+
+        security_rule {
+        name                       = "Web"
+        priority                   = 1001
+        direction                  = "Inbound"
+        access                     = "Allow"
+        protocol                   = "Tcp"
+        source_port_range          = "*"
+        destination_port_range     = "8080"
+        source_address_prefix      = "*"
+        destination_address_prefix = "*"
+    }
+}
+
+
+resource "azurerm_network_interface" "myterraformnic" {
+    name                      = "myNIC"
+	location = var.location
+    resource_group_name       = azurerm_resource_group.myterraformgroup.name
+
+    ip_configuration {
+        name                          = "myNicConfiguration"
+        subnet_id                     = azurerm_subnet.myterraformsubnet.id
+        private_ip_address_allocation = "Dynamic"
+	public_ip_address_id = azurerm_public_ip.myterraformpublicip.id
+    }
+}
+
+resource "azurerm_network_interface_security_group_association" "example" {
+        network_interface_id      = azurerm_network_interface.myterraformnic.id
+        network_security_group_id = azurerm_network_security_group.myterraformnsg.id
+}
+
+saravanans@skillsasap-vm24:~/tf_azure_network$
+
+
+saravanans@skillsasap-vm24:~/tf_azure_network$ terraform state list
+azurerm_linux_virtual_machine.myterraformvm
+azurerm_network_interface.myterraformnic
+azurerm_network_interface_security_group_association.example
+azurerm_network_security_group.myterraformnsg
+azurerm_resource_group.myterraformgroup
+azurerm_subnet.myterraformsubnet
+azurerm_virtual_network.myterraformnetwork
+random_string.rgprefix
+random_string.sshpassword
+random_string.vm_prefix
+
+saravanans@skillsasap-vm24:~/tf_azure_network$ terraform apply
+random_string.rgprefix: Refreshing state... [id=NlQHiSaOX]
+random_string.vm_prefix: Refreshing state... [id=M0F471]
+random_string.sshpassword: Refreshing state... [id=IRd-7I2B)(Qp1?0R:%{!]
+azurerm_resource_group.myterraformgroup: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault]
+azurerm_network_security_group.myterraformnsg: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup]
+azurerm_virtual_network.myterraformnetwork: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/virtualNetworks/myVnet]
+azurerm_subnet.myterraformsubnet: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnnet]
+azurerm_network_interface.myterraformnic: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/networkInterfaces/myNIC]
+azurerm_network_interface_security_group_association.example: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/networkInterfaces/myNIC|/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup]
+azurerm_linux_virtual_machine.myterraformvm: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Compute/virtualMachines/M0F471myAdmaticVM]
+
+Terraform used the selected providers to generate the following execution plan.
+Resource actions are indicated with the following symbols:
+  + create
+  ~ update in-place
+
+Terraform will perform the following actions:
+
+  # azurerm_network_interface.myterraformnic will be updated in-place
+  ~ resource "azurerm_network_interface" "myterraformnic" {
+        id                            = "/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/networkInterfaces/myNIC"
+        name                          = "myNIC"
+        tags                          = {}
+        # (11 unchanged attributes hidden)
+
+      ~ ip_configuration {
+            name                          = "myNicConfiguration"
+          + public_ip_address_id          = (known after apply)
+            # (5 unchanged attributes hidden)
+        }
+    }
+
+  # azurerm_public_ip.myterraformpublicip will be created
+  + resource "azurerm_public_ip" "myterraformpublicip" {
+      + allocation_method       = "Dynamic"
+      + ddos_protection_mode    = "VirtualNetworkInherited"
+      + fqdn                    = (known after apply)
+      + id                      = (known after apply)
+      + idle_timeout_in_minutes = 4
+      + ip_address              = (known after apply)
+      + ip_version              = "IPv4"
+      + location                = "westus"
+      + name                    = "myPublicIP"
+      + resource_group_name     = "NlQHiSaOXrgdemo-fromDefault"
+      + sku                     = "Basic"
+      + sku_tier                = "Regional"
+    }
+
+Plan: 1 to add, 1 to change, 0 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+azurerm_public_ip.myterraformpublicip: Creating...
+azurerm_public_ip.myterraformpublicip: Creation complete after 4s [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/publicIPAddresses/myPublicIP]
+azurerm_network_interface.myterraformnic: Modifying... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/networkInterfaces/myNIC]
+azurerm_network_interface.myterraformnic: Still modifying... [id=/subscriptions/d9bd5677-040c-4455-a75e-...rosoft.Network/networkInterfaces/myNIC, 10s elapsed]
+azurerm_network_interface.myterraformnic: Still modifying... [id=/subscriptions/d9bd5677-040c-4455-a75e-...rosoft.Network/networkInterfaces/myNIC, 20s elapsed]
+azurerm_network_interface.myterraformnic: Still modifying... [id=/subscriptions/d9bd5677-040c-4455-a75e-...rosoft.Network/networkInterfaces/myNIC, 30s elapsed]
+azurerm_network_interface.myterraformnic: Still modifying... [id=/subscriptions/d9bd5677-040c-4455-a75e-...rosoft.Network/networkInterfaces/myNIC, 40s elapsed]
+azurerm_network_interface.myterraformnic: Still modifying... [id=/subscriptions/d9bd5677-040c-4455-a75e-...rosoft.Network/networkInterfaces/myNIC, 50s elapsed]
+azurerm_network_interface.myterraformnic: Modifications complete after 55s [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/networkInterfaces/myNIC]
+
+Apply complete! Resources: 1 added, 1 changed, 0 destroyed.
+
+Outputs:
+
+ssh_password = "IRd-7I2B)(Qp1?0R:%{!"
+sshuser = "saravanans"
+saravanans@skillsasap-vm24:~/tf_azure_network$
+saravanans@skillsasap-vm24:~/tf_azure_network$ cat outputs.tf
+output "ssh_password" {
+  value = random_string.sshpassword.result
+}
+
+output "sshuser" {
+  value = var.ssh_user
+}
+
+output "vm_public_ip" {
+  value = azurerm_public_ip.myterraformpublicip.ip_address
+}
+
+saravanans@skillsasap-vm24:~/tf_azure_network$
+
+saravanans@skillsasap-vm24:~/tf_azure_network$ terraform refresh
+random_string.sshpassword: Refreshing state... [id=IRd-7I2B)(Qp1?0R:%{!]
+random_string.vm_prefix: Refreshing state... [id=M0F471]
+random_string.rgprefix: Refreshing state... [id=NlQHiSaOX]
+azurerm_resource_group.myterraformgroup: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault]
+azurerm_public_ip.myterraformpublicip: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/publicIPAddresses/myPublicIP]
+azurerm_network_security_group.myterraformnsg: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup]
+azurerm_virtual_network.myterraformnetwork: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/virtualNetworks/myVnet]
+azurerm_subnet.myterraformsubnet: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnnet]
+azurerm_network_interface.myterraformnic: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/networkInterfaces/myNIC]
+azurerm_network_interface_security_group_association.example: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/networkInterfaces/myNIC|/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup]
+azurerm_linux_virtual_machine.myterraformvm: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Compute/virtualMachines/M0F471myAdmaticVM]
+
+Outputs:
+
+ssh_password = "IRd-7I2B)(Qp1?0R:%{!"
+sshuser = "saravanans"
+vm_public_ip = "13.64.209.207"
+saravanans@skillsasap-vm24:~/tf_azure_network$
+
+
+
+
+
+saravanans@skillsasap-vm24:~/tf_azure_network$
+saravanans@skillsasap-vm24:~/tf_azure_network$ ssh saravanans@13.64.209.207
+^C
+saravanans@skillsasap-vm24:~/tf_azure_network$
+saravanans@skillsasap-vm24:~/tf_azure_network$ nano network.tf
+saravanans@skillsasap-vm24:~/tf_azure_network$ cat network.tf
+resource "azurerm_virtual_network" "myterraformnetwork" {
+        name = "myVnet"
+        address_space = ["10.0.0.0/16"]
+	location = var.location
+        resource_group_name = azurerm_resource_group.myterraformgroup.name
+}
+
+resource "azurerm_subnet" "myterraformsubnet" {
+        name = "mySubnnet"
+        resource_group_name = azurerm_resource_group.myterraformgroup.name
+        virtual_network_name = azurerm_virtual_network.myterraformnetwork.name
+        address_prefixes = ["10.0.1.0/24"]
+}
+
+resource "azurerm_network_security_group" "myterraformnsg" {
+        name                = "myNetworkSecurityGroup"
+	location = var.location
+        resource_group_name = azurerm_resource_group.myterraformgroup.name
+
+        security_rule {
+        name                       = "Web"
+        priority                   = 1001
+        direction                  = "Inbound"
+        access                     = "Allow"
+        protocol                   = "Tcp"
+        source_port_range          = "*"
+        destination_port_range     = var.ssh_port
+        source_address_prefix      = "*"
+        destination_address_prefix = "*"
+    }
+}
+
+
+resource "azurerm_network_interface" "myterraformnic" {
+    name                      = "myNIC"
+	location = var.location
+    resource_group_name       = azurerm_resource_group.myterraformgroup.name
+
+    ip_configuration {
+        name                          = "myNicConfiguration"
+        subnet_id                     = azurerm_subnet.myterraformsubnet.id
+        private_ip_address_allocation = "Dynamic"
+	public_ip_address_id = azurerm_public_ip.myterraformpublicip.id
+    }
+}
+
+resource "azurerm_network_interface_security_group_association" "example" {
+        network_interface_id      = azurerm_network_interface.myterraformnic.id
+        network_security_group_id = azurerm_network_security_group.myterraformnsg.id
+}
+
+saravanans@skillsasap-vm24:~/tf_azure_network$ nano variables.tf
+saravanans@skillsasap-vm24:~/tf_azure_network$ cat variables.tf
+variable "location" {
+	description = "mention the region / location"
+	default = "westus"
+}
+
+variable "rgsuffix" {
+	description = "suffix for rg"
+        default = "fromDefault"
+}
+
+variable "ssh_user" {
+	default = "saravanans"
+}
+
+variable "ssh_port" {
+        default = "22"
+}
+saravanans@skillsasap-vm24:~/tf_azure_network$
+
+saravanans@skillsasap-vm24:~/tf_azure_network$ terraform apply
+random_string.sshpassword: Refreshing state... [id=IRd-7I2B)(Qp1?0R:%{!]
+random_string.rgprefix: Refreshing state... [id=NlQHiSaOX]
+random_string.vm_prefix: Refreshing state... [id=M0F471]
+azurerm_resource_group.myterraformgroup: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault]
+azurerm_virtual_network.myterraformnetwork: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/virtualNetworks/myVnet]
+azurerm_public_ip.myterraformpublicip: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/publicIPAddresses/myPublicIP]
+azurerm_network_security_group.myterraformnsg: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup]
+azurerm_subnet.myterraformsubnet: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnnet]
+azurerm_network_interface.myterraformnic: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/networkInterfaces/myNIC]
+azurerm_linux_virtual_machine.myterraformvm: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Compute/virtualMachines/M0F471myAdmaticVM]
+azurerm_network_interface_security_group_association.example: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/networkInterfaces/myNIC|/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup]
+
+Terraform used the selected providers to generate the following execution plan.
+Resource actions are indicated with the following symbols:
+  ~ update in-place
+
+Terraform will perform the following actions:
+
+  # azurerm_network_security_group.myterraformnsg will be updated in-place
+  ~ resource "azurerm_network_security_group" "myterraformnsg" {
+        id                  = "/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup"
+        name                = "myNetworkSecurityGroup"
+      ~ security_rule       = [
+          - {
+              - access                                     = "Allow"
+              - description                                = ""
+              - destination_address_prefix                 = "*"
+              - destination_address_prefixes               = []
+              - destination_application_security_group_ids = []
+              - destination_port_range                     = "8080"
+              - destination_port_ranges                    = []
+              - direction                                  = "Inbound"
+              - name                                       = "Web"
+              - priority                                   = 1001
+              - protocol                                   = "Tcp"
+              - source_address_prefix                      = "*"
+              - source_address_prefixes                    = []
+              - source_application_security_group_ids      = []
+              - source_port_range                          = "*"
+              - source_port_ranges                         = []
+            },
+          + {
+              + access                                     = "Allow"
+              + description                                = ""
+              + destination_address_prefix                 = "*"
+              + destination_address_prefixes               = []
+              + destination_application_security_group_ids = []
+              + destination_port_range                     = "22"
+              + destination_port_ranges                    = []
+              + direction                                  = "Inbound"
+              + name                                       = "Web"
+              + priority                                   = 1001
+              + protocol                                   = "Tcp"
+              + source_address_prefix                      = "*"
+              + source_address_prefixes                    = []
+              + source_application_security_group_ids      = []
+              + source_port_range                          = "*"
+              + source_port_ranges                         = []
+            },
+        ]
+        tags                = {}
+        # (2 unchanged attributes hidden)
+    }
+
+Plan: 0 to add, 1 to change, 0 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+azurerm_network_security_group.myterraformnsg: Modifying... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup]
+azurerm_network_security_group.myterraformnsg: Modifications complete after 2s [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/NlQHiSaOXrgdemo-fromDefault/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup]
+
+Apply complete! Resources: 0 added, 1 changed, 0 destroyed.
+
+Outputs:
+
+ssh_password = "IRd-7I2B)(Qp1?0R:%{!"
+sshuser = "saravanans"
+vm_public_ip = "13.64.209.207"
+saravanans@skillsasap-vm24:~/tf_azure_network$
+
+
+
+
+saravanans@skillsasap-vm24:~/tf_azure_network$
+saravanans@skillsasap-vm24:~/tf_azure_network$ ssh saravanans@13.64.209.207
+The authenticity of host '13.64.209.207 (13.64.209.207)' can't be established.
+ECDSA key fingerprint is SHA256:T2avonIorQ/aLazA7BztWQJcoCvHEfo0K4xtvpD2F5U.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '13.64.209.207' (ECDSA) to the list of known hosts.
+saravanans@13.64.209.207's password:
+Welcome to Ubuntu 18.04.6 LTS (GNU/Linux 5.4.0-1109-azure x86_64)
+
+
+saravanans@M0F471myAdmaticVM:~$
+saravanans@M0F471myAdmaticVM:~$
+saravanans@M0F471myAdmaticVM:~$ logout
+Connection to 13.64.209.207 closed.
+saravanans@skillsasap-vm24:~/tf_azure_network$
+saravanans@skillsasap-vm24:~/tf_azure_network$
+

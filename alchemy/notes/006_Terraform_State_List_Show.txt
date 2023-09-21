@@ -1,0 +1,604 @@
+saravanans@skillsasap-vm24:~/tf_output_demo$
+saravanans@skillsasap-vm24:~/tf_output_demo$ cd ..
+saravanans@skillsasap-vm24:~$ ls
+tf_local_demo  tf_output_demo  tf_rand_demo2  tf_random_demo
+saravanans@skillsasap-vm24:~$ mkdir tf_state_demo
+saravanans@skillsasap-vm24:~$ cd tf_state_demo
+saravanans@skillsasap-vm24:~/tf_state_demo$ ls
+saravanans@skillsasap-vm24:~/tf_state_demo$ nano random_data.tf
+saravanans@skillsasap-vm24:~/tf_state_demo$ cat .
+cat: .: Is a directory
+saravanans@skillsasap-vm24:~/tf_state_demo$ cat ma
+cat: ma: No such file or directory
+saravanans@skillsasap-vm24:~/tf_state_demo$ cat random_data.tf
+resource "random_string" "d1" {
+   length = "9"
+}
+
+resource "random_string" "d2" {
+   length = "18"
+}
+
+saravanans@skillsasap-vm24:~/tf_state_demo$ ls
+random_data.tf
+saravanans@skillsasap-vm24:~/tf_state_demo$ ls -a
+.  ..  random_data.tf
+saravanans@skillsasap-vm24:~/tf_state_demo$ nano main.tf
+saravanans@skillsasap-vm24:~/tf_state_demo$ cat main.tf
+resource "local_file" "filenew" {
+  filename = "/tmp/hello-file24.txt"
+  content = random_string.d1.result
+}
+
+saravanans@skillsasap-vm24:~/tf_state_demo$ ls /tmp/hello-file24.txt
+ls: cannot access '/tmp/hello-file24.txt': No such file or directory
+saravanans@skillsasap-vm24:~/tf_state_demo$
+saravanans@skillsasap-vm24:~/tf_state_demo$ ls
+main.tf  random_data.tf
+saravanans@skillsasap-vm24:~/tf_state_demo$ terraform init
+
+Initializing the backend...
+
+Initializing provider plugins...
+- Finding latest version of hashicorp/local...
+- Finding latest version of hashicorp/random...
+- Installing hashicorp/local v2.4.0...
+- Installed hashicorp/local v2.4.0 (signed by HashiCorp)
+- Installing hashicorp/random v3.5.1...
+- Installed hashicorp/random v3.5.1 (signed by HashiCorp)
+
+Terraform has created a lock file .terraform.lock.hcl to record the provider
+selections it made above. Include this file in your version control repository
+so that Terraform can guarantee to make the same selections by default when
+you run "terraform init" in the future.
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+saravanans@skillsasap-vm24:~/tf_state_demo$ ls
+main.tf  random_data.tf
+saravanans@skillsasap-vm24:~/tf_state_demo$ terraform plan
+
+Terraform used the selected providers to generate the following execution plan.
+Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # local_file.filenew will be created
+  + resource "local_file" "filenew" {
+      + content              = (known after apply)
+      + content_base64sha256 = (known after apply)
+      + content_base64sha512 = (known after apply)
+      + content_md5          = (known after apply)
+      + content_sha1         = (known after apply)
+      + content_sha256       = (known after apply)
+      + content_sha512       = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "/tmp/hello-file24.txt"
+      + id                   = (known after apply)
+    }
+
+  # random_string.d1 will be created
+  + resource "random_string" "d1" {
+      + id          = (known after apply)
+      + length      = 9
+      + lower       = true
+      + min_lower   = 0
+      + min_numeric = 0
+      + min_special = 0
+      + min_upper   = 0
+      + number      = true
+      + numeric     = true
+      + result      = (known after apply)
+      + special     = true
+      + upper       = true
+    }
+
+  # random_string.d2 will be created
+  + resource "random_string" "d2" {
+      + id          = (known after apply)
+      + length      = 18
+      + lower       = true
+      + min_lower   = 0
+      + min_numeric = 0
+      + min_special = 0
+      + min_upper   = 0
+      + number      = true
+      + numeric     = true
+      + result      = (known after apply)
+      + special     = true
+      + upper       = true
+    }
+
+Plan: 3 to add, 0 to change, 0 to destroy.
+
+──────────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't
+guarantee to take exactly these actions if you run "terraform apply" now.
+saravanans@skillsasap-vm24:~/tf_state_demo$
+saravanans@skillsasap-vm24:~/tf_state_demo$ ls
+main.tf  random_data.tf
+saravanans@skillsasap-vm24:~/tf_state_demo$
+
+saravanans@skillsasap-vm24:~/tf_state_demo$
+saravanans@skillsasap-vm24:~/tf_state_demo$ terraform apply
+
+Terraform used the selected providers to generate the following execution plan.
+Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # local_file.filenew will be created
+  + resource "local_file" "filenew" {
+      + content              = (known after apply)
+      + content_base64sha256 = (known after apply)
+      + content_base64sha512 = (known after apply)
+      + content_md5          = (known after apply)
+      + content_sha1         = (known after apply)
+      + content_sha256       = (known after apply)
+      + content_sha512       = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "/tmp/hello-file24.txt"
+      + id                   = (known after apply)
+    }
+
+  # random_string.d1 will be created
+  + resource "random_string" "d1" {
+      + id          = (known after apply)
+      + length      = 9
+      + lower       = true
+      + min_lower   = 0
+      + min_numeric = 0
+      + min_special = 0
+      + min_upper   = 0
+      + number      = true
+      + numeric     = true
+      + result      = (known after apply)
+      + special     = true
+      + upper       = true
+    }
+
+  # random_string.d2 will be created
+  + resource "random_string" "d2" {
+      + id          = (known after apply)
+      + length      = 18
+      + lower       = true
+      + min_lower   = 0
+      + min_numeric = 0
+      + min_special = 0
+      + min_upper   = 0
+      + number      = true
+      + numeric     = true
+      + result      = (known after apply)
+      + special     = true
+      + upper       = true
+    }
+
+Plan: 3 to add, 0 to change, 0 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: ys
+
+Apply cancelled.
+saravanans@skillsasap-vm24:~/tf_state_demo$ terraform apply
+
+Terraform used the selected providers to generate the following execution plan.
+Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # local_file.filenew will be created
+  + resource "local_file" "filenew" {
+      + content              = (known after apply)
+      + content_base64sha256 = (known after apply)
+      + content_base64sha512 = (known after apply)
+      + content_md5          = (known after apply)
+      + content_sha1         = (known after apply)
+      + content_sha256       = (known after apply)
+      + content_sha512       = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "/tmp/hello-file24.txt"
+      + id                   = (known after apply)
+    }
+
+  # random_string.d1 will be created
+  + resource "random_string" "d1" {
+      + id          = (known after apply)
+      + length      = 9
+      + lower       = true
+      + min_lower   = 0
+      + min_numeric = 0
+      + min_special = 0
+      + min_upper   = 0
+      + number      = true
+      + numeric     = true
+      + result      = (known after apply)
+      + special     = true
+      + upper       = true
+    }
+
+  # random_string.d2 will be created
+  + resource "random_string" "d2" {
+      + id          = (known after apply)
+      + length      = 18
+      + lower       = true
+      + min_lower   = 0
+      + min_numeric = 0
+      + min_special = 0
+      + min_upper   = 0
+      + number      = true
+      + numeric     = true
+      + result      = (known after apply)
+      + special     = true
+      + upper       = true
+    }
+
+Plan: 3 to add, 0 to change, 0 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+random_string.d2: Creating...
+random_string.d2: Creation complete after 0s [id=7K+bfqqezRy7UIeo!C]
+random_string.d1: Creating...
+random_string.d1: Creation complete after 0s [id=gG<dmXKXb]
+local_file.filenew: Creating...
+local_file.filenew: Creation complete after 0s [id=db919b9b9ca56fdcc140490eb375f4833274e61b]
+
+Apply complete! Resources: 3 added, 0 changed, 0 destroyed.
+saravanans@skillsasap-vm24:~/tf_state_demo$ ls
+main.tf  random_data.tf  terraform.tfstate
+saravanans@skillsasap-vm24:~/tf_state_demo$
+
+
+saravanans@skillsasap-vm24:~/tf_state_demo$
+saravanans@skillsasap-vm24:~/tf_state_demo$ ls
+main.tf  random_data.tf  terraform.tfstate
+saravanans@skillsasap-vm24:~/tf_state_demo$ terraform state list
+local_file.filenew
+random_string.d1
+random_string.d2
+saravanans@skillsasap-vm24:~/tf_state_demo$ terraform state show random_string.d1
+# random_string.d1:
+resource "random_string" "d1" {
+    id          = "gG<dmXKXb"
+    length      = 9
+    lower       = true
+    min_lower   = 0
+    min_numeric = 0
+    min_special = 0
+    min_upper   = 0
+    number      = true
+    numeric     = true
+    result      = "gG<dmXKXb"
+    special     = true
+    upper       = true
+}
+saravanans@skillsasap-vm24:~/tf_state_demo$ terraform state show random_string.d1
+# random_string.d1:
+resource "random_string" "d1" {
+    id          = "gG<dmXKXb"
+    length      = 9
+    lower       = true
+    min_lower   = 0
+    min_numeric = 0
+    min_special = 0
+    min_upper   = 0
+    number      = true
+    numeric     = true
+    result      = "gG<dmXKXb"
+    special     = true
+    upper       = true
+}
+saravanans@skillsasap-vm24:~/tf_state_demo$ terraform state show local_file.filenew
+# local_file.filenew:
+resource "local_file" "filenew" {
+    content              = "gG<dmXKXb"
+    content_base64sha256 = "UcchXaokU3UCo13tZr/r9syI9fU8ocg+8UOEIJKItAs="
+    content_base64sha512 = "4ILbaMAUlg3uW7vE3AcUgvzTCrtRFUCyMb649k4DgI9iuvuM3yw5WvPEDW3K3/JS/GubUAsfpPxcMdObrJLdog=="
+    content_md5          = "29c370c9f5da40165fc0965fd842025f"
+    content_sha1         = "db919b9b9ca56fdcc140490eb375f4833274e61b"
+    content_sha256       = "51c7215daa24537502a35ded66bfebf6cc88f5f53ca1c83ef14384209288b40b"
+    content_sha512       = "e082db68c014960dee5bbbc4dc071482fcd30abb511540b231beb8f64e03808f62bafb8cdf2c395af3c40d6dcadff252fc6b9b500b1fa4fc5c31d39bac92dda2"
+    directory_permission = "0777"
+    file_permission      = "0777"
+    filename             = "/tmp/hello-file24.txt"
+    id                   = "db919b9b9ca56fdcc140490eb375f4833274e61b"
+}
+saravanans@skillsasap-vm24:~/tf_state_demo$
+saravanans@skillsasap-vm24:~/tf_state_demo$ ls
+main.tf  random_data.tf  terraform.tfstate
+saravanans@skillsasap-vm24:~/tf_state_demo$
+
+
+saravanans@skillsasap-vm24:~/tf_state_demo$ ls
+main.tf  random_data.tf  terraform.tfstate
+saravanans@skillsasap-vm24:~/tf_state_demo$ cat terraform.tfstate
+{
+  "version": 4,
+  "terraform_version": "1.5.7",
+  "serial": 4,
+  "lineage": "f48e1889-8d64-38f0-eec9-c39f7132f1a4",
+  "outputs": {},
+  "resources": [
+    {
+      "mode": "managed",
+      "type": "local_file",
+      "name": "filenew",
+      "provider": "provider[\"registry.terraform.io/hashicorp/local\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "content": "gG\u003cdmXKXb",
+            "content_base64": null,
+            "content_base64sha256": "UcchXaokU3UCo13tZr/r9syI9fU8ocg+8UOEIJKItAs=",
+            "content_base64sha512": "4ILbaMAUlg3uW7vE3AcUgvzTCrtRFUCyMb649k4DgI9iuvuM3yw5WvPEDW3K3/JS/GubUAsfpPxcMdObrJLdog==",
+            "content_md5": "29c370c9f5da40165fc0965fd842025f",
+            "content_sha1": "db919b9b9ca56fdcc140490eb375f4833274e61b",
+            "content_sha256": "51c7215daa24537502a35ded66bfebf6cc88f5f53ca1c83ef14384209288b40b",
+            "content_sha512": "e082db68c014960dee5bbbc4dc071482fcd30abb511540b231beb8f64e03808f62bafb8cdf2c395af3c40d6dcadff252fc6b9b500b1fa4fc5c31d39bac92dda2",
+            "directory_permission": "0777",
+            "file_permission": "0777",
+            "filename": "/tmp/hello-file24.txt",
+            "id": "db919b9b9ca56fdcc140490eb375f4833274e61b",
+            "sensitive_content": null,
+            "source": null
+          },
+          "sensitive_attributes": [],
+          "dependencies": [
+            "random_string.d1"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "random_string",
+      "name": "d1",
+      "provider": "provider[\"registry.terraform.io/hashicorp/random\"]",
+      "instances": [
+        {
+          "schema_version": 2,
+          "attributes": {
+            "id": "gG\u003cdmXKXb",
+            "keepers": null,
+            "length": 9,
+            "lower": true,
+            "min_lower": 0,
+            "min_numeric": 0,
+            "min_special": 0,
+            "min_upper": 0,
+            "number": true,
+            "numeric": true,
+            "override_special": null,
+            "result": "gG\u003cdmXKXb",
+            "special": true,
+            "upper": true
+          },
+          "sensitive_attributes": []
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "random_string",
+      "name": "d2",
+      "provider": "provider[\"registry.terraform.io/hashicorp/random\"]",
+      "instances": [
+        {
+          "schema_version": 2,
+          "attributes": {
+            "id": "7K+bfqqezRy7UIeo!C",
+            "keepers": null,
+            "length": 18,
+            "lower": true,
+            "min_lower": 0,
+            "min_numeric": 0,
+            "min_special": 0,
+            "min_upper": 0,
+            "number": true,
+            "numeric": true,
+            "override_special": null,
+            "result": "7K+bfqqezRy7UIeo!C",
+            "special": true,
+            "upper": true
+          },
+          "sensitive_attributes": []
+        }
+      ]
+    }
+  ],
+  "check_results": null
+}
+saravanans@skillsasap-vm24:~/tf_state_demo$
+
+saravanans@skillsasap-vm24:~/tf_state_demo$ ls
+main.tf  random_data.tf  terraform.tfstate
+saravanans@skillsasap-vm24:~/tf_state_demo$ nano random_data.tf
+saravanans@skillsasap-vm24:~/tf_state_demo$ cat random_data.tf
+resource "random_string" "d1" {
+   length = "9"
+}
+
+/*
+resource "random_string" "d2" {
+   length = "18"
+}
+*/
+
+saravanans@skillsasap-vm24:~/tf_state_demo$
+
+saravanans@skillsasap-vm24:~/tf_state_demo$ terraform plan
+random_string.d2: Refreshing state... [id=7K+bfqqezRy7UIeo!C]
+random_string.d1: Refreshing state... [id=gG<dmXKXb]
+local_file.filenew: Refreshing state... [id=db919b9b9ca56fdcc140490eb375f4833274e61b]
+
+Terraform used the selected providers to generate the following execution plan.
+Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # random_string.d2 will be destroyed
+  # (because random_string.d2 is not in configuration)
+  - resource "random_string" "d2" {
+      - id          = "7K+bfqqezRy7UIeo!C" -> null
+      - length      = 18 -> null
+      - lower       = true -> null
+      - min_lower   = 0 -> null
+      - min_numeric = 0 -> null
+      - min_special = 0 -> null
+      - min_upper   = 0 -> null
+      - number      = true -> null
+      - numeric     = true -> null
+      - result      = "7K+bfqqezRy7UIeo!C" -> null
+      - special     = true -> null
+      - upper       = true -> null
+    }
+
+Plan: 0 to add, 0 to change, 1 to destroy.
+
+──────────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't
+guarantee to take exactly these actions if you run "terraform apply" now.
+saravanans@skillsasap-vm24:~/tf_state_demo$ terraform apply
+
+random_string.d2: Refreshing state... [id=7K+bfqqezRy7UIeo!C]
+random_string.d1: Refreshing state... [id=gG<dmXKXb]
+local_file.filenew: Refreshing state... [id=db919b9b9ca56fdcc140490eb375f4833274e61b]
+
+Terraform used the selected providers to generate the following execution plan.
+Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # random_string.d2 will be destroyed
+  # (because random_string.d2 is not in configuration)
+  - resource "random_string" "d2" {
+      - id          = "7K+bfqqezRy7UIeo!C" -> null
+      - length      = 18 -> null
+      - lower       = true -> null
+      - min_lower   = 0 -> null
+      - min_numeric = 0 -> null
+      - min_special = 0 -> null
+      - min_upper   = 0 -> null
+      - number      = true -> null
+      - numeric     = true -> null
+      - result      = "7K+bfqqezRy7UIeo!C" -> null
+      - special     = true -> null
+      - upper       = true -> null
+    }
+
+Plan: 0 to add, 0 to change, 1 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+random_string.d2: Destroying... [id=7K+bfqqezRy7UIeo!C]
+random_string.d2: Destruction complete after 0s
+
+Apply complete! Resources: 0 added, 0 changed, 1 destroyed.
+saravanans@skillsasap-vm24:~/tf_state_demo$
+
+
+saravanans@skillsasap-vm24:~/tf_state_demo$
+saravanans@skillsasap-vm24:~/tf_state_demo$ terraform state list
+local_file.filenew
+random_string.d1
+saravanans@skillsasap-vm24:~/tf_state_demo$ cat terraform.tfstate
+{
+  "version": 4,
+  "terraform_version": "1.5.7",
+  "serial": 6,
+  "lineage": "f48e1889-8d64-38f0-eec9-c39f7132f1a4",
+  "outputs": {},
+  "resources": [
+    {
+      "mode": "managed",
+      "type": "local_file",
+      "name": "filenew",
+      "provider": "provider[\"registry.terraform.io/hashicorp/local\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "content": "gG\u003cdmXKXb",
+            "content_base64": null,
+            "content_base64sha256": "UcchXaokU3UCo13tZr/r9syI9fU8ocg+8UOEIJKItAs=",
+            "content_base64sha512": "4ILbaMAUlg3uW7vE3AcUgvzTCrtRFUCyMb649k4DgI9iuvuM3yw5WvPEDW3K3/JS/GubUAsfpPxcMdObrJLdog==",
+            "content_md5": "29c370c9f5da40165fc0965fd842025f",
+            "content_sha1": "db919b9b9ca56fdcc140490eb375f4833274e61b",
+            "content_sha256": "51c7215daa24537502a35ded66bfebf6cc88f5f53ca1c83ef14384209288b40b",
+            "content_sha512": "e082db68c014960dee5bbbc4dc071482fcd30abb511540b231beb8f64e03808f62bafb8cdf2c395af3c40d6dcadff252fc6b9b500b1fa4fc5c31d39bac92dda2",
+            "directory_permission": "0777",
+            "file_permission": "0777",
+            "filename": "/tmp/hello-file24.txt",
+            "id": "db919b9b9ca56fdcc140490eb375f4833274e61b",
+            "sensitive_content": null,
+            "source": null
+          },
+          "sensitive_attributes": [],
+          "dependencies": [
+            "random_string.d1"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "random_string",
+      "name": "d1",
+      "provider": "provider[\"registry.terraform.io/hashicorp/random\"]",
+      "instances": [
+        {
+          "schema_version": 2,
+          "attributes": {
+            "id": "gG\u003cdmXKXb",
+            "keepers": null,
+            "length": 9,
+            "lower": true,
+            "min_lower": 0,
+            "min_numeric": 0,
+            "min_special": 0,
+            "min_upper": 0,
+            "number": true,
+            "numeric": true,
+            "override_special": null,
+            "result": "gG\u003cdmXKXb",
+            "special": true,
+            "upper": true
+          },
+          "sensitive_attributes": []
+        }
+      ]
+    }
+  ],
+  "check_results": null
+}
+saravanans@skillsasap-vm24:~/tf_state_demo$
+

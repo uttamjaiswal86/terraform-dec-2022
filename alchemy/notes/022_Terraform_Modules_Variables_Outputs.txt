@@ -1,0 +1,238 @@
+saravanans@skillsasap-vm24:~/admatic_terraform_workspace/tf_mywebinfra$ ls
+main.tf  terraform.tfstate  terraform.tfstate.backup  variables.tf
+saravanans@skillsasap-vm24:~/admatic_terraform_workspace/tf_mywebinfra$ cat main.tf
+module "azure_linuxvm" {
+  source = "../modules/azure_linuxvm"
+  location = "westus"
+  rgsuffix = "fromModuleDemo"
+  ssh_user = "skillsasap"
+}
+saravanans@skillsasap-vm24:~/
+
+saravanans@skillsasap-vm24:~/admatic_terraform_workspace/tf_mywebinfra$ cat variables.tf
+variable "sshuname" {
+	default = "saravanans"
+}
+
+saravanans@skillsasap-vm24:~/admatic_terraform_workspace/tf_mywebinfra$
+saravanans@skillsasap-vm24:~/admatic_terraform_workspace/tf_mywebinfra$ ls
+main.tf  terraform.tfstate  terraform.tfstate.backup  variables.tf
+saravanans@skillsasap-vm24:~/admatic_terraform_workspace/tf_mywebinfra$ nano main.tf
+saravanans@skillsasap-vm24:~/admatic_terraform_workspace/tf_mywebinfra$ cat main.tf
+module "azure_linuxvm" {
+  source = "../modules/azure_linuxvm"
+  location = "westus"
+  rgsuffix = "fromModuleDemo"
+  ssh_user = var.sshuname
+}
+saravanans@skillsasap-vm24:~/admatic_terraform_workspace/tf_mywebinfra$ cat variables.tf
+variable "sshuname" {
+	default = "saravanans"
+}
+
+saravanans@skillsasap-vm24:~/admatic_terraform_workspace/tf_mywebinfra$ terraform plan
+module.azure_linuxvm.random_string.vm_prefix: Refreshing state... [id=fabWyh]
+module.azure_linuxvm.random_string.sshpassword: Refreshing state... [id=:W4so%L68)N*Xl4gZ>=+]
+module.azure_linuxvm.random_string.rgprefix: Refreshing state... [id=4Y73RSvnc]
+module.azure_linuxvm.azurerm_resource_group.myterraformgroup: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/4Y73RSvncrgdemo-fromModuleDemo]
+module.azure_linuxvm.azurerm_public_ip.myterraformpublicip: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/4Y73RSvncrgdemo-fromModuleDemo/providers/Microsoft.Network/publicIPAddresses/myPublicIP]
+module.azure_linuxvm.azurerm_virtual_network.myterraformnetwork: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/4Y73RSvncrgdemo-fromModuleDemo/providers/Microsoft.Network/virtualNetworks/myVnet]
+module.azure_linuxvm.azurerm_network_security_group.myterraformnsg: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/4Y73RSvncrgdemo-fromModuleDemo/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup]
+module.azure_linuxvm.azurerm_subnet.myterraformsubnet: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/4Y73RSvncrgdemo-fromModuleDemo/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnnet]
+module.azure_linuxvm.azurerm_network_interface.myterraformnic: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/4Y73RSvncrgdemo-fromModuleDemo/providers/Microsoft.Network/networkInterfaces/myNIC]
+module.azure_linuxvm.azurerm_network_interface_security_group_association.example: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/4Y73RSvncrgdemo-fromModuleDemo/providers/Microsoft.Network/networkInterfaces/myNIC|/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/4Y73RSvncrgdemo-fromModuleDemo/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup]
+module.azure_linuxvm.azurerm_linux_virtual_machine.myterraformvm: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/4Y73RSvncrgdemo-fromModuleDemo/providers/Microsoft.Compute/virtualMachines/fabWyhmyAdmaticVM]
+
+Note: Objects have changed outside of Terraform
+
+Terraform detected the following changes made outside of Terraform since the last
+"terraform apply" which may have affected this plan:
+
+  # module.azure_linuxvm.azurerm_public_ip.myterraformpublicip has changed
+  ~ resource "azurerm_public_ip" "myterraformpublicip" {
+        id                      = "/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/4Y73RSvncrgdemo-fromModuleDemo/providers/Microsoft.Network/publicIPAddresses/myPublicIP"
+      + ip_address              = "104.42.121.41"
+        name                    = "myPublicIP"
+        # (8 unchanged attributes hidden)
+    }
+
+
+Unless you have made equivalent changes to your configuration, or ignored the relevant
+attributes using ignore_changes, the following plan may include actions to undo or
+respond to these changes.
+
+─────────────────────────────────────────────────────────────────────────────────────────
+
+Terraform used the selected providers to generate the following execution plan. Resource
+actions are indicated with the following symbols:
+-/+ destroy and then create replacement
+
+Terraform will perform the following actions:
+
+  # module.azure_linuxvm.azurerm_linux_virtual_machine.myterraformvm must be replaced
+-/+ resource "azurerm_linux_virtual_machine" "myterraformvm" {
+      ~ admin_username                                         = "skillsasap" -> "saravanans" # forces replacement
+      ~ computer_name                                          = "fabWyhmyAdmaticVM" -> (known after apply)
+      - encryption_at_host_enabled                             = false -> null
+      ~ id                                                     = "/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/4Y73RSvncrgdemo-fromModuleDemo/providers/Microsoft.Compute/virtualMachines/fabWyhmyAdmaticVM" -> (known after apply)
+        name                                                   = "fabWyhmyAdmaticVM"
+      ~ private_ip_address                                     = "10.0.1.4" -> (known after apply)
+      ~ private_ip_addresses                                   = [
+          - "10.0.1.4",
+        ] -> (known after apply)
+      ~ public_ip_address                                      = "104.42.121.41" -> (known after apply)
+      ~ public_ip_addresses                                    = [
+          - "104.42.121.41",
+        ] -> (known after apply)
+      - secure_boot_enabled                                    = false -> null
+      - tags                                                   = {} -> null
+      ~ virtual_machine_id                                     = "2d401361-c051-4a48-a27f-0f5bc99d51bf" -> (known after apply)
+      - vtpm_enabled                                           = false -> null
+        # (15 unchanged attributes hidden)
+
+      ~ os_disk {
+          ~ disk_size_gb              = 30 -> (known after apply)
+            name                      = "myOsDisk"
+            # (3 unchanged attributes hidden)
+        }
+
+        # (1 unchanged block hidden)
+    }
+
+Plan: 1 to add, 0 to change, 1 to destroy.
+
+─────────────────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't guarantee to
+take exactly these actions if you run "terraform apply" now.
+saravanans@skillsasap-vm24:~/admatic_terraform_workspace/tf_mywebinfra$
+saravanans@skillsasap-vm24:~/admatic_terraform_workspace/tf_mywebinfra$ ls
+main.tf  terraform.tfstate  terraform.tfstate.backup  variables.tf
+saravanans@skillsasap-vm24:~/admatic_terraform_workspace/tf_mywebinfra$ nano outputs.tf
+saravanans@skillsasap-vm24:~/admatic_terraform_workspace/tf_mywebinfra$ y
+y: command not found
+saravanans@skillsasap-vm24:~/admatic_terraform_workspace/tf_mywebinfra$ nano outputs.tf
+saravanans@skillsasap-vm24:~/admatic_terraform_workspace/tf_mywebinfra$ cat outputs.tf
+output "pubip" {
+  value = module.azure_linuxvm.vm_public_ip
+}
+
+saravanans@skillsasap-vm24:~/admatic_terraform_workspace/tf_mywebinfra$ terraform apply --auto-approve
+module.azure_linuxvm.random_string.sshpassword: Refreshing state... [id=:W4so%L68)N*Xl4gZ>=+]
+module.azure_linuxvm.random_string.rgprefix: Refreshing state... [id=4Y73RSvnc]
+module.azure_linuxvm.random_string.vm_prefix: Refreshing state... [id=fabWyh]
+module.azure_linuxvm.azurerm_resource_group.myterraformgroup: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/4Y73RSvncrgdemo-fromModuleDemo]
+module.azure_linuxvm.azurerm_virtual_network.myterraformnetwork: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/4Y73RSvncrgdemo-fromModuleDemo/providers/Microsoft.Network/virtualNetworks/myVnet]
+module.azure_linuxvm.azurerm_network_security_group.myterraformnsg: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/4Y73RSvncrgdemo-fromModuleDemo/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup]
+module.azure_linuxvm.azurerm_public_ip.myterraformpublicip: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/4Y73RSvncrgdemo-fromModuleDemo/providers/Microsoft.Network/publicIPAddresses/myPublicIP]
+module.azure_linuxvm.azurerm_subnet.myterraformsubnet: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/4Y73RSvncrgdemo-fromModuleDemo/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnnet]
+module.azure_linuxvm.azurerm_network_interface.myterraformnic: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/4Y73RSvncrgdemo-fromModuleDemo/providers/Microsoft.Network/networkInterfaces/myNIC]
+module.azure_linuxvm.azurerm_network_interface_security_group_association.example: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/4Y73RSvncrgdemo-fromModuleDemo/providers/Microsoft.Network/networkInterfaces/myNIC|/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/4Y73RSvncrgdemo-fromModuleDemo/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup]
+module.azure_linuxvm.azurerm_linux_virtual_machine.myterraformvm: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/4Y73RSvncrgdemo-fromModuleDemo/providers/Microsoft.Compute/virtualMachines/fabWyhmyAdmaticVM]
+
+Note: Objects have changed outside of Terraform
+
+Terraform detected the following changes made outside of Terraform since the last
+"terraform apply" which may have affected this plan:
+
+  # module.azure_linuxvm.azurerm_public_ip.myterraformpublicip has changed
+  ~ resource "azurerm_public_ip" "myterraformpublicip" {
+        id                      = "/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/4Y73RSvncrgdemo-fromModuleDemo/providers/Microsoft.Network/publicIPAddresses/myPublicIP"
+      + ip_address              = "104.42.121.41"
+        name                    = "myPublicIP"
+        # (8 unchanged attributes hidden)
+    }
+
+
+Unless you have made equivalent changes to your configuration, or ignored the relevant
+attributes using ignore_changes, the following plan may include actions to undo or
+respond to these changes.
+
+─────────────────────────────────────────────────────────────────────────────────────────
+
+Terraform used the selected providers to generate the following execution plan. Resource
+actions are indicated with the following symbols:
+-/+ destroy and then create replacement
+
+Terraform will perform the following actions:
+
+  # module.azure_linuxvm.azurerm_linux_virtual_machine.myterraformvm must be replaced
+-/+ resource "azurerm_linux_virtual_machine" "myterraformvm" {
+      ~ admin_username                                         = "skillsasap" -> "saravanans" # forces replacement
+      ~ computer_name                                          = "fabWyhmyAdmaticVM" -> (known after apply)
+      - encryption_at_host_enabled                             = false -> null
+      ~ id                                                     = "/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/4Y73RSvncrgdemo-fromModuleDemo/providers/Microsoft.Compute/virtualMachines/fabWyhmyAdmaticVM" -> (known after apply)
+        name                                                   = "fabWyhmyAdmaticVM"
+      ~ private_ip_address                                     = "10.0.1.4" -> (known after apply)
+      ~ private_ip_addresses                                   = [
+          - "10.0.1.4",
+        ] -> (known after apply)
+      ~ public_ip_address                                      = "104.42.121.41" -> (known after apply)
+      ~ public_ip_addresses                                    = [
+          - "104.42.121.41",
+        ] -> (known after apply)
+      - secure_boot_enabled                                    = false -> null
+      - tags                                                   = {} -> null
+      ~ virtual_machine_id                                     = "2d401361-c051-4a48-a27f-0f5bc99d51bf" -> (known after apply)
+      - vtpm_enabled                                           = false -> null
+        # (15 unchanged attributes hidden)
+
+      ~ os_disk {
+          ~ disk_size_gb              = 30 -> (known after apply)
+            name                      = "myOsDisk"
+            # (3 unchanged attributes hidden)
+        }
+
+        # (1 unchanged block hidden)
+    }
+
+Plan: 1 to add, 0 to change, 1 to destroy.
+
+Changes to Outputs:
+  + pubip = "104.42.121.41"
+module.azure_linuxvm.azurerm_linux_virtual_machine.myterraformvm: Destroying... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/4Y73RSvncrgdemo-fromModuleDemo/providers/Microsoft.Compute/virtualMachines/fabWyhmyAdmaticVM]
+module.azure_linuxvm.azurerm_linux_virtual_machine.myterraformvm: Still destroying... [id=/subscriptions/d9bd5677-040c-4455-a75e-...pute/virtualMachines/fabWyhmyAdmaticVM, 10s elapsed]
+module.azure_linuxvm.azurerm_linux_virtual_machine.myterraformvm: Still destroying... [id=/subscriptions/d9bd5677-040c-4455-a75e-...pute/virtualMachines/fabWyhmyAdmaticVM, 20s elapsed]
+module.azure_linuxvm.azurerm_linux_virtual_machine.myterraformvm: Still destroying... [id=/subscriptions/d9bd5677-040c-4455-a75e-...pute/virtualMachines/fabWyhmyAdmaticVM, 30s elapsed]
+module.azure_linuxvm.azurerm_linux_virtual_machine.myterraformvm: Still destroying... [id=/subscriptions/d9bd5677-040c-4455-a75e-...pute/virtualMachines/fabWyhmyAdmaticVM, 40s elapsed]
+module.azure_linuxvm.azurerm_linux_virtual_machine.myterraformvm: Still creating... [1m0s elapsed]
+module.azure_linuxvm.azurerm_linux_virtual_machine.myterraformvm: Still creating... [1m10s elapsed]
+module.azure_linuxvm.azurerm_linux_virtual_machine.myterraformvm: Creation complete after 1m19s [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/4Y73RSvncrgdemo-fromModuleDemo/providers/Microsoft.Compute/virtualMachines/fabWyhmyAdmaticVM]
+
+Apply complete! Resources: 1 added, 0 changed, 1 destroyed.
+
+Outputs:
+
+pubip = "104.42.121.41"
+saravanans@skillsasap-vm24:~/admatic_terraform_workspace/tf_mywebinfra$
+
+
+saravanans@skillsasap-vm24:~/admatic_terraform_workspace/tf_mywebinfra$
+saravanans@skillsasap-vm24:~/admatic_terraform_workspace/tf_mywebinfra$ ls
+main.tf  outputs.tf  terraform.tfstate  terraform.tfstate.backup  variables.tf
+saravanans@skillsasap-vm24:~/admatic_terraform_workspace/tf_mywebinfra$ cat main.tf
+module "azure_linuxvm" {
+  source = "../modules/azure_linuxvm"
+  location = "westus"
+  rgsuffix = "fromModuleDemo"
+  ssh_user = var.sshuname
+}
+saravanans@skillsasap-vm24:~/admatic_terraform_workspace/tf_mywebinfra$
+saravanans@skillsasap-vm24:~/admatic_terraform_workspace/tf_mywebinfra$ cat outputs.tf
+output "pubip" {
+  value = module.azure_linuxvm.vm_public_ip
+}
+saravanans@skillsasap-vm24:~/admatic_terraform_workspace/tf_mywebinfra$ cat variables.tf
+variable "sshuname" {
+	default = "saravanans"
+}
+
+saravanans@skillsasap-vm24:~/admatic_terraform_workspace/tf_mywebinfra$ cat main.tf
+module "azure_linuxvm" {
+  source = "../modules/azure_linuxvm"
+  location = "westus"
+  rgsuffix = "fromModuleDemo"
+  ssh_user = var.sshuname
+}
+saravanans@skillsasap-vm24:~/admatic_terraform_workspace/tf_mywebinfra$
+

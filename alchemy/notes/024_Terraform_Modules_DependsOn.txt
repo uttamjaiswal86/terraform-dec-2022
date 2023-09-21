@@ -1,0 +1,778 @@
+saravanans@skillsasap-vm24:~/admatic_terraform_workspace/tf_mywebinfra$
+saravanans@skillsasap-vm24:~/admatic_terraform_workspace/tf_mywebinfra$ cat main.tf
+module "azure_linuxvm" {
+  source = "../modules/azure_linuxvm"
+  location = "westus"
+  rgsuffix = "fromModuleDemo"
+  ssh_user = var.sshuname
+  depends_on = [module.azure_storage,random_string.rs2]
+}
+
+module "azure_storage" {
+  source = "../modules/azure_storage"
+  scontainer = "scontainer12345"
+  location = "westus"
+  rgroup = "rgstore1212"
+  saname = "sademo1212"
+}
+
+resource "random_string" "rs2" {
+  length = "9"
+}
+
+saravanans@skillsasap-vm24:~/admatic_terraform_workspace/tf_mywebinfra$ terraform plan
+
+Terraform used the selected providers to generate the following execution plan. Resource
+actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # random_string.rs2 will be created
+  + resource "random_string" "rs2" {
+      + id          = (known after apply)
+      + length      = 9
+      + lower       = true
+      + min_lower   = 0
+      + min_numeric = 0
+      + min_special = 0
+      + min_upper   = 0
+      + number      = true
+      + numeric     = true
+      + result      = (known after apply)
+      + special     = true
+      + upper       = true
+    }
+
+  # module.azure_linuxvm.azurerm_linux_virtual_machine.myterraformvm will be created
+  + resource "azurerm_linux_virtual_machine" "myterraformvm" {
+      + admin_password                                         = (sensitive value)
+      + admin_username                                         = "saravanans"
+      + allow_extension_operations                             = true
+      + bypass_platform_safety_checks_on_user_schedule_enabled = false
+      + computer_name                                          = (known after apply)
+      + disable_password_authentication                        = false
+      + extensions_time_budget                                 = "PT1H30M"
+      + id                                                     = (known after apply)
+      + location                                               = "westus"
+      + max_bid_price                                          = -1
+      + name                                                   = (known after apply)
+      + network_interface_ids                                  = (known after apply)
+      + patch_assessment_mode                                  = "ImageDefault"
+      + patch_mode                                             = "ImageDefault"
+      + platform_fault_domain                                  = -1
+      + priority                                               = "Regular"
+      + private_ip_address                                     = (known after apply)
+      + private_ip_addresses                                   = (known after apply)
+      + provision_vm_agent                                     = true
+      + public_ip_address                                      = (known after apply)
+      + public_ip_addresses                                    = (known after apply)
+      + resource_group_name                                    = (known after apply)
+      + size                                                   = "Standard_B2s"
+      + virtual_machine_id                                     = (known after apply)
+
+      + os_disk {
+          + caching                   = "ReadWrite"
+          + disk_size_gb              = (known after apply)
+          + name                      = "myOsDisk"
+          + storage_account_type      = "Premium_LRS"
+          + write_accelerator_enabled = false
+        }
+
+      + source_image_reference {
+          + offer     = "UbuntuServer"
+          + publisher = "Canonical"
+          + sku       = "18.04-LTS"
+          + version   = "latest"
+        }
+    }
+
+  # module.azure_linuxvm.azurerm_network_interface.myterraformnic will be created
+  + resource "azurerm_network_interface" "myterraformnic" {
+      + applied_dns_servers           = (known after apply)
+      + dns_servers                   = (known after apply)
+      + enable_accelerated_networking = false
+      + enable_ip_forwarding          = false
+      + id                            = (known after apply)
+      + internal_dns_name_label       = (known after apply)
+      + internal_domain_name_suffix   = (known after apply)
+      + location                      = "westus"
+      + mac_address                   = (known after apply)
+      + name                          = "myNIC"
+      + private_ip_address            = (known after apply)
+      + private_ip_addresses          = (known after apply)
+      + resource_group_name           = (known after apply)
+      + virtual_machine_id            = (known after apply)
+
+      + ip_configuration {
+          + gateway_load_balancer_frontend_ip_configuration_id = (known after apply)
+          + name                                               = "myNicConfiguration"
+          + primary                                            = (known after apply)
+          + private_ip_address                                 = (known after apply)
+          + private_ip_address_allocation                      = "Dynamic"
+          + private_ip_address_version                         = "IPv4"
+          + public_ip_address_id                               = (known after apply)
+          + subnet_id                                          = (known after apply)
+        }
+    }
+
+  # module.azure_linuxvm.azurerm_network_interface_security_group_association.example will be created
+  + resource "azurerm_network_interface_security_group_association" "example" {
+      + id                        = (known after apply)
+      + network_interface_id      = (known after apply)
+      + network_security_group_id = (known after apply)
+    }
+
+  # module.azure_linuxvm.azurerm_network_security_group.myterraformnsg will be created
+  + resource "azurerm_network_security_group" "myterraformnsg" {
+      + id                  = (known after apply)
+      + location            = "westus"
+      + name                = "myNetworkSecurityGroup"
+      + resource_group_name = (known after apply)
+      + security_rule       = [
+          + {
+              + access                                     = "Allow"
+              + description                                = ""
+              + destination_address_prefix                 = "*"
+              + destination_address_prefixes               = []
+              + destination_application_security_group_ids = []
+              + destination_port_range                     = "8080"
+              + destination_port_ranges                    = []
+              + direction                                  = "Inbound"
+              + name                                       = "Web"
+              + priority                                   = 1001
+              + protocol                                   = "Tcp"
+              + source_address_prefix                      = "*"
+              + source_address_prefixes                    = []
+              + source_application_security_group_ids      = []
+              + source_port_range                          = "*"
+              + source_port_ranges                         = []
+            },
+        ]
+    }
+
+  # module.azure_linuxvm.azurerm_public_ip.myterraformpublicip will be created
+  + resource "azurerm_public_ip" "myterraformpublicip" {
+      + allocation_method       = "Dynamic"
+      + ddos_protection_mode    = "VirtualNetworkInherited"
+      + fqdn                    = (known after apply)
+      + id                      = (known after apply)
+      + idle_timeout_in_minutes = 4
+      + ip_address              = (known after apply)
+      + ip_version              = "IPv4"
+      + location                = "westus"
+      + name                    = "myPublicIP"
+      + resource_group_name     = (known after apply)
+      + sku                     = "Basic"
+      + sku_tier                = "Regional"
+    }
+
+  # module.azure_linuxvm.azurerm_resource_group.myterraformgroup will be created
+  + resource "azurerm_resource_group" "myterraformgroup" {
+      + id       = (known after apply)
+      + location = "westus"
+      + name     = (known after apply)
+    }
+
+  # module.azure_linuxvm.azurerm_subnet.myterraformsubnet will be created
+  + resource "azurerm_subnet" "myterraformsubnet" {
+      + address_prefixes                               = [
+          + "10.0.1.0/24",
+        ]
+      + enforce_private_link_endpoint_network_policies = (known after apply)
+      + enforce_private_link_service_network_policies  = (known after apply)
+      + id                                             = (known after apply)
+      + name                                           = "mySubnnet"
+      + private_endpoint_network_policies_enabled      = (known after apply)
+      + private_link_service_network_policies_enabled  = (known after apply)
+      + resource_group_name                            = (known after apply)
+      + virtual_network_name                           = "myVnet"
+    }
+
+  # module.azure_linuxvm.azurerm_virtual_network.myterraformnetwork will be created
+  + resource "azurerm_virtual_network" "myterraformnetwork" {
+      + address_space       = [
+          + "10.0.0.0/16",
+        ]
+      + dns_servers         = (known after apply)
+      + guid                = (known after apply)
+      + id                  = (known after apply)
+      + location            = "westus"
+      + name                = "myVnet"
+      + resource_group_name = (known after apply)
+      + subnet              = (known after apply)
+    }
+
+  # module.azure_linuxvm.random_string.rgprefix will be created
+  + resource "random_string" "rgprefix" {
+      + id          = (known after apply)
+      + length      = 9
+      + lower       = true
+      + min_lower   = 0
+      + min_numeric = 0
+      + min_special = 0
+      + min_upper   = 0
+      + number      = true
+      + numeric     = true
+      + result      = (known after apply)
+      + special     = false
+      + upper       = true
+    }
+
+  # module.azure_linuxvm.random_string.sshpassword will be created
+  + resource "random_string" "sshpassword" {
+      + id          = (known after apply)
+      + length      = 20
+      + lower       = true
+      + min_lower   = 0
+      + min_numeric = 0
+      + min_special = 0
+      + min_upper   = 0
+      + number      = true
+      + numeric     = true
+      + result      = (known after apply)
+      + special     = true
+      + upper       = true
+    }
+
+  # module.azure_linuxvm.random_string.vm_prefix will be created
+  + resource "random_string" "vm_prefix" {
+      + id          = (known after apply)
+      + length      = 6
+      + lower       = true
+      + min_lower   = 0
+      + min_numeric = 0
+      + min_special = 0
+      + min_upper   = 0
+      + number      = true
+      + numeric     = true
+      + result      = (known after apply)
+      + special     = false
+      + upper       = true
+    }
+
+  # module.azure_storage.azurerm_resource_group.demorg will be created
+  + resource "azurerm_resource_group" "demorg" {
+      + id       = (known after apply)
+      + location = "westus"
+      + name     = "rgstore1212"
+    }
+
+  # module.azure_storage.azurerm_storage_account.storagedemo will be created
+  + resource "azurerm_storage_account" "storagedemo" {
+      + access_tier                       = (known after apply)
+      + account_kind                      = "StorageV2"
+      + account_replication_type          = "LRS"
+      + account_tier                      = "Standard"
+      + allow_nested_items_to_be_public   = true
+      + cross_tenant_replication_enabled  = true
+      + default_to_oauth_authentication   = false
+      + enable_https_traffic_only         = true
+      + id                                = (known after apply)
+      + infrastructure_encryption_enabled = false
+      + is_hns_enabled                    = false
+      + large_file_share_enabled          = (known after apply)
+      + location                          = "westus"
+      + min_tls_version                   = "TLS1_2"
+      + name                              = "sademo1212"
+      + nfsv3_enabled                     = false
+      + primary_access_key                = (sensitive value)
+      + primary_blob_connection_string    = (sensitive value)
+      + primary_blob_endpoint             = (known after apply)
+      + primary_blob_host                 = (known after apply)
+      + primary_connection_string         = (sensitive value)
+      + primary_dfs_endpoint              = (known after apply)
+      + primary_dfs_host                  = (known after apply)
+      + primary_file_endpoint             = (known after apply)
+      + primary_file_host                 = (known after apply)
+      + primary_location                  = (known after apply)
+      + primary_queue_endpoint            = (known after apply)
+      + primary_queue_host                = (known after apply)
+      + primary_table_endpoint            = (known after apply)
+      + primary_table_host                = (known after apply)
+      + primary_web_endpoint              = (known after apply)
+      + primary_web_host                  = (known after apply)
+      + public_network_access_enabled     = true
+      + queue_encryption_key_type         = "Service"
+      + resource_group_name               = "rgstore1212"
+      + secondary_access_key              = (sensitive value)
+      + secondary_blob_connection_string  = (sensitive value)
+      + secondary_blob_endpoint           = (known after apply)
+      + secondary_blob_host               = (known after apply)
+      + secondary_connection_string       = (sensitive value)
+      + secondary_dfs_endpoint            = (known after apply)
+      + secondary_dfs_host                = (known after apply)
+      + secondary_file_endpoint           = (known after apply)
+      + secondary_file_host               = (known after apply)
+      + secondary_location                = (known after apply)
+      + secondary_queue_endpoint          = (known after apply)
+      + secondary_queue_host              = (known after apply)
+      + secondary_table_endpoint          = (known after apply)
+      + secondary_table_host              = (known after apply)
+      + secondary_web_endpoint            = (known after apply)
+      + secondary_web_host                = (known after apply)
+      + sftp_enabled                      = false
+      + shared_access_key_enabled         = true
+      + table_encryption_key_type         = "Service"
+      + tags                              = {
+          + "environment" = "robochefweb"
+        }
+    }
+
+  # module.azure_storage.azurerm_storage_container.demoscontainer will be created
+  + resource "azurerm_storage_container" "demoscontainer" {
+      + container_access_type   = "private"
+      + has_immutability_policy = (known after apply)
+      + has_legal_hold          = (known after apply)
+      + id                      = (known after apply)
+      + metadata                = (known after apply)
+      + name                    = "scontainer12345"
+      + resource_manager_id     = (known after apply)
+      + storage_account_name    = "sademo1212"
+    }
+
+  # module.azure_storage.random_string.rgsuffix will be created
+  + resource "random_string" "rgsuffix" {
+      + id          = (known after apply)
+      + length      = 5
+      + lower       = true
+      + min_lower   = 0
+      + min_numeric = 0
+      + min_special = 0
+      + min_upper   = 0
+      + number      = true
+      + numeric     = true
+      + result      = (known after apply)
+      + special     = false
+      + upper       = false
+    }
+
+  # module.azure_storage.random_string.storageSuffix will be created
+  + resource "random_string" "storageSuffix" {
+      + id          = (known after apply)
+      + length      = 6
+      + lower       = true
+      + min_lower   = 0
+      + min_numeric = 0
+      + min_special = 0
+      + min_upper   = 0
+      + number      = true
+      + numeric     = true
+      + result      = (known after apply)
+      + special     = false
+      + upper       = false
+    }
+
+Plan: 17 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + pubip = (known after apply)
+
+─────────────────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't guarantee to
+take exactly these actions if you run "terraform apply" now.
+saravanans@skillsasap-vm24:~/admatic_terraform_workspace/tf_mywebinfra$
+saravanans@skillsasap-vm24:~/admatic_terraform_workspace/tf_mywebinfra$ terraform apply
+
+Terraform used the selected providers to generate the following execution plan. Resource
+actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # random_string.rs2 will be created
+  + resource "random_string" "rs2" {
+      + id          = (known after apply)
+      + length      = 9
+      + lower       = true
+      + min_lower   = 0
+      + min_numeric = 0
+      + min_special = 0
+      + min_upper   = 0
+      + number      = true
+      + numeric     = true
+      + result      = (known after apply)
+      + special     = true
+      + upper       = true
+    }
+
+  # module.azure_linuxvm.azurerm_linux_virtual_machine.myterraformvm will be created
+  + resource "azurerm_linux_virtual_machine" "myterraformvm" {
+      + admin_password                                         = (sensitive value)
+      + admin_username                                         = "saravanans"
+      + allow_extension_operations                             = true
+      + bypass_platform_safety_checks_on_user_schedule_enabled = false
+      + computer_name                                          = (known after apply)
+      + disable_password_authentication                        = false
+      + extensions_time_budget                                 = "PT1H30M"
+      + id                                                     = (known after apply)
+      + location                                               = "westus"
+      + max_bid_price                                          = -1
+      + name                                                   = (known after apply)
+      + network_interface_ids                                  = (known after apply)
+      + patch_assessment_mode                                  = "ImageDefault"
+      + patch_mode                                             = "ImageDefault"
+      + platform_fault_domain                                  = -1
+      + priority                                               = "Regular"
+      + private_ip_address                                     = (known after apply)
+      + private_ip_addresses                                   = (known after apply)
+      + provision_vm_agent                                     = true
+      + public_ip_address                                      = (known after apply)
+      + public_ip_addresses                                    = (known after apply)
+      + resource_group_name                                    = (known after apply)
+      + size                                                   = "Standard_B2s"
+      + virtual_machine_id                                     = (known after apply)
+
+      + os_disk {
+          + caching                   = "ReadWrite"
+          + disk_size_gb              = (known after apply)
+          + name                      = "myOsDisk"
+          + storage_account_type      = "Premium_LRS"
+          + write_accelerator_enabled = false
+        }
+
+      + source_image_reference {
+          + offer     = "UbuntuServer"
+          + publisher = "Canonical"
+          + sku       = "18.04-LTS"
+          + version   = "latest"
+        }
+    }
+
+  # module.azure_linuxvm.azurerm_network_interface.myterraformnic will be created
+  + resource "azurerm_network_interface" "myterraformnic" {
+      + applied_dns_servers           = (known after apply)
+      + dns_servers                   = (known after apply)
+      + enable_accelerated_networking = false
+      + enable_ip_forwarding          = false
+      + id                            = (known after apply)
+      + internal_dns_name_label       = (known after apply)
+      + internal_domain_name_suffix   = (known after apply)
+      + location                      = "westus"
+      + mac_address                   = (known after apply)
+      + name                          = "myNIC"
+      + private_ip_address            = (known after apply)
+      + private_ip_addresses          = (known after apply)
+      + resource_group_name           = (known after apply)
+      + virtual_machine_id            = (known after apply)
+
+      + ip_configuration {
+          + gateway_load_balancer_frontend_ip_configuration_id = (known after apply)
+          + name                                               = "myNicConfiguration"
+          + primary                                            = (known after apply)
+          + private_ip_address                                 = (known after apply)
+          + private_ip_address_allocation                      = "Dynamic"
+          + private_ip_address_version                         = "IPv4"
+          + public_ip_address_id                               = (known after apply)
+          + subnet_id                                          = (known after apply)
+        }
+    }
+
+  # module.azure_linuxvm.azurerm_network_interface_security_group_association.example will be created
+  + resource "azurerm_network_interface_security_group_association" "example" {
+      + id                        = (known after apply)
+      + network_interface_id      = (known after apply)
+      + network_security_group_id = (known after apply)
+    }
+
+  # module.azure_linuxvm.azurerm_network_security_group.myterraformnsg will be created
+  + resource "azurerm_network_security_group" "myterraformnsg" {
+      + id                  = (known after apply)
+      + location            = "westus"
+      + name                = "myNetworkSecurityGroup"
+      + resource_group_name = (known after apply)
+      + security_rule       = [
+          + {
+              + access                                     = "Allow"
+              + description                                = ""
+              + destination_address_prefix                 = "*"
+              + destination_address_prefixes               = []
+              + destination_application_security_group_ids = []
+              + destination_port_range                     = "8080"
+              + destination_port_ranges                    = []
+              + direction                                  = "Inbound"
+              + name                                       = "Web"
+              + priority                                   = 1001
+              + protocol                                   = "Tcp"
+              + source_address_prefix                      = "*"
+              + source_address_prefixes                    = []
+              + source_application_security_group_ids      = []
+              + source_port_range                          = "*"
+              + source_port_ranges                         = []
+            },
+        ]
+    }
+
+  # module.azure_linuxvm.azurerm_public_ip.myterraformpublicip will be created
+  + resource "azurerm_public_ip" "myterraformpublicip" {
+      + allocation_method       = "Dynamic"
+      + ddos_protection_mode    = "VirtualNetworkInherited"
+      + fqdn                    = (known after apply)
+      + id                      = (known after apply)
+      + idle_timeout_in_minutes = 4
+      + ip_address              = (known after apply)
+      + ip_version              = "IPv4"
+      + location                = "westus"
+      + name                    = "myPublicIP"
+      + resource_group_name     = (known after apply)
+      + sku                     = "Basic"
+      + sku_tier                = "Regional"
+    }
+
+  # module.azure_linuxvm.azurerm_resource_group.myterraformgroup will be created
+  + resource "azurerm_resource_group" "myterraformgroup" {
+      + id       = (known after apply)
+      + location = "westus"
+      + name     = (known after apply)
+    }
+
+  # module.azure_linuxvm.azurerm_subnet.myterraformsubnet will be created
+  + resource "azurerm_subnet" "myterraformsubnet" {
+      + address_prefixes                               = [
+          + "10.0.1.0/24",
+        ]
+      + enforce_private_link_endpoint_network_policies = (known after apply)
+      + enforce_private_link_service_network_policies  = (known after apply)
+      + id                                             = (known after apply)
+      + name                                           = "mySubnnet"
+      + private_endpoint_network_policies_enabled      = (known after apply)
+      + private_link_service_network_policies_enabled  = (known after apply)
+      + resource_group_name                            = (known after apply)
+      + virtual_network_name                           = "myVnet"
+    }
+
+  # module.azure_linuxvm.azurerm_virtual_network.myterraformnetwork will be created
+  + resource "azurerm_virtual_network" "myterraformnetwork" {
+      + address_space       = [
+          + "10.0.0.0/16",
+        ]
+      + dns_servers         = (known after apply)
+      + guid                = (known after apply)
+      + id                  = (known after apply)
+      + location            = "westus"
+      + name                = "myVnet"
+      + resource_group_name = (known after apply)
+      + subnet              = (known after apply)
+    }
+
+  # module.azure_linuxvm.random_string.rgprefix will be created
+  + resource "random_string" "rgprefix" {
+      + id          = (known after apply)
+      + length      = 9
+      + lower       = true
+      + min_lower   = 0
+      + min_numeric = 0
+      + min_special = 0
+      + min_upper   = 0
+      + number      = true
+      + numeric     = true
+      + result      = (known after apply)
+      + special     = false
+      + upper       = true
+    }
+
+  # module.azure_linuxvm.random_string.sshpassword will be created
+  + resource "random_string" "sshpassword" {
+      + id          = (known after apply)
+      + length      = 20
+      + lower       = true
+      + min_lower   = 0
+      + min_numeric = 0
+      + min_special = 0
+      + min_upper   = 0
+      + number      = true
+      + numeric     = true
+      + result      = (known after apply)
+      + special     = true
+      + upper       = true
+    }
+
+  # module.azure_linuxvm.random_string.vm_prefix will be created
+  + resource "random_string" "vm_prefix" {
+      + id          = (known after apply)
+      + length      = 6
+      + lower       = true
+      + min_lower   = 0
+      + min_numeric = 0
+      + min_special = 0
+      + min_upper   = 0
+      + number      = true
+      + numeric     = true
+      + result      = (known after apply)
+      + special     = false
+      + upper       = true
+    }
+
+  # module.azure_storage.azurerm_resource_group.demorg will be created
+  + resource "azurerm_resource_group" "demorg" {
+      + id       = (known after apply)
+      + location = "westus"
+      + name     = "rgstore1212"
+    }
+
+  # module.azure_storage.azurerm_storage_account.storagedemo will be created
+  + resource "azurerm_storage_account" "storagedemo" {
+      + access_tier                       = (known after apply)
+      + account_kind                      = "StorageV2"
+      + account_replication_type          = "LRS"
+      + account_tier                      = "Standard"
+      + allow_nested_items_to_be_public   = true
+      + cross_tenant_replication_enabled  = true
+      + default_to_oauth_authentication   = false
+      + enable_https_traffic_only         = true
+      + id                                = (known after apply)
+      + infrastructure_encryption_enabled = false
+      + is_hns_enabled                    = false
+      + large_file_share_enabled          = (known after apply)
+      + location                          = "westus"
+      + min_tls_version                   = "TLS1_2"
+      + name                              = "sademo1212"
+      + nfsv3_enabled                     = false
+      + primary_access_key                = (sensitive value)
+      + primary_blob_connection_string    = (sensitive value)
+      + primary_blob_endpoint             = (known after apply)
+      + primary_blob_host                 = (known after apply)
+      + primary_connection_string         = (sensitive value)
+      + primary_dfs_endpoint              = (known after apply)
+      + primary_dfs_host                  = (known after apply)
+      + primary_file_endpoint             = (known after apply)
+      + primary_file_host                 = (known after apply)
+      + primary_location                  = (known after apply)
+      + primary_queue_endpoint            = (known after apply)
+      + primary_queue_host                = (known after apply)
+      + primary_table_endpoint            = (known after apply)
+      + primary_table_host                = (known after apply)
+      + primary_web_endpoint              = (known after apply)
+      + primary_web_host                  = (known after apply)
+      + public_network_access_enabled     = true
+      + queue_encryption_key_type         = "Service"
+      + resource_group_name               = "rgstore1212"
+      + secondary_access_key              = (sensitive value)
+      + secondary_blob_connection_string  = (sensitive value)
+      + secondary_blob_endpoint           = (known after apply)
+      + secondary_blob_host               = (known after apply)
+      + secondary_connection_string       = (sensitive value)
+      + secondary_dfs_endpoint            = (known after apply)
+      + secondary_dfs_host                = (known after apply)
+      + secondary_file_endpoint           = (known after apply)
+      + secondary_file_host               = (known after apply)
+      + secondary_location                = (known after apply)
+      + secondary_queue_endpoint          = (known after apply)
+      + secondary_queue_host              = (known after apply)
+      + secondary_table_endpoint          = (known after apply)
+      + secondary_table_host              = (known after apply)
+      + secondary_web_endpoint            = (known after apply)
+      + secondary_web_host                = (known after apply)
+      + sftp_enabled                      = false
+      + shared_access_key_enabled         = true
+      + table_encryption_key_type         = "Service"
+      + tags                              = {
+          + "environment" = "robochefweb"
+        }
+    }
+
+  # module.azure_storage.azurerm_storage_container.demoscontainer will be created
+  + resource "azurerm_storage_container" "demoscontainer" {
+      + container_access_type   = "private"
+      + has_immutability_policy = (known after apply)
+      + has_legal_hold          = (known after apply)
+      + id                      = (known after apply)
+      + metadata                = (known after apply)
+      + name                    = "scontainer12345"
+      + resource_manager_id     = (known after apply)
+      + storage_account_name    = "sademo1212"
+    }
+
+  # module.azure_storage.random_string.rgsuffix will be created
+  + resource "random_string" "rgsuffix" {
+      + id          = (known after apply)
+      + length      = 5
+      + lower       = true
+      + min_lower   = 0
+      + min_numeric = 0
+      + min_special = 0
+      + min_upper   = 0
+      + number      = true
+      + numeric     = true
+      + result      = (known after apply)
+      + special     = false
+      + upper       = false
+    }
+
+  # module.azure_storage.random_string.storageSuffix will be created
+  + resource "random_string" "storageSuffix" {
+      + id          = (known after apply)
+      + length      = 6
+      + lower       = true
+      + min_lower   = 0
+      + min_numeric = 0
+      + min_special = 0
+      + min_upper   = 0
+      + number      = true
+      + numeric     = true
+      + result      = (known after apply)
+      + special     = false
+      + upper       = false
+    }
+
+Plan: 17 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + pubip = (known after apply)
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+random_string.rs2: Creating...
+module.azure_storage.random_string.storageSuffix: Creating...
+module.azure_storage.random_string.rgsuffix: Creating...
+random_string.rs2: Creation complete after 0s [id=u8GfESdhp]
+module.azure_storage.random_string.rgsuffix: Creation complete after 0s [id=o7zgi]
+module.azure_storage.random_string.storageSuffix: Creation complete after 0s [id=o9deov]
+module.azure_storage.azurerm_resource_group.demorg: Creating...
+module.azure_storage.azurerm_resource_group.demorg: Creation complete after 4s [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/rgstore1212]
+module.azure_storage.azurerm_storage_account.storagedemo: Creating...
+module.azure_storage.azurerm_storage_account.storagedemo: Still creating... [10s elapsed]
+module.azure_storage.azurerm_storage_account.storagedemo: Still creating... [20s elapsed]
+module.azure_storage.azurerm_storage_account.storagedemo: Still creating... [30s elapsed]
+module.azure_storage.azurerm_storage_account.storagedemo: Creation complete after 30s [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/rgstore1212/providers/Microsoft.Storage/storageAccounts/sademo1212]
+module.azure_storage.azurerm_storage_container.demoscontainer: Creating...
+module.azure_storage.azurerm_storage_container.demoscontainer: Creation complete after 1s [id=https://sademo1212.blob.core.windows.net/scontainer12345]
+module.azure_linuxvm.random_string.sshpassword: Creating...
+module.azure_linuxvm.random_string.sshpassword: Creation complete after 0s [id=9E)bR%xqDoJta)%#ak1K]
+module.azure_linuxvm.random_string.rgprefix: Creating...
+module.azure_linuxvm.random_string.vm_prefix: Creating...
+module.azure_linuxvm.random_string.rgprefix: Creation complete after 0s [id=fxJmlC433]
+module.azure_linuxvm.random_string.vm_prefix: Creation complete after 0s [id=N2EazO]
+module.azure_linuxvm.azurerm_resource_group.myterraformgroup: Creating...
+module.azure_linuxvm.azurerm_resource_group.myterraformgroup: Creation complete after 3s [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/fxJmlC433rgdemo-fromModuleDemo]
+module.azure_linuxvm.azurerm_virtual_network.myterraformnetwork: Creating...
+module.azure_linuxvm.azurerm_public_ip.myterraformpublicip: Creating...
+module.azure_linuxvm.azurerm_network_security_group.myterraformnsg: Creating...
+module.azure_linuxvm.azurerm_public_ip.myterraformpublicip: Creation complete after 8s [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/fxJmlC433rgdemo-fromModuleDemo/providers/Microsoft.Network/publicIPAddresses/myPublicIP]
+module.azure_linuxvm.azurerm_network_security_group.myterraformnsg: Creation complete after 10s [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/fxJmlC433rgdemo-fromModuleDemo/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup]
+module.azure_linuxvm.azurerm_virtual_network.myterraformnetwork: Still creating... [10s elapsed]
+module.azure_linuxvm.azurerm_virtual_network.myterraformnetwork: Creation complete after 11s [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/fxJmlC433rgdemo-fromModuleDemo/providers/Microsoft.Network/virtualNetworks/myVnet]
+module.azure_linuxvm.azurerm_subnet.myterraformsubnet: Creating...
+module.azure_linuxvm.azurerm_subnet.myterraformsubnet: Creation complete after 10s [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/fxJmlC433rgdemo-fromModuleDemo/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnnet]
+module.azure_linuxvm.azurerm_network_interface.myterraformnic: Creating...
+module.azure_linuxvm.azurerm_network_interface.myterraformnic: Still creating... [10s elapsed]
+module.azure_linuxvm.azurerm_network_interface.myterraformnic: Creation complete after 15s [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/fxJmlC433rgdemo-fromModuleDemo/providers/Microsoft.Network/networkInterfaces/myNIC]
+module.azure_linuxvm.azurerm_network_interface_security_group_association.example: Creating...
+module.azure_linuxvm.azurerm_linux_virtual_machine.myterraformvm: Creating...
+module.azure_linuxvm.azurerm_network_interface_security_group_association.example: Creation complete after 4s [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/fxJmlC433rgdemo-fromModuleDemo/providers/Microsoft.Network/networkInterfaces/myNIC|/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/fxJmlC433rgdemo-fromModuleDemo/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup]
+module.azure_linuxvm.azurerm_linux_virtual_machine.myterraformvm: Still creating... [10s elapsed]
+module.azure_linuxvm.azurerm_linux_virtual_machine.myterraformvm: Still creating... [20s elapsed]
+module.azure_linuxvm.azurerm_linux_virtual_machine.myterraformvm: Creation complete after 25s [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/fxJmlC433rgdemo-fromModuleDemo/providers/Microsoft.Compute/virtualMachines/N2EazOmyAdmaticVM]
+
+Apply complete! Resources: 17 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+pubip = ""
+saravanans@skillsasap-vm24:~/admatic_terraform_workspace/tf_mywebinfra$
+saravanans@skillsasap-vm24:~/admatic_terraform_workspace/tf_mywebinfra$

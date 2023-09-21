@@ -1,0 +1,401 @@
+saravanans@skillsasap-vm24:~$
+saravanans@skillsasap-vm24:~$ mkdir tf_count_demo
+saravanans@skillsasap-vm24:~$ cd tf_count_demo
+saravanans@skillsasap-vm24:~/tf_count_demo$ nano main.tf
+saravanans@skillsasap-vm24:~/tf_count_demo$ cat main.tf
+resource "local_file" "filenew" {
+  filename = "/tmp/hello-file24.txt"
+  content = "hello data"
+}
+
+saravanans@skillsasap-vm24:~/tf_count_demo$ nano main.tf
+saravanans@skillsasap-vm24:~/tf_count_demo$ cat main.tf
+resource "local_file" "filenew" {
+  filename = "/tmp/hello-file.txt"
+  content = "hello data"
+}
+
+saravanans@skillsasap-vm24:~/tf_count_demo$ terraform init
+
+Initializing the backend...
+
+Initializing provider plugins...
+- Finding latest version of hashicorp/local...
+- Installing hashicorp/local v2.4.0...
+- Installed hashicorp/local v2.4.0 (signed by HashiCorp)
+
+Terraform has created a lock file .terraform.lock.hcl to record the provider
+selections it made above. Include this file in your version control repository
+so that Terraform can guarantee to make the same selections by default when
+you run "terraform init" in the future.
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+saravanans@skillsasap-vm24:~/tf_count_demo$ terraform apply
+
+Terraform used the selected providers to generate the following execution plan.
+Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # local_file.filenew will be created
+  + resource "local_file" "filenew" {
+      + content              = "hello data"
+      + content_base64sha256 = (known after apply)
+      + content_base64sha512 = (known after apply)
+      + content_md5          = (known after apply)
+      + content_sha1         = (known after apply)
+      + content_sha256       = (known after apply)
+      + content_sha512       = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "/tmp/hello-file.txt"
+      + id                   = (known after apply)
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+local_file.filenew: Creating...
+local_file.filenew: Creation complete after 0s [id=02c8cd375e0344ba1afaed8666b649c3f3639895]
+
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
+saravanans@skillsasap-vm24:~/tf_count_demo$ nano main.tf
+saravanans@skillsasap-vm24:~/tf_count_demo$ cat main.tf
+resource "local_file" "filenew" {
+  count = "5"
+  filename = "/tmp/hello-file.txt"
+  content = "hello data"
+}
+
+
+
+saravanans@skillsasap-vm24:~/tf_count_demo$ terraform plan
+local_file.filenew[0]: Refreshing state... [id=02c8cd375e0344ba1afaed8666b649c3f3639895]
+
+Terraform used the selected providers to generate the following execution plan.
+Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # local_file.filenew has moved to local_file.filenew[0]
+    resource "local_file" "filenew" {
+        id                   = "02c8cd375e0344ba1afaed8666b649c3f3639895"
+        # (10 unchanged attributes hidden)
+    }
+
+  # local_file.filenew[1] will be created
+  + resource "local_file" "filenew" {
+      + content              = "hello data"
+      + content_base64sha256 = (known after apply)
+      + content_base64sha512 = (known after apply)
+      + content_md5          = (known after apply)
+      + content_sha1         = (known after apply)
+      + content_sha256       = (known after apply)
+      + content_sha512       = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "/tmp/hello-file.txt"
+      + id                   = (known after apply)
+    }
+
+  # local_file.filenew[2] will be created
+  + resource "local_file" "filenew" {
+      + content              = "hello data"
+      + content_base64sha256 = (known after apply)
+      + content_base64sha512 = (known after apply)
+      + content_md5          = (known after apply)
+      + content_sha1         = (known after apply)
+      + content_sha256       = (known after apply)
+      + content_sha512       = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "/tmp/hello-file.txt"
+      + id                   = (known after apply)
+    }
+
+  # local_file.filenew[3] will be created
+  + resource "local_file" "filenew" {
+      + content              = "hello data"
+      + content_base64sha256 = (known after apply)
+      + content_base64sha512 = (known after apply)
+      + content_md5          = (known after apply)
+      + content_sha1         = (known after apply)
+      + content_sha256       = (known after apply)
+      + content_sha512       = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "/tmp/hello-file.txt"
+      + id                   = (known after apply)
+    }
+
+  # local_file.filenew[4] will be created
+  + resource "local_file" "filenew" {
+      + content              = "hello data"
+      + content_base64sha256 = (known after apply)
+      + content_base64sha512 = (known after apply)
+      + content_md5          = (known after apply)
+      + content_sha1         = (known after apply)
+      + content_sha256       = (known after apply)
+      + content_sha512       = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "/tmp/hello-file.txt"
+      + id                   = (known after apply)
+    }
+
+Plan: 4 to add, 0 to change, 0 to destroy.
+
+──────────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't
+guarantee to take exactly these actions if you run "terraform apply" now.
+saravanans@skillsasap-vm24:~/tf_count_demo$
+saravanans@skillsasap-vm24:~/tf_count_demo$ nano main.tf
+saravanans@skillsasap-vm24:~/tf_count_demo$ nano main.tf
+saravanans@skillsasap-vm24:~/tf_count_demo$ cat main.tf
+resource "local_file" "filenew" {
+  filename = "/tmp/hello-file.txt"
+  content = "hello data"
+}
+
+resource "local_file" "filenew" {
+  filename = "/tmp/hello-file.txt"
+  content = "hello data"
+}
+
+saravanans@skillsasap-vm24:~/tf_count_demo$ terraform plan
+╷
+│ Error: Duplicate resource "local_file" configuration
+│
+│   on main.tf line 6:
+│    6: resource "local_file" "filenew" {
+│
+│ A local_file resource named "filenew" was already declared at main.tf:1,1-32.
+│ Resource names must be unique per type in each module.
+╵
+saravanans@skillsasap-vm24:~/tf_count_demo$ nano main.tf
+saravanans@skillsasap-vm24:~/tf_count_demo$ nano main.tf
+saravanans@skillsasap-vm24:~/tf_count_demo$ cat main.tf
+resource "local_file" "filenew" {
+  count = "5"
+  filename = "/tmp/hello-file-${count.index}.txt"
+  content = "hello data"
+}
+
+saravanans@skillsasap-vm24:~/tf_count_demo$ terraform plan
+local_file.filenew[0]: Refreshing state... [id=02c8cd375e0344ba1afaed8666b649c3f3639895]
+
+Terraform used the selected providers to generate the following execution plan.
+Resource actions are indicated with the following symbols:
+  + create
+-/+ destroy and then create replacement
+
+Terraform will perform the following actions:
+
+  # local_file.filenew[0] must be replaced
+  # (moved from local_file.filenew)
+-/+ resource "local_file" "filenew" {
+      ~ content_base64sha256 = "R+Xn8oICa+jNB4AQ1AEKa8ku5UlhLR2B1aMkJ1hADHA=" -> (known after apply)
+      ~ content_base64sha512 = "EMqiASAdUH+sUWdoX96Ds5EK1fNcPEn8Kol+Zj9m65YFhQ5xOioqX+VhAd+5CuuRcVaJLcwnhbH5vsRjS3VBSA==" -> (known after apply)
+      ~ content_md5          = "e728ea2d5d3d8f88d7ac0ce13729b53c" -> (known after apply)
+      ~ content_sha1         = "02c8cd375e0344ba1afaed8666b649c3f3639895" -> (known after apply)
+      ~ content_sha256       = "47e5e7f282026be8cd078010d4010a6bc92ee549612d1d81d5a3242758400c70" -> (known after apply)
+      ~ content_sha512       = "10caa201201d507fac5167685fde83b3910ad5f35c3c49fc2a897e663f66eb9605850e713a2a2a5fe56101dfb90aeb917156892dcc2785b1f9bec4634b754148" -> (known after apply)
+      ~ filename             = "/tmp/hello-file.txt" -> "/tmp/hello-file-0.txt" # forces replacement
+      ~ id                   = "02c8cd375e0344ba1afaed8666b649c3f3639895" -> (known after apply)
+        # (3 unchanged attributes hidden)
+    }
+
+  # local_file.filenew[1] will be created
+  + resource "local_file" "filenew" {
+      + content              = "hello data"
+      + content_base64sha256 = (known after apply)
+      + content_base64sha512 = (known after apply)
+      + content_md5          = (known after apply)
+      + content_sha1         = (known after apply)
+      + content_sha256       = (known after apply)
+      + content_sha512       = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "/tmp/hello-file-1.txt"
+      + id                   = (known after apply)
+    }
+
+  # local_file.filenew[2] will be created
+  + resource "local_file" "filenew" {
+      + content              = "hello data"
+      + content_base64sha256 = (known after apply)
+      + content_base64sha512 = (known after apply)
+      + content_md5          = (known after apply)
+      + content_sha1         = (known after apply)
+      + content_sha256       = (known after apply)
+      + content_sha512       = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "/tmp/hello-file-2.txt"
+      + id                   = (known after apply)
+    }
+
+  # local_file.filenew[3] will be created
+  + resource "local_file" "filenew" {
+      + content              = "hello data"
+      + content_base64sha256 = (known after apply)
+      + content_base64sha512 = (known after apply)
+      + content_md5          = (known after apply)
+      + content_sha1         = (known after apply)
+      + content_sha256       = (known after apply)
+      + content_sha512       = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "/tmp/hello-file-3.txt"
+      + id                   = (known after apply)
+    }
+
+  # local_file.filenew[4] will be created
+  + resource "local_file" "filenew" {
+      + content              = "hello data"
+      + content_base64sha256 = (known after apply)
+      + content_base64sha512 = (known after apply)
+      + content_md5          = (known after apply)
+      + content_sha1         = (known after apply)
+      + content_sha256       = (known after apply)
+      + content_sha512       = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "/tmp/hello-file-4.txt"
+      + id                   = (known after apply)
+    }
+
+Plan: 5 to add, 0 to change, 1 to destroy.
+
+──────────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't
+guarantee to take exactly these actions if you run "terraform apply" now.
+saravanans@skillsasap-vm24:~/tf_count_demo$ terraform apply
+local_file.filenew[0]: Refreshing state... [id=02c8cd375e0344ba1afaed8666b649c3f3639895]
+
+Terraform used the selected providers to generate the following execution plan.
+Resource actions are indicated with the following symbols:
+  + create
+-/+ destroy and then create replacement
+
+Terraform will perform the following actions:
+
+  # local_file.filenew[0] must be replaced
+  # (moved from local_file.filenew)
+-/+ resource "local_file" "filenew" {
+      ~ content_base64sha256 = "R+Xn8oICa+jNB4AQ1AEKa8ku5UlhLR2B1aMkJ1hADHA=" -> (known after apply)
+      ~ content_base64sha512 = "EMqiASAdUH+sUWdoX96Ds5EK1fNcPEn8Kol+Zj9m65YFhQ5xOioqX+VhAd+5CuuRcVaJLcwnhbH5vsRjS3VBSA==" -> (known after apply)
+      ~ content_md5          = "e728ea2d5d3d8f88d7ac0ce13729b53c" -> (known after apply)
+      ~ content_sha1         = "02c8cd375e0344ba1afaed8666b649c3f3639895" -> (known after apply)
+      ~ content_sha256       = "47e5e7f282026be8cd078010d4010a6bc92ee549612d1d81d5a3242758400c70" -> (known after apply)
+      ~ content_sha512       = "10caa201201d507fac5167685fde83b3910ad5f35c3c49fc2a897e663f66eb9605850e713a2a2a5fe56101dfb90aeb917156892dcc2785b1f9bec4634b754148" -> (known after apply)
+      ~ filename             = "/tmp/hello-file.txt" -> "/tmp/hello-file-0.txt" # forces replacement
+      ~ id                   = "02c8cd375e0344ba1afaed8666b649c3f3639895" -> (known after apply)
+        # (3 unchanged attributes hidden)
+    }
+
+  # local_file.filenew[1] will be created
+  + resource "local_file" "filenew" {
+      + content              = "hello data"
+      + content_base64sha256 = (known after apply)
+      + content_base64sha512 = (known after apply)
+      + content_md5          = (known after apply)
+      + content_sha1         = (known after apply)
+      + content_sha256       = (known after apply)
+      + content_sha512       = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "/tmp/hello-file-1.txt"
+      + id                   = (known after apply)
+    }
+
+  # local_file.filenew[2] will be created
+  + resource "local_file" "filenew" {
+      + content              = "hello data"
+      + content_base64sha256 = (known after apply)
+      + content_base64sha512 = (known after apply)
+      + content_md5          = (known after apply)
+      + content_sha1         = (known after apply)
+      + content_sha256       = (known after apply)
+      + content_sha512       = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "/tmp/hello-file-2.txt"
+      + id                   = (known after apply)
+    }
+
+  # local_file.filenew[3] will be created
+  + resource "local_file" "filenew" {
+      + content              = "hello data"
+      + content_base64sha256 = (known after apply)
+      + content_base64sha512 = (known after apply)
+      + content_md5          = (known after apply)
+      + content_sha1         = (known after apply)
+      + content_sha256       = (known after apply)
+      + content_sha512       = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "/tmp/hello-file-3.txt"
+      + id                   = (known after apply)
+    }
+
+  # local_file.filenew[4] will be created
+  + resource "local_file" "filenew" {
+      + content              = "hello data"
+      + content_base64sha256 = (known after apply)
+      + content_base64sha512 = (known after apply)
+      + content_md5          = (known after apply)
+      + content_sha1         = (known after apply)
+      + content_sha256       = (known after apply)
+      + content_sha512       = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "/tmp/hello-file-4.txt"
+      + id                   = (known after apply)
+    }
+
+Plan: 5 to add, 0 to change, 1 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+local_file.filenew[0]: Destroying... [id=02c8cd375e0344ba1afaed8666b649c3f3639895]
+local_file.filenew[0]: Destruction complete after 0s
+local_file.filenew[2]: Creating...
+local_file.filenew[4]: Creating...
+local_file.filenew[1]: Creating...
+local_file.filenew[3]: Creating...
+local_file.filenew[2]: Creation complete after 1s [id=02c8cd375e0344ba1afaed8666b649c3f3639895]
+local_file.filenew[3]: Creation complete after 0s [id=02c8cd375e0344ba1afaed8666b649c3f3639895]
+local_file.filenew[0]: Creating...
+local_file.filenew[4]: Creation complete after 0s [id=02c8cd375e0344ba1afaed8666b649c3f3639895]
+local_file.filenew[1]: Creation complete after 0s [id=02c8cd375e0344ba1afaed8666b649c3f3639895]
+local_file.filenew[0]: Creation complete after 0s [id=02c8cd375e0344ba1afaed8666b649c3f3639895]
+
+Apply complete! Resources: 5 added, 0 changed, 1 destroyed.
+saravanans@skillsasap-vm24:~/tf_count_demo$ ls /tmp/hello-file*
+/tmp/hello-file-0.txt  /tmp/hello-file-2.txt  /tmp/hello-file-4.txt
+/tmp/hello-file-1.txt  /tmp/hello-file-3.txt  /tmp/hello-file24.txt
+saravanans@skillsasap-vm24:~/tf_count_demo$ nano
+saravanans@skillsasap-vm24:~/tf_count_demo$
+

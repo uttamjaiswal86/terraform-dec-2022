@@ -1,0 +1,481 @@
+saravanans@skillsasap-vm24:~$ cd tf_local_demo/
+saravanans@skillsasap-vm24:~/tf_local_demo$ ls -a
+.  ..  .terraform  .terraform.lock.hcl  main.tf  terraform.tfstate
+saravanans@skillsasap-vm24:~/tf_local_demo$
+saravanans@skillsasap-vm24:~/tf_local_demo$
+saravanans@skillsasap-vm24:~/tf_local_demo$ ls
+main.tf  terraform.tfstate
+saravanans@skillsasap-vm24:~/tf_local_demo$ ls -a
+.  ..  .terraform  .terraform.lock.hcl  main.tf  terraform.tfstate
+saravanans@skillsasap-vm24:~/tf_local_demo$ ls -R .terraform
+.terraform:
+providers
+
+.terraform/providers:
+registry.terraform.io
+
+.terraform/providers/registry.terraform.io:
+hashicorp
+
+.terraform/providers/registry.terraform.io/hashicorp:
+local
+
+.terraform/providers/registry.terraform.io/hashicorp/local:
+2.4.0
+
+.terraform/providers/registry.terraform.io/hashicorp/local/2.4.0:
+linux_amd64
+
+.terraform/providers/registry.terraform.io/hashicorp/local/2.4.0/linux_amd64:
+terraform-provider-local_v2.4.0_x5
+saravanans@skillsasap-vm24:~/tf_local_demo$ ls
+main.tf  terraform.tfstate
+saravanans@skillsasap-vm24:~/tf_local_demo$ terraform apply
+local_file.robochef_web: Refreshing state... [id=7b502c3a1f48c8609ae212cdfb639dee39673f5e]
+
+No changes. Your infrastructure matches the configuration.
+
+Terraform has compared your real infrastructure against your configuration and
+found no differences, so no changes are needed.
+
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+saravanans@skillsasap-vm24:~/tf_local_demo$ ls terraform.tfstate
+terraform.tfstate
+saravanans@skillsasap-vm24:~/tf_local_demo$ terraform destory
+Terraform has no command named "destory". Did you mean "destroy"?
+
+To see all of Terraform's top-level commands, run:
+  terraform -help
+
+saravanans@skillsasap-vm24:~/tf_local_demo$ terraform destroy
+local_file.robochef_web: Refreshing state... [id=7b502c3a1f48c8609ae212cdfb639dee39673f5e]
+
+Terraform used the selected providers to generate the following execution plan.
+Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # local_file.robochef_web will be destroyed
+  - resource "local_file" "robochef_web" {
+      - content              = "Hello world" -> null
+      - content_base64sha256 = "ZOyIygCyaOW6GjVnihtTFtIS9PNmskdyMlNKiuyjfzw=" -> null
+      - content_base64sha512 = "t/eDuu2Cl/DbkXRiGE/08I5pwtXl95qUJgD5cl9Yzh8pwYE5v4CwbA//K900c4RS7PQMSIwip+PYDN9vnBwNRw==" -> null
+      - content_md5          = "3e25960a79dbc69b674cd4ec67a72c62" -> null
+      - content_sha1         = "7b502c3a1f48c8609ae212cdfb639dee39673f5e" -> null
+      - content_sha256       = "64ec88ca00b268e5ba1a35678a1b5316d212f4f366b2477232534a8aeca37f3c" -> null
+      - content_sha512       = "b7f783baed8297f0db917462184ff4f08e69c2d5e5f79a942600f9725f58ce1f29c18139bf80b06c0fff2bdd34738452ecf40c488c22a7e3d80cdf6f9c1c0d47" -> null
+      - directory_permission = "0777" -> null
+      - file_permission      = "0777" -> null
+      - filename             = "/tmp/hello.txt" -> null
+      - id                   = "7b502c3a1f48c8609ae212cdfb639dee39673f5e" -> null
+    }
+
+Plan: 0 to add, 0 to change, 1 to destroy.
+
+Do you really want to destroy all resources?
+  Terraform will destroy all your managed infrastructure, as shown above.
+  There is no undo. Only 'yes' will be accepted to confirm.
+
+  Enter a value: yes
+
+local_file.robochef_web: Destroying... [id=7b502c3a1f48c8609ae212cdfb639dee39673f5e]
+local_file.robochef_web: Destruction complete after 0s
+
+Destroy complete! Resources: 1 destroyed.
+saravanans@skillsasap-vm24:~/tf_local_demo$ ls /tmp/hell*
+ls: cannot access '/tmp/hell*': No such file or directory
+saravanans@skillsasap-vm24:~/tf_local_demo$ cat main.tf
+resource "local_file" "robochef_web" {
+  filename = "/tmp/hello.txt"
+  content = "Hello world"
+}
+saravanans@skillsasap-vm24:~/tf_local_demo$ nano main.tf
+saravanans@skillsasap-vm24:~/tf_local_demo$ cat main.tf
+resource "local_file" "robochef_web" {
+  filename = "/tmp/hello.txt"
+  content = "Hello world"
+}
+
+resource "local_file" "newfile" {
+  filename = "/tmp/hello2.txt
+  content = "some other content"
+}
+
+saravanans@skillsasap-vm24:~/tf_local_demo$ terraform plan
+╷
+│ Error: Invalid multi-line string
+│
+│   on main.tf line 7, in resource "local_file" "newfile":
+│    7:   filename = "/tmp/hello2.txt
+│    8:   content = "some other content"
+│
+│ Quoted strings may not be split over multiple lines. To produce a multi-line
+│ string, either use the \n escape to represent a newline character or use the
+│ "heredoc" multi-line template syntax.
+╵
+╷
+│ Error: Unterminated template string
+│
+│   on main.tf line 7, in resource "local_file" "newfile":
+│    7:   filename = "/tmp/hello2.txt
+│    8:   content = "some other content"
+│
+│ No closing marker was found for the string.
+╵
+╷
+│ Error: Invalid multi-line string
+│
+│   on main.tf line 8, in resource "local_file" "newfile":
+│    8:   content = "some other content"
+│    9: }
+│
+│ Quoted strings may not be split over multiple lines. To produce a multi-line
+│ string, either use the \n escape to represent a newline character or use the
+│ "heredoc" multi-line template syntax.
+╵
+╷
+│ Error: Invalid multi-line string
+│
+│   on main.tf line 9, in resource "local_file" "newfile":
+│    9: }
+│
+│ Quoted strings may not be split over multiple lines. To produce a multi-line
+│ string, either use the \n escape to represent a newline character or use the
+│ "heredoc" multi-line template syntax.
+╵
+saravanans@skillsasap-vm24:~/tf_local_demo$ nano  main.tf
+saravanans@skillsasap-vm24:~/tf_local_demo$
+saravanans@skillsasap-vm24:~/tf_local_demo$ terraform validate
+╷
+│ Error: Invalid multi-line string
+│
+│   on main.tf line 7, in resource "local_file" "newfile":
+│    7:   filename = "/tmp/hello2.txt
+│    8:   content = "some other content"
+│
+│ Quoted strings may not be split over multiple lines. To produce a multi-line
+│ string, either use the \n escape to represent a newline character or use the
+│ "heredoc" multi-line template syntax.
+╵
+╷
+│ Error: Unterminated template string
+│
+│   on main.tf line 7, in resource "local_file" "newfile":
+│    7:   filename = "/tmp/hello2.txt
+│    8:   content = "some other content"
+│
+│ No closing marker was found for the string.
+╵
+╷
+│ Error: Invalid multi-line string
+│
+│   on main.tf line 8, in resource "local_file" "newfile":
+│    8:   content = "some other content"
+│    9: }
+│
+│ Quoted strings may not be split over multiple lines. To produce a multi-line
+│ string, either use the \n escape to represent a newline character or use the
+│ "heredoc" multi-line template syntax.
+╵
+╷
+│ Error: Invalid multi-line string
+│
+│   on main.tf line 9, in resource "local_file" "newfile":
+│    9: }
+│
+│ Quoted strings may not be split over multiple lines. To produce a multi-line
+│ string, either use the \n escape to represent a newline character or use the
+│ "heredoc" multi-line template syntax.
+╵
+saravanans@skillsasap-vm24:~/tf_local_demo$ nano main.tf
+saravanans@skillsasap-vm24:~/tf_local_demo$ cat main.tf
+resource "local_file" "robochef_web" {
+  filename = "/tmp/hello.txt"
+  content = "Hello world"
+}
+
+resource "local_file" "newfile" {
+  filename = "/tmp/hello2.txt"
+  content = "some other content"
+}
+
+saravanans@skillsasap-vm24:~/tf_local_demo$ terraform validate
+Success! The configuration is valid.
+
+saravanans@skillsasap-vm24:~/tf_local_demo$ terraform apply
+
+Terraform used the selected providers to generate the following execution plan.
+Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # local_file.newfile will be created
+  + resource "local_file" "newfile" {
+      + content              = "some other content"
+      + content_base64sha256 = (known after apply)
+      + content_base64sha512 = (known after apply)
+      + content_md5          = (known after apply)
+      + content_sha1         = (known after apply)
+      + content_sha256       = (known after apply)
+      + content_sha512       = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "/tmp/hello2.txt"
+      + id                   = (known after apply)
+    }
+
+  # local_file.robochef_web will be created
+  + resource "local_file" "robochef_web" {
+      + content              = "Hello world"
+      + content_base64sha256 = (known after apply)
+      + content_base64sha512 = (known after apply)
+      + content_md5          = (known after apply)
+      + content_sha1         = (known after apply)
+      + content_sha256       = (known after apply)
+      + content_sha512       = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "/tmp/hello.txt"
+      + id                   = (known after apply)
+    }
+
+Plan: 2 to add, 0 to change, 0 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+local_file.newfile: Creating...
+local_file.robochef_web: Creating...
+local_file.robochef_web: Creation complete after 0s [id=7b502c3a1f48c8609ae212cdfb639dee39673f5e]
+local_file.newfile: Creation complete after 0s [id=2c467095b0a0e67be51f6bd00f80cb2118846ddc]
+
+Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
+saravanans@skillsasap-vm24:~/tf_local_demo$ ls /tmp/hello*
+/tmp/hello.txt  /tmp/hello2.txt
+saravanans@skillsasap-vm24:~/tf_local_demo$
+saravanans@skillsasap-vm24:~/tf_local_demo$ cat /tmp/hello2.txt
+some other contentsaravanans@skillsasap-vm24:~/tf_local_demo$ nano main.tf
+saravanans@skillsasap-vm24:~/tf_local_demo$ cat main.tf
+resource "local_file" "robochef_web" {
+  filename = "/tmp/hello.txt"
+  content = "Hello world"
+}
+
+resource "local_file" "newfile" {
+  filename = "/tmp/hello2.txt"
+  content = "some other contenti CHANGED"
+}
+
+saravanans@skillsasap-vm24:~/tf_local_demo$ terraform apply
+local_file.robochef_web: Refreshing state... [id=7b502c3a1f48c8609ae212cdfb639dee39673f5e]
+local_file.newfile: Refreshing state... [id=2c467095b0a0e67be51f6bd00f80cb2118846ddc]
+
+Terraform used the selected providers to generate the following execution plan.
+Resource actions are indicated with the following symbols:
+-/+ destroy and then create replacement
+
+Terraform will perform the following actions:
+
+  # local_file.newfile must be replaced
+-/+ resource "local_file" "newfile" {
+      ~ content              = "some other content" -> "some other contenti CHANGED" # forces replacement
+      ~ content_base64sha256 = "9z8W7eAh0B7+z2J7XmWL5SKT8WfP4GxrjQ5ZHLJbaMk=" -> (known after apply)
+      ~ content_base64sha512 = "+6xp8oQZqEUAqmK2iV1POv2RUjeoa1wJ8tvQtiukgvw3zQeGyJbzGezTHYU8vFpFG2hu8Lxp0Q9gcN+LcF0otw==" -> (known after apply)
+      ~ content_md5          = "ebac9b1aaf9dfae91414d65082d8b91b" -> (known after apply)
+      ~ content_sha1         = "2c467095b0a0e67be51f6bd00f80cb2118846ddc" -> (known after apply)
+      ~ content_sha256       = "f73f16ede021d01efecf627b5e658be52293f167cfe06c6b8d0e591cb25b68c9" -> (known after apply)
+      ~ content_sha512       = "fbac69f28419a84500aa62b6895d4f3afd915237a86b5c09f2dbd0b62ba482fc37cd0786c896f319ecd31d853cbc5a451b686ef0bc69d10f6070df8b705d28b7" -> (known after apply)
+      ~ id                   = "2c467095b0a0e67be51f6bd00f80cb2118846ddc" -> (known after apply)
+        # (3 unchanged attributes hidden)
+    }
+
+Plan: 1 to add, 0 to change, 1 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+local_file.newfile: Destroying... [id=2c467095b0a0e67be51f6bd00f80cb2118846ddc]
+local_file.newfile: Destruction complete after 0s
+local_file.newfile: Creating...
+local_file.newfile: Creation complete after 0s [id=d1453eeaeaeb7ac72114a1746b27d5d73a2050f2]
+
+Apply complete! Resources: 1 added, 0 changed, 1 destroyed.
+saravanans@skillsasap-vm24:~/tf_local_demo$ ls
+main.tf  terraform.tfstate  terraform.tfstate.backup
+saravanans@skillsasap-vm24:~/tf_local_demo$
+
+
+saravanans@skillsasap-vm24:~/tf_local_demo$ cat main.tf
+resource "local_file" "robochef_web" {
+  filename = "/tmp/hello.txt"
+  content = "Hello world"
+}
+
+resource "local_file" "newfile" {
+  filename = "/tmp/hello2.txt"
+  content = "some other contenti CHANGED"
+}
+
+saravanans@skillsasap-vm24:~/tf_local_demo$ terraform apply
+
+Terraform used the selected providers to generate the following execution plan.
+Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # local_file.newfile will be created
+  + resource "local_file" "newfile" {
+      + content              = "some other contenti CHANGED"
+      + content_base64sha256 = (known after apply)
+      + content_base64sha512 = (known after apply)
+      + content_md5          = (known after apply)
+      + content_sha1         = (known after apply)
+      + content_sha256       = (known after apply)
+      + content_sha512       = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "/tmp/hello2.txt"
+      + id                   = (known after apply)
+    }
+
+  # local_file.robochef_web will be created
+  + resource "local_file" "robochef_web" {
+      + content              = "Hello world"
+      + content_base64sha256 = (known after apply)
+      + content_base64sha512 = (known after apply)
+      + content_md5          = (known after apply)
+      + content_sha1         = (known after apply)
+      + content_sha256       = (known after apply)
+      + content_sha512       = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "/tmp/hello.txt"
+      + id                   = (known after apply)
+    }
+
+Plan: 2 to add, 0 to change, 0 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+local_file.robochef_web: Creating...
+local_file.robochef_web: Creation complete after 0s [id=7b502c3a1f48c8609ae212cdfb639dee39673f5e]
+local_file.newfile: Creating...
+local_file.newfile: Creation complete after 0s [id=d1453eeaeaeb7ac72114a1746b27d5d73a2050f2]
+
+Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
+saravanans@skillsasap-vm24:~/tf_local_demo$
+saravanans@skillsasap-vm24:~/tf_local_demo$
+saravanans@skillsasap-vm24:~/tf_local_demo$ terraform apply
+local_file.robochef_web: Refreshing state... [id=7b502c3a1f48c8609ae212cdfb639dee39673f5e]
+local_file.newfile: Refreshing state... [id=d1453eeaeaeb7ac72114a1746b27d5d73a2050f2]
+
+No changes. Your infrastructure matches the configuration.
+
+Terraform has compared your real infrastructure against your configuration and
+found no differences, so no changes are needed.
+
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+saravanans@skillsasap-vm24:~/tf_local_demo$
+saravanans@skillsasap-vm24:~/tf_local_demo$
+saravanans@skillsasap-vm24:~/tf_local_demo$ cat main.tf
+resource "local_file" "robochef_web" {
+  filename = "/tmp/hello.txt"
+  content = "Hello world"
+}
+
+resource "local_file" "newfile" {
+  filename = "/tmp/hello2.txt"
+  content = "some other contenti CHANGED"
+}
+
+saravanans@skillsasap-vm24:~/tf_local_demo$ ls -a
+.   .terraform           main.tf            terraform.tfstate.backup
+..  .terraform.lock.hcl  terraform.tfstate
+saravanans@skillsasap-vm24:~/tf_local_demo$
+saravanans@skillsasap-vm24:~/tf_local_demo$ cd ..
+saravanans@skillsasap-vm24:~$ ls
+tf_local_demo
+saravanans@skillsasap-vm24:~$ cd -
+/home/saravanans/tf_local_demo
+saravanans@skillsasap-vm24:~/tf_local_demo$ terraform refresh
+local_file.robochef_web: Refreshing state... [id=7b502c3a1f48c8609ae212cdfb639dee39673f5e]
+local_file.newfile: Refreshing state... [id=d1453eeaeaeb7ac72114a1746b27d5d73a2050f2]
+saravanans@skillsasap-vm24:~/tf_local_demo$
+saravanans@skillsasap-vm24:~/tf_local_demo$ ls -a
+.   .terraform           main.tf            terraform.tfstate.backup
+..  .terraform.lock.hcl  terraform.tfstate
+saravanans@skillsasap-vm24:~/tf_local_demo$ ls ~/.terraform.d/
+checkpoint_cache  checkpoint_signature
+saravanans@skillsasap-vm24:~/tf_local_demo$
+saravanans@skillsasap-vm24:~/tf_local_demo$ ls
+main.tf  terraform.tfstate  terraform.tfstate.backup
+saravanans@skillsasap-vm24:~/tf_local_demo$ terraform destroy
+local_file.newfile: Refreshing state... [id=d1453eeaeaeb7ac72114a1746b27d5d73a2050f2]
+local_file.robochef_web: Refreshing state... [id=7b502c3a1f48c8609ae212cdfb639dee39673f5e]
+
+Terraform used the selected providers to generate the following execution plan.
+Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # local_file.newfile will be destroyed
+  - resource "local_file" "newfile" {
+      - content              = "some other contenti CHANGED" -> null
+      - content_base64sha256 = "Gzbmdsf6FAAAWAk5rKLOo/z++2w09ZELtgdgny0vYx0=" -> null
+      - content_base64sha512 = "06AollDZwmhOuiNOlqrFlvSVF0Cm05F9H3Z30xlRjA2CViTWdNfBbTxlMICHICg4vKlj6K/7s9+PE/BWRwYp+A==" -> null
+      - content_md5          = "19be471e2f063e40f60861c8f55e1c20" -> null
+      - content_sha1         = "d1453eeaeaeb7ac72114a1746b27d5d73a2050f2" -> null
+      - content_sha256       = "1b36e676c7fa140000580939aca2cea3fcfefb6c34f5910bb607609f2d2f631d" -> null
+      - content_sha512       = "d3a0289650d9c2684eba234e96aac596f4951740a6d3917d1f7677d319518c0d825624d674d7c16d3c65308087202838bca963e8affbb3df8f13f056470629f8" -> null
+      - directory_permission = "0777" -> null
+      - file_permission      = "0777" -> null
+      - filename             = "/tmp/hello2.txt" -> null
+      - id                   = "d1453eeaeaeb7ac72114a1746b27d5d73a2050f2" -> null
+    }
+
+  # local_file.robochef_web will be destroyed
+  - resource "local_file" "robochef_web" {
+      - content              = "Hello world" -> null
+      - content_base64sha256 = "ZOyIygCyaOW6GjVnihtTFtIS9PNmskdyMlNKiuyjfzw=" -> null
+      - content_base64sha512 = "t/eDuu2Cl/DbkXRiGE/08I5pwtXl95qUJgD5cl9Yzh8pwYE5v4CwbA//K900c4RS7PQMSIwip+PYDN9vnBwNRw==" -> null
+      - content_md5          = "3e25960a79dbc69b674cd4ec67a72c62" -> null
+      - content_sha1         = "7b502c3a1f48c8609ae212cdfb639dee39673f5e" -> null
+      - content_sha256       = "64ec88ca00b268e5ba1a35678a1b5316d212f4f366b2477232534a8aeca37f3c" -> null
+      - content_sha512       = "b7f783baed8297f0db917462184ff4f08e69c2d5e5f79a942600f9725f58ce1f29c18139bf80b06c0fff2bdd34738452ecf40c488c22a7e3d80cdf6f9c1c0d47" -> null
+      - directory_permission = "0777" -> null
+      - file_permission      = "0777" -> null
+      - filename             = "/tmp/hello.txt" -> null
+      - id                   = "7b502c3a1f48c8609ae212cdfb639dee39673f5e" -> null
+    }
+
+Plan: 0 to add, 0 to change, 2 to destroy.
+
+Do you really want to destroy all resources?
+  Terraform will destroy all your managed infrastructure, as shown above.
+  There is no undo. Only 'yes' will be accepted to confirm.
+
+  Enter a value: yes
+
+local_file.newfile: Destroying... [id=d1453eeaeaeb7ac72114a1746b27d5d73a2050f2]
+local_file.robochef_web: Destroying... [id=7b502c3a1f48c8609ae212cdfb639dee39673f5e]
+local_file.robochef_web: Destruction complete after 0s
+local_file.newfile: Destruction complete after 0s
+
+Destroy complete! Resources: 2 destroyed.
+saravanans@skillsasap-vm24:~/tf_local_demo$
+
+

@@ -1,0 +1,767 @@
+saravanans@skillsasap-vm:~$
+saravanans@skillsasap-vm:~$ curl -sSL https://get.docker.com/ | sh
+# Executing docker install script, commit: e5543d473431b782227f8908005543bb4389b8de
++ sudo -E sh -c apt-get update -qq >/dev/null
++ sudo -E sh -c DEBIAN_FRONTEND=noninteractive apt-get install -y -qq apt-transport-https ca-certificates curl >/dev/null
++ sudo -E sh -c install -m 0755 -d /etc/apt/keyrings
++ sudo -E sh -c curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | gpg --dearmor --yes -o /etc/apt/keyrings/docker.gpg
++ sudo -E sh -c chmod a+r /etc/apt/keyrings/docker.gpg
++ sudo -E sh -c echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu focal stable" > /etc/apt/sources.list.d/docker.list
++ sudo -E sh -c apt-get update -qq >/dev/null
++ sudo -E sh -c DEBIAN_FRONTEND=noninteractive apt-get install -y -qq docker-ce docker-ce-cli containerd.io docker-compose-plugin docker-ce-rootless-extras docker-buildx-plugin >/dev/null
++ sudo -E sh -c docker version
+Client: Docker Engine - Community
+ Version:           24.0.6
+ API version:       1.43
+ Go version:        go1.20.7
+ Git commit:        ed223bc
+ Built:             Mon Sep  4 12:32:12 2023
+ OS/Arch:           linux/amd64
+ Context:           default
+
+Server: Docker Engine - Community
+ Engine:
+  Version:          24.0.6
+  API version:      1.43 (minimum version 1.12)
+  Go version:       go1.20.7
+  Git commit:       1a79695
+  Built:            Mon Sep  4 12:32:12 2023
+  OS/Arch:          linux/amd64
+  Experimental:     false
+ containerd:
+  Version:          1.6.22
+  GitCommit:        8165feabfdfe38c65b599c4993d227328c231fca
+ runc:
+  Version:          1.1.8
+  GitCommit:        v1.1.8-0-g82f18fe
+ docker-init:
+  Version:          0.19.0
+  GitCommit:        de40ad0
+
+================================================================================
+
+To run Docker as a non-privileged user, consider setting up the
+Docker daemon in rootless mode for your user:
+
+    dockerd-rootless-setuptool.sh install
+
+Visit https://docs.docker.com/go/rootless/ to learn about rootless mode.
+
+
+To run the Docker daemon as a fully privileged service, but granting non-root
+users access, refer to https://docs.docker.com/go/daemon-access/
+
+WARNING: Access to the remote API on a privileged Docker daemon is equivalent
+         to root access on the host. Refer to the 'Docker daemon attack surface'
+         documentation for details: https://docs.docker.com/go/attack-surface/
+
+================================================================================
+
+saravanans@skillsasap-vm:~$
+saravanans@skillsasap-vm:~$
+saravanans@skillsasap-vm:~$
+saravanans@skillsasap-vm:~$
+saravanans@skillsasap-vm:~$ sudo docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+saravanans@skillsasap-vm:~$
+saravanans@skillsasap-vm:~$ sudo docker images
+REPOSITORY   TAG       IMAGE ID   CREATED   SIZE
+saravanans@skillsasap-vm:~$
+saravanans@skillsasap-vm:~$ sudo docker pull httpd
+Using default tag: latest
+latest: Pulling from library/httpd
+360eba32fa65: Pull complete
+2832a695827e: Pull complete
+b57c1299d233: Pull complete
+45a0ea29816d: Pull complete
+8c226ac2053e: Pull complete
+Digest: sha256:0adbefbee65176b93e4135f5c133072e2fb963187b00df565e6c73814894af5c
+Status: Downloaded newer image for httpd:latest
+docker.io/library/httpd:latest
+saravanans@skillsasap-vm:~$ sudo docker images
+REPOSITORY   TAG       IMAGE ID       CREATED      SIZE
+httpd        latest    7860e7628717   7 days ago   168MB
+saravanans@skillsasap-vm:~$ sudo docker images
+REPOSITORY   TAG       IMAGE ID       CREATED      SIZE
+httpd        latest    7860e7628717   7 days ago   168MB
+saravanans@skillsasap-vm:~$ sudo docker pull redis
+Using default tag: latest
+latest: Pulling from library/redis
+360eba32fa65: Already exists
+64b323c8825b: Pull complete
+383536099eae: Pull complete
+e3f0c12dcc8e: Pull complete
+2d2142a35b4d: Pull complete
+b4cada01e6a7: Pull complete
+Digest: sha256:f92a0be0ba8c085e6a5e2d2bea386365443485bcd67ced5ca8ddcdacdd4656d2
+Status: Downloaded newer image for redis:latest
+docker.io/library/redis:latest
+saravanans@skillsasap-vm:~$ sudo docker images
+REPOSITORY   TAG       IMAGE ID       CREATED      SIZE
+httpd        latest    7860e7628717   7 days ago   168MB
+redis        latest    39ac5829bade   7 days ago   138MB
+saravanans@skillsasap-vm:~$ sudo docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+saravanans@skillsasap-vm:~$ sudo docker run -d httpd
+58d5ae3a87c4c308c030d33518cead94ae0f7d33ec40e94cc80192e376494bd3
+saravanans@skillsasap-vm:~$ sudo docker ps
+CONTAINER ID   IMAGE     COMMAND              CREATED         STATUS         PORTS     NAMES
+58d5ae3a87c4   httpd     "httpd-foreground"   4 seconds ago   Up 3 seconds   80/tcpsaravanans@skillsasap-vm:~$
+saravanans@skillsasap-vm:~$
+saravanans@skillsasap-vm:~$
+saravanans@skillsasap-vm:~$ sudo docker run -p 80:80 -d httpd
+e31c7ea22402ed04563e3e74567ce33f326ab7a6e6dd1fd2eb61c39be9869010
+saravanans@skillsasap-vm:~$
+saravanans@skillsasap-vm:~$
+saravanans@skillsasap-vm:~$ curl localhost:80
+<html><body><h1>It works!</h1></body></html>
+saravanans@skillsasap-vm:~$ sudo docker run -d -p 8090:80 httpd
+b396811acd32236b9b8b351e336cb8b60a542a45ce35a8483c3e34a275bd1d5c
+saravanans@skillsasap-vm:~$
+saravanans@skillsasap-vm:~$ sudo docker run -d -p 9090:80 httpd
+ce061cead7a9acde9da0b21b5e65a7e24762ae221fe3a56fd1b6a82b8ca4df1a
+saravanans@skillsasap-vm:~$ sudo docker ps
+CONTAINER ID   IMAGE     COMMAND              CREATED              STATUS              PORTS                                   NAMES
+ce061cead7a9   httpd     "httpd-foreground"   5 seconds ago        Up 5 seconds        0.0.0.0:9090->80/tcp, :::9090->80/tcp   elastic_tu
+b396811acd32   httpd     "httpd-foreground"   10 seconds ago       Up 10 seconds       0.0.0.0:8090->80/tcp, :::8090->80/tcp   hopeful_khayyam
+af282b15ae1f   httpd     "httpd-foreground"   About a minute ago   Up About a minut
+e   0.0.0.0:80->80/tcp, :::80->80/tcp       intelligent_ishizaka
+969c773c796f   httpd     "httpd-foreground"   About a minute ago   Up About a minute   80/tcp                                  vigilant_taussig
+saravanans@skillsasap-vm:~$ curl localhost:9090
+<html><body><h1>It works!</h1></body></html>
+saravanans@skillsasap-vm:~$ curl localhost:8090
+<html><body><h1>It works!</h1></body></html>
+saravanans@skillsasap-vm:~$ curl localhost:80
+<html><body><h1>It works!</h1></body></html>
+
+saravanans@skillsasap-vm24:~$ sudo docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+saravanans@skillsasap-vm24:~$ sudo docker ps -a
+CONTAINER ID   IMAGE     COMMAND              CREATED         STATUS                       PORTS     NAMES
+ec8ae49df2b1   httpd     "httpd-foreground"   2 minutes ago   Exited (137) 8 second
+s ago             jovial_sammet
+d27b5fe93c2b   httpd     "httpd-foreground"   2 minutes ago   Exited (137) 8 seconds ago             musing_mclean
+2688ab0b4e2b   httpd     "httpd-foreground"   3 minutes ago   Exited (137) 8 seconds ago             competent_goldwasser
+e31c7ea22402   httpd     "httpd-foreground"   3 minutes ago   Created                                compassionate_taussig
+saravanans@skillsasap-vm24:~$ sudo docker rm `sudo docker ps -qa`
+ec8ae49df2b1
+d27b5fe93c2b
+2688ab0b4e2b
+e31c7ea22402
+
+saravanans@skillsasap-vm:~$
+saravanans@skillsasap-vm:~$ ls
+admatic_terraform_workspace  tf_lc                tf_output_demo
+tf_azure_network             tf_local_demo        tf_random_demo
+tf_azure_rg_demo             tf_local_state_demo  tf_variables_intro
+tf_azure_storage             tf_new_vm
+saravanans@skillsasap-vm:~$ mkdir tf_docker_demo
+saravanans@skillsasap-vm:~$ cd tf_docker_demo
+saravanans@skillsasap-vm:~/tf_docker_demo$ ls
+saravanans@skillsasap-vm:~/tf_docker_demo$ nano main.tf
+saravanans@skillsasap-vm:~/tf_docker_demo$ cat main.tf
+terraform {
+  required_providers {
+    docker = {
+      source  = "kreuzwerker/docker"
+      version = "3.0.2"
+    }
+  }
+}
+
+provider "docker" {
+
+}
+
+resource "docker_image" "ubuntu" {
+  name = "ubuntu:latest"
+}
+
+saravanans@skillsasap-vm:~/tf_docker_demo$ terraform init
+
+Initializing the backend...
+
+Initializing provider plugins...
+- Finding kreuzwerker/docker versions matching "3.0.2"...
+- Installing kreuzwerker/docker v3.0.2...
+- Installed kreuzwerker/docker v3.0.2 (self-signed, key ID BD080C4571C6104C)
+
+Partner and community providers are signed by their developers.
+If you'd like to know more about provider signing, you can read about it here:
+https://www.terraform.io/docs/cli/plugins/signing.html
+
+Terraform has created a lock file .terraform.lock.hcl to record the provider
+selections it made above. Include this file in your version control repository
+so that Terraform can guarantee to make the same selections by default when
+you run "terraform init" in the future.
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+saravanans@skillsasap-vm:~/tf_docker_demo$ terraform apply
+╷
+│ Error: Error pinging Docker server: Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get "http://%2Fvar%2Frun%2Fdocker.sock/_ping": dial unix /var/run/docker.sock: connect: permission denied
+│
+│   with provider["registry.terraform.io/kreuzwerker/docker"],
+│   on main.tf line 10, in provider "docker":
+│   10: provider "docker" {
+│
+╵
+saravanans@skillsasap-vm:~/tf_docker_demo$ sudo terraform apply
+
+Terraform used the selected providers to generate the following execution plan.
+Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # docker_image.ubuntu will be created
+  + resource "docker_image" "ubuntu" {
+      + id          = (known after apply)
+      + image_id    = (known after apply)
+      + name        = "ubuntu:latest"
+      + repo_digest = (known after apply)
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+docker_image.ubuntu: Creating...
+docker_image.ubuntu: Creation complete after 2s [id=sha256:c6b84b685f35f1a5d63661f5d4aa662ad9b7ee4f4b8c394c022f25023c907b65ubuntu:latest]
+
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
+saravanans@skillsasap-vm:~/tf_docker_demo$ sudo docker images
+REPOSITORY   TAG       IMAGE ID       CREATED       SIZE
+httpd        latest    7860e7628717   7 days ago    168MB
+redis        latest    39ac5829bade   7 days ago    138MB
+ubuntu       latest    c6b84b685f35   4 weeks ago   77.8MB
+saravanans@skillsasap-vm:~/tf_docker_demo$ terraform destroy --auto-approve
+╷
+│ Error: Error acquiring the state lock
+│
+│ Error message: open terraform.tfstate: permission denied
+│
+│ Terraform acquires a state lock to protect the state from being written
+│ by multiple users at the same time. Please resolve the issue above and try
+│ again. For most commands, you can disable locking with the "-lock=false"
+│ flag, but this is not recommended.
+╵
+saravanans@skillsasap-vm:~/tf_docker_demo$ terraform destroy
+╷
+│ Error: Error acquiring the state lock
+│
+│ Error message: open terraform.tfstate: permission denied
+│
+│ Terraform acquires a state lock to protect the state from being written
+│ by multiple users at the same time. Please resolve the issue above and try
+│ again. For most commands, you can disable locking with the "-lock=false"
+│ flag, but this is not recommended.
+╵
+saravanans@skillsasap-vm:~/tf_docker_demo$ sudo terraform destroy
+
+docker_image.ubuntu: Refreshing state... [id=sha256:c6b84b685f35f1a5d63661f5d4aa662ad9b7ee4f4b8c394c022f25023c907b65ubuntu:latest]
+
+Terraform used the selected providers to generate the following execution plan.
+Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # docker_image.ubuntu will be destroyed
+  - resource "docker_image" "ubuntu" {
+      - id          = "sha256:c6b84b685f35f1a5d63661f5d4aa662ad9b7ee4f4b8c394c022f25023c907b65ubuntu:latest" -> null
+      - image_id    = "sha256:c6b84b685f35f1a5d63661f5d4aa662ad9b7ee4f4b8c394c022f25023c907b65" -> null
+      - name        = "ubuntu:latest" -> null
+      - repo_digest = "ubuntu@sha256:aabed3296a3d45cede1dc866a24476c4d7e093aa806263c27ddaadbdce3c1054" -> null
+    }
+
+Plan: 0 to add, 0 to change, 1 to destroy.
+
+Do you really want to destroy all resources?
+  Terraform will destroy all your managed infrastructure, as shown above.
+  There is no undo. Only 'yes' will be accepted to confirm.
+
+  Enter a value:
+Destroy cancelled.
+saravanans@skillsasap-vm:~/tf_docker_demo$ sudo terraform destroy
+docker_image.ubuntu: Refreshing state... [id=sha256:c6b84b685f35f1a5d63661f5d4aa662ad9b7ee4f4b8c394c022f25023c907b65ubuntu:latest]
+
+Terraform used the selected providers to generate the following execution plan.
+Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # docker_image.ubuntu will be destroyed
+  - resource "docker_image" "ubuntu" {
+      - id          = "sha256:c6b84b685f35f1a5d63661f5d4aa662ad9b7ee4f4b8c394c022f25023c907b65ubuntu:latest" -> null
+      - image_id    = "sha256:c6b84b685f35f1a5d63661f5d4aa662ad9b7ee4f4b8c394c022f25023c907b65" -> null
+      - name        = "ubuntu:latest" -> null
+      - repo_digest = "ubuntu@sha256:aabed3296a3d45cede1dc866a24476c4d7e093aa806263c27ddaadbdce3c1054" -> null
+    }
+
+Plan: 0 to add, 0 to change, 1 to destroy.
+
+Do you really want to destroy all resources?
+  Terraform will destroy all your managed infrastructure, as shown above.
+  There is no undo. Only 'yes' will be accepted to confirm.
+
+  Enter a value: yes
+
+docker_image.ubuntu: Destroying... [id=sha256:c6b84b685f35f1a5d63661f5d4aa662ad9b7ee4f4b8c394c022f25023c907b65ubuntu:latest]
+docker_image.ubuntu: Destruction complete after 0s
+
+Destroy complete! Resources: 1 destroyed.
+saravanans@skillsasap-vm:~/tf_docker_demo$ sudo docker images
+REPOSITORY   TAG       IMAGE ID       CREATED      SIZE
+httpd        latest    7860e7628717   7 days ago   168MB
+redis        latest    39ac5829bade   7 days ago   138MB
+saravanans@skillsasap-vm:~/tf_docker_demo$
+
+
+
+saravanans@skillsasap-vm:~/tf_docker_demo$ sudo docker ps
+CONTAINER ID   IMAGE     COMMAND        CREATED         STATUS         PORTS     NAMES
+d92e4db09a39   ubuntu    "sleep 1000"   4 minutes ago   Up 4 minutes             vibrant_varahamihira
+saravanans@skillsasap-vm:~/tf_docker_demo$ sudo docker kill d92e4db09a39
+d92e4db09a39
+saravanans@skillsasap-vm:~/tf_docker_demo$ sudo docker rm d92e4db09a39
+d92e4db09a39
+saravanans@skillsasap-vm:~/tf_docker_demo$ sudo docker rm -f `sudo docker ps -qa`
+d267912a0461
+8176a6fda3e0
+ce061cead7a9
+b396811acd32
+af282b15ae1f
+969c773c796f
+58d5ae3a87c4
+saravanans@skillsasap-vm:~/tf_docker_demo$ sudo terraform destroy
+docker_image.httpd: Refreshing state... [id=sha256:7860e76287176b75d5c526081506a592f4e848c2f3660492d4dfad7ef8df88f7httpd:latest]
+docker_image.ubuntu: Refreshing state... [id=sha256:c6b84b685f35f1a5d63661f5d4aa662ad9b7ee4f4b8c394c022f25023c907b65ubuntu:latest]
+
+Terraform used the selected providers to generate the following execution plan.
+Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # docker_image.httpd will be destroyed
+  - resource "docker_image" "httpd" {
+      - id          = "sha256:7860e76287176b75d5c526081506a592f4e848c2f3660492d4dfad7ef8df88f7httpd:latest" -> null
+      - image_id    = "sha256:7860e76287176b75d5c526081506a592f4e848c2f3660492d4dfad7ef8df88f7" -> null
+      - name        = "httpd:latest" -> null
+      - repo_digest = "httpd@sha256:0adbefbee65176b93e4135f5c133072e2fb963187b00df565e6c73814894af5c" -> null
+    }
+
+  # docker_image.ubuntu will be destroyed
+  - resource "docker_image" "ubuntu" {
+      - id          = "sha256:c6b84b685f35f1a5d63661f5d4aa662ad9b7ee4f4b8c394c022f25023c907b65ubuntu:latest" -> null
+      - image_id    = "sha256:c6b84b685f35f1a5d63661f5d4aa662ad9b7ee4f4b8c394c022f25023c907b65" -> null
+      - name        = "ubuntu:latest" -> null
+      - repo_digest = "ubuntu@sha256:aabed3296a3d45cede1dc866a24476c4d7e093aa806263c27ddaadbdce3c1054" -> null
+    }
+
+Plan: 0 to add, 0 to change, 2 to destroy.
+
+Do you really want to destroy all resources?
+  Terraform will destroy all your managed infrastructure, as shown above.
+  There is no undo. Only 'yes' will be accepted to confirm.
+
+  Enter a value: yes
+
+docker_image.ubuntu: Destroying... [id=sha256:c6b84b685f35f1a5d63661f5d4aa662ad9b7ee4f4b8c394c022f25023c907b65ubuntu:latest]
+docker_image.httpd: Destroying... [id=sha256:7860e76287176b75d5c526081506a592f4e848c2f3660492d4dfad7ef8df88f7httpd:latest]
+docker_image.ubuntu: Destruction complete after 0s
+docker_image.httpd: Destruction complete after 0s
+
+Destroy complete! Resources: 2 destroyed.
+saravanans@skillsasap-vm:~/tf_docker_demo$ sudo docker images
+REPOSITORY   TAG       IMAGE ID       CREATED      SIZE
+redis        latest    39ac5829bade   7 days ago   138MB
+saravanans@skillsasap-vm:~/tf_docker_demo$ sudo docker images
+REPOSITORY   TAG       IMAGE ID       CREATED      SIZE
+redis        latest    39ac5829bade   7 days ago   138MB
+saravanans@skillsasap-vm:~/tf_docker_demo$ sudo terraform destroy
+
+No changes. No objects need to be destroyed.
+
+Either you have not created any objects yet or the existing objects were already
+deleted outside of Terraform.
+
+Destroy complete! Resources: 0 destroyed.
+saravanans@skillsasap-vm:~/tf_docker_demo$ sudo terraform apply
+
+Terraform used the selected providers to generate the following execution plan.
+Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # docker_container.httpd will be created
+  + resource "docker_container" "httpd" {
+      + attach                                      = false
+      + bridge                                      = (known after apply)
+      + command                                     = (known after apply)
+      + container_logs                              = (known after apply)
+      + container_read_refresh_timeout_milliseconds = 15000
+      + entrypoint                                  = (known after apply)
+      + env                                         = (known after apply)
+      + exit_code                                   = (known after apply)
+      + hostname                                    = (known after apply)
+      + id                                          = (known after apply)
+      + image                                       = (known after apply)
+      + init                                        = (known after apply)
+      + ipc_mode                                    = (known after apply)
+      + log_driver                                  = (known after apply)
+      + logs                                        = false
+      + must_run                                    = true
+      + name                                        = "myhttpd"
+      + network_data                                = (known after apply)
+      + read_only                                   = false
+      + remove_volumes                              = true
+      + restart                                     = "no"
+      + rm                                          = false
+      + runtime                                     = (known after apply)
+      + security_opts                               = (known after apply)
+      + shm_size                                    = (known after apply)
+      + start                                       = true
+      + stdin_open                                  = false
+      + stop_signal                                 = (known after apply)
+      + stop_timeout                                = (known after apply)
+      + tty                                         = false
+      + wait                                        = false
+      + wait_timeout                                = 60
+
+      + ports {
+          + external = 9099
+          + internal = 80
+          + ip       = "0.0.0.0"
+          + protocol = "tcp"
+        }
+    }
+
+  # docker_container.ubuntu will be created
+  + resource "docker_container" "ubuntu" {
+      + attach                                      = false
+      + bridge                                      = (known after apply)
+      + command                                     = [
+          + "/usr/bin/sleep",
+          + "1000",
+        ]
+      + container_logs                              = (known after apply)
+      + container_read_refresh_timeout_milliseconds = 15000
+      + entrypoint                                  = (known after apply)
+      + env                                         = (known after apply)
+      + exit_code                                   = (known after apply)
+      + hostname                                    = (known after apply)
+      + id                                          = (known after apply)
+      + image                                       = (known after apply)
+      + init                                        = (known after apply)
+      + ipc_mode                                    = (known after apply)
+      + log_driver                                  = (known after apply)
+      + logs                                        = false
+      + must_run                                    = true
+      + name                                        = "foo"
+      + network_data                                = (known after apply)
+      + read_only                                   = false
+      + remove_volumes                              = true
+      + restart                                     = "no"
+      + rm                                          = false
+      + runtime                                     = (known after apply)
+      + security_opts                               = (known after apply)
+      + shm_size                                    = (known after apply)
+      + start                                       = true
+      + stdin_open                                  = false
+      + stop_signal                                 = (known after apply)
+      + stop_timeout                                = (known after apply)
+      + tty                                         = false
+      + wait                                        = false
+      + wait_timeout                                = 60
+    }
+
+  # docker_image.httpd will be created
+  + resource "docker_image" "httpd" {
+      + id          = (known after apply)
+      + image_id    = (known after apply)
+      + name        = "httpd:latest"
+      + repo_digest = (known after apply)
+    }
+
+  # docker_image.ubuntu will be created
+  + resource "docker_image" "ubuntu" {
+      + id          = (known after apply)
+      + image_id    = (known after apply)
+      + name        = "ubuntu:latest"
+      + repo_digest = (known after apply)
+    }
+
+Plan: 4 to add, 0 to change, 0 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+docker_image.httpd: Creating...
+docker_image.ubuntu: Creating...
+docker_image.ubuntu: Creation complete after 3s [id=sha256:c6b84b685f35f1a5d63661f5d4aa662ad9b7ee4f4b8c394c022f25023c907b65ubuntu:latest]
+docker_container.ubuntu: Creating...
+docker_container.ubuntu: Creation complete after 0s [id=5a951ad3877a7ab0bbb615c3799e22fc5edd82a465d8ccf4fea36f684874855f]
+docker_image.httpd: Creation complete after 5s [id=sha256:7860e76287176b75d5c526081506a592f4e848c2f3660492d4dfad7ef8df88f7httpd:latest]
+docker_container.httpd: Creating...
+docker_container.httpd: Creation complete after 0s [id=a4dd0883bb4a3c4117e763b6dfbe77d18af91550ef13677c472263480c0c5f7b]
+
+Apply complete! Resources: 4 added, 0 changed, 0 destroyed.
+saravanans@skillsasap-vm:~/tf_docker_demo$ sudo terraform destroy
+docker_image.httpd: Refreshing state... [id=sha256:7860e76287176b75d5c526081506a592f4e848c2f3660492d4dfad7ef8df88f7httpd:latest]
+docker_image.ubuntu: Refreshing state... [id=sha256:c6b84b685f35f1a5d63661f5d4aa662ad9b7ee4f4b8c394c022f25023c907b65ubuntu:latest]
+docker_container.ubuntu: Refreshing state... [id=5a951ad3877a7ab0bbb615c3799e22fc5edd82a465d8ccf4fea36f684874855f]
+docker_container.httpd: Refreshing state... [id=a4dd0883bb4a3c4117e763b6dfbe77d18af91550ef13677c472263480c0c5f7b]
+
+Terraform used the selected providers to generate the following execution plan.
+Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # docker_container.httpd will be destroyed
+  - resource "docker_container" "httpd" {
+      - attach                                      = false -> null
+      - command                                     = [
+          - "httpd-foreground",
+        ] -> null
+      - container_read_refresh_timeout_milliseconds = 15000 -> null
+      - cpu_shares                                  = 0 -> null
+      - dns                                         = [] -> null
+      - dns_opts                                    = [] -> null
+      - dns_search                                  = [] -> null
+      - entrypoint                                  = [] -> null
+      - env                                         = [] -> null
+      - group_add                                   = [] -> null
+      - hostname                                    = "a4dd0883bb4a" -> null
+      - id                                          = "a4dd0883bb4a3c4117e763b6dfbe77d18af91550ef13677c472263480c0c5f7b" -> null
+      - image                                       = "sha256:7860e76287176b75d5c526081506a592f4e848c2f3660492d4dfad7ef8df88f7" -> null
+      - init                                        = false -> null
+      - ipc_mode                                    = "private" -> null
+      - log_driver                                  = "json-file" -> null
+      - log_opts                                    = {} -> null
+      - logs                                        = false -> null
+      - max_retry_count                             = 0 -> null
+      - memory                                      = 0 -> null
+      - memory_swap                                 = 0 -> null
+      - must_run                                    = true -> null
+      - name                                        = "myhttpd" -> null
+      - network_data                                = [
+          - {
+              - gateway                   = "172.17.0.1"
+              - global_ipv6_address       = ""
+              - global_ipv6_prefix_length = 0
+              - ip_address                = "172.17.0.3"
+              - ip_prefix_length          = 16
+              - ipv6_gateway              = ""
+              - mac_address               = "02:42:ac:11:00:03"
+              - network_name              = "bridge"
+            },
+        ] -> null
+      - network_mode                                = "default" -> null
+      - privileged                                  = false -> null
+      - publish_all_ports                           = false -> null
+      - read_only                                   = false -> null
+      - remove_volumes                              = true -> null
+      - restart                                     = "no" -> null
+      - rm                                          = false -> null
+      - runtime                                     = "runc" -> null
+      - security_opts                               = [] -> null
+      - shm_size                                    = 64 -> null
+      - start                                       = true -> null
+      - stdin_open                                  = false -> null
+      - stop_signal                                 = "SIGWINCH" -> null
+      - stop_timeout                                = 0 -> null
+      - storage_opts                                = {} -> null
+      - sysctls                                     = {} -> null
+      - tmpfs                                       = {} -> null
+      - tty                                         = false -> null
+      - wait                                        = false -> null
+      - wait_timeout                                = 60 -> null
+      - working_dir                                 = "/usr/local/apache2" -> null
+
+      - ports {
+          - external = 9099 -> null
+          - internal = 80 -> null
+          - ip       = "0.0.0.0" -> null
+          - protocol = "tcp" -> null
+        }
+    }
+
+  # docker_container.ubuntu will be destroyed
+  - resource "docker_container" "ubuntu" {
+      - attach                                      = false -> null
+      - command                                     = [
+          - "/usr/bin/sleep",
+          - "1000",
+        ] -> null
+      - container_read_refresh_timeout_milliseconds = 15000 -> null
+      - cpu_shares                                  = 0 -> null
+      - dns                                         = [] -> null
+      - dns_opts                                    = [] -> null
+      - dns_search                                  = [] -> null
+      - entrypoint                                  = [] -> null
+      - env                                         = [] -> null
+      - group_add                                   = [] -> null
+      - hostname                                    = "5a951ad3877a" -> null
+      - id                                          = "5a951ad3877a7ab0bbb615c3799e22fc5edd82a465d8ccf4fea36f684874855f" -> null
+      - image                                       = "sha256:c6b84b685f35f1a5d63661f5d4aa662ad9b7ee4f4b8c394c022f25023c907b65" -> null
+      - init                                        = false -> null
+      - ipc_mode                                    = "private" -> null
+      - log_driver                                  = "json-file" -> null
+      - log_opts                                    = {} -> null
+      - logs                                        = false -> null
+      - max_retry_count                             = 0 -> null
+      - memory                                      = 0 -> null
+      - memory_swap                                 = 0 -> null
+      - must_run                                    = true -> null
+      - name                                        = "foo" -> null
+      - network_data                                = [
+          - {
+              - gateway                   = "172.17.0.1"
+              - global_ipv6_address       = ""
+              - global_ipv6_prefix_length = 0
+              - ip_address                = "172.17.0.2"
+              - ip_prefix_length          = 16
+              - ipv6_gateway              = ""
+              - mac_address               = "02:42:ac:11:00:02"
+              - network_name              = "bridge"
+            },
+        ] -> null
+      - network_mode                                = "default" -> null
+      - privileged                                  = false -> null
+      - publish_all_ports                           = false -> null
+      - read_only                                   = false -> null
+      - remove_volumes                              = true -> null
+      - restart                                     = "no" -> null
+      - rm                                          = false -> null
+      - runtime                                     = "runc" -> null
+      - security_opts                               = [] -> null
+      - shm_size                                    = 64 -> null
+      - start                                       = true -> null
+      - stdin_open                                  = false -> null
+      - stop_timeout                                = 0 -> null
+      - storage_opts                                = {} -> null
+      - sysctls                                     = {} -> null
+      - tmpfs                                       = {} -> null
+      - tty                                         = false -> null
+      - wait                                        = false -> null
+      - wait_timeout                                = 60 -> null
+    }
+
+  # docker_image.httpd will be destroyed
+  - resource "docker_image" "httpd" {
+      - id          = "sha256:7860e76287176b75d5c526081506a592f4e848c2f3660492d4dfad7ef8df88f7httpd:latest" -> null
+      - image_id    = "sha256:7860e76287176b75d5c526081506a592f4e848c2f3660492d4dfad7ef8df88f7" -> null
+      - name        = "httpd:latest" -> null
+      - repo_digest = "httpd@sha256:0adbefbee65176b93e4135f5c133072e2fb963187b00df565e6c73814894af5c" -> null
+    }
+
+  # docker_image.ubuntu will be destroyed
+  - resource "docker_image" "ubuntu" {
+      - id          = "sha256:c6b84b685f35f1a5d63661f5d4aa662ad9b7ee4f4b8c394c022f25023c907b65ubuntu:latest" -> null
+      - image_id    = "sha256:c6b84b685f35f1a5d63661f5d4aa662ad9b7ee4f4b8c394c022f25023c907b65" -> null
+      - name        = "ubuntu:latest" -> null
+      - repo_digest = "ubuntu@sha256:aabed3296a3d45cede1dc866a24476c4d7e093aa806263c27ddaadbdce3c1054" -> null
+    }
+
+Plan: 0 to add, 0 to change, 4 to destroy.
+
+Do you really want to destroy all resources?
+  Terraform will destroy all your managed infrastructure, as shown above.
+  There is no undo. Only 'yes' will be accepted to confirm.
+
+  Enter a value: yes
+
+docker_container.ubuntu: Destroying... [id=5a951ad3877a7ab0bbb615c3799e22fc5edd82a465d8ccf4fea36f684874855f]
+docker_container.httpd: Destroying... [id=a4dd0883bb4a3c4117e763b6dfbe77d18af91550ef13677c472263480c0c5f7b]
+docker_container.ubuntu: Destruction complete after 1s
+docker_image.ubuntu: Destroying... [id=sha256:c6b84b685f35f1a5d63661f5d4aa662ad9b7ee4f4b8c394c022f25023c907b65ubuntu:latest]
+docker_image.ubuntu: Destruction complete after 0s
+docker_container.httpd: Destruction complete after 1s
+docker_image.httpd: Destroying... [id=sha256:7860e76287176b75d5c526081506a592f4e848c2f3660492d4dfad7ef8df88f7httpd:latest]
+docker_image.httpd: Destruction complete after 0s
+
+Destroy complete! Resources: 4 destroyed.
+saravanans@skillsasap-vm:~/tf_docker_demo$
+
+
+saravanans@skillsasap-vm:~/tf_docker_demo$
+saravanans@skillsasap-vm:~/tf_docker_demo$ cat main.tf
+terraform {
+  required_providers {
+    docker = {
+      source  = "kreuzwerker/docker"
+      version = "3.0.2"
+    }
+  }
+}
+
+provider "docker" {
+
+}
+
+resource "docker_image" "ubuntu" {
+  name = "ubuntu:latest"
+}
+
+resource "docker_container" "ubuntu" {
+  name  = "foo"
+  image = docker_image.ubuntu.image_id
+  command = ["/usr/bin/sleep","1000"]
+}
+
+resource "docker_image" "httpd" {
+  name = "httpd:latest"
+}
+
+resource "docker_container" "httpd" {
+  name  = "myhttpd"
+  image = docker_image.httpd.image_id
+  ports {
+	internal = "80"
+	external = "9099"
+  }
+}
+
+saravanans@skillsasap-vm:~/tf_docker_demo$
+
+
+
+saravanans@skillsasap-vm:~/tf_docker_demo$ sudo docker images
+REPOSITORY   TAG       IMAGE ID       CREATED      SIZE
+redis        latest    39ac5829bade   7 days ago   138MB
+saravanans@skillsasap-vm:~/tf_docker_demo$ sudo docker rmi redis
+Untagged: redis:latest
+Untagged: redis@sha256:f92a0be0ba8c085e6a5e2d2bea386365443485bcd67ced5ca8ddcdacdd4656d2
+Deleted: sha256:39ac5829badedab9c9d6915aefa8da387e423514c8c4680d8c4e0a67e2368a02
+Deleted: sha256:ca63b0754b94fce00f88849ca791a46d20036fdf833cec84fa828a7c5cb456e4
+Deleted: sha256:701c3b8e81293857d87b169518f259edafe17e6b5e9f008f225bbe18fc55239c
+Deleted: sha256:fc4c4559a037a9975d143450932206bd2ee760221a1d460fb0893611ac5dabbb
+Deleted: sha256:d1bc31282da2e3624b875cb8626f45c54993aef0d4889a82616edbdd5fab012b
+Deleted: sha256:3217de59d5a4ba6ec04f3b0296c7edadc6a3dd7a60a7cee3f6ae988d24f707c8
+Deleted: sha256:a2d7501dfb3541f3d736125cdfd748618194f60cbb5c63f4de67a92530899628
+saravanans@skillsasap-vm:~/tf_docker_demo$ sudo docker images
+REPOSITORY   TAG       IMAGE ID   CREATED   SIZE
+saravanans@skillsasap-vm:~/tf_docker_demo$
+
+
+
+

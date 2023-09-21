@@ -1,0 +1,67 @@
+saravanans@skillsasap-vm24:~$
+saravanans@skillsasap-vm24:~$ sudo apt update
+
+
+saravanans@skillsasap-vm24:~$ sudo apt install curl -y
+
+saravanans@skillsasap-vm24:~$
+saravanans@skillsasap-vm24:~$
+saravanans@skillsasap-vm24:~$
+saravanans@skillsasap-vm24:~$ curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+
+...
+
+Fetched 50.3 MB in 0s (150 MB/s)
+Selecting previously unselected package azure-cli.
+(Reading database ... 59611 files and directories currently installed.)
+Preparing to unpack .../azure-cli_2.52.0-1~focal_amd64.deb ...
+Unpacking azure-cli (2.52.0-1~focal) ...
+Setting up azure-cli (2.52.0-1~focal) ...
+saravanans@skillsasap-vm24:~$
+saravanans@skillsasap-vm24:~$ az version
+{
+  "azure-cli": "2.52.0",
+  "azure-cli-core": "2.52.0",
+  "azure-cli-telemetry": "1.1.0",
+  "extensions": {}
+}
+saravanans@skillsasap-vm24:~$ az aks list
+Please run 'az login' to setup account.
+saravanans@skillsasap-vm24:~$
+saravanans@skillsasap-vm24:~$ az login
+To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code ASWHYWGWG to authenticate.
+[
+  {
+    "cloudName": "AzureCloud",
+    "homeTenantId": "dfe5e65b-079b-4f7f-9f4e-0decd57cb743",
+    "id": "d9bd5677-040c-4455-a75e-5830c2c503f9",
+    "isDefault": true,
+    "managedByTenants": [],
+    "name": "Azure Pass - Sponsorship",
+    "state": "Enabled",
+    "tenantId": "dfe5e65b-079b-4f7f-9f4e-0decd57cb743",
+    "user": {
+      "name": "ssaravanan.3849@gmail.com",
+      "type": "user"
+    }
+  }
+]
+saravanans@skillsasap-vm24:~$
+saravanans@skillsasap-vm24:~$
+saravanans@skillsasap-vm24:~$
+saravanans@skillsasap-vm24:~$ az account show
+{
+  "environmentName": "AzureCloud",
+  "homeTenantId": "dfe5e65b-079b-4f7f-9f4e-0decd57cb743",
+  "id": "d9bd5677-040c-4455-a75e-5830c2c503f9",
+  "isDefault": true,
+  "managedByTenants": [],
+  "name": "Azure Pass - Sponsorship",
+  "state": "Enabled",
+  "tenantId": "dfe5e65b-079b-4f7f-9f4e-0decd57cb743",
+  "user": {
+    "name": "ssaravanan.3849@gmail.com",
+    "type": "user"
+  }
+}
+saravanans@skillsasap-vm24:~$

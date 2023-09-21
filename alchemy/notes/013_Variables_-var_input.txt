@@ -1,0 +1,42 @@
+saravanans@skillsasap-vm24:~/tf_var_demo$
+saravanans@skillsasap-vm24:~/tf_var_demo$ terraform apply -var="location=westus" -var="rgsuffix=6060"
+random_string.rgprefix: Refreshing state... [id=Zoj832vaE]
+azurerm_resource_group.myrg: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/Zoj832vaErgdemo-007]
+
+Terraform used the selected providers to generate the following execution plan.
+Resource actions are indicated with the following symbols:
+-/+ destroy and then create replacement
+
+Terraform will perform the following actions:
+
+  # azurerm_resource_group.myrg must be replaced
+-/+ resource "azurerm_resource_group" "myrg" {
+      ~ id       = "/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/Zoj832vaErgdemo-007" -> (known after apply)
+      ~ location = "eastus" -> "westus" # forces replacement
+      ~ name     = "Zoj832vaErgdemo-007" -> "Zoj832vaErgdemo-6060" # forces replacement
+      - tags     = {} -> null
+    }
+
+Plan: 1 to add, 0 to change, 1 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+azurerm_resource_group.myrg: Destroying... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/Zoj832vaErgdemo-007]
+azurerm_resource_group.myrg: Still destroying... [id=/subscriptions/d9bd5677-040c-4455-a75e-...3f9/resourceGroups/Zoj832vaErgdemo-007, 10s elapsed]
+azurerm_resource_group.myrg: Destruction complete after 16s
+azurerm_resource_group.myrg: Creating...
+azurerm_resource_group.myrg: Creation complete after 1s [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/Zoj832vaErgdemo-6060]
+
+Apply complete! Resources: 1 added, 0 changed, 1 destroyed.
+saravanans@skillsasap-vm24:~/tf_var_demo$ terraform state show azurerm_resource_group.myrg
+# azurerm_resource_group.myrg:
+resource "azurerm_resource_group" "myrg" {
+    id       = "/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/Zoj832vaErgdemo-6060"
+    location = "westus"
+    name     = "Zoj832vaErgdemo-6060"
+}
+saravanans@skillsasap-vm24:~/tf_var_demo$

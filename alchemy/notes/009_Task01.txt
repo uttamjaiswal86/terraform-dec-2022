@@ -1,0 +1,18 @@
+Task 1:
+
+Create a new TF project 
+"that will generate f1 with random number as filename 
+and random string as its content"
+
+"that will generate f2 with yourname-RandomNumber.txt 
+and random string as its content"
+
+create azurerm resource group with location as variable value
+and resource group name as RandomNumber-myrg
+
+Create 10 files with count index name as filename suffix and some random value as file contents.
+
+output both the random filenames
+output the resourcegroup name
+
+ 

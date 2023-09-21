@@ -1,0 +1,278 @@
+saravanans@myvm24:~$ mkdir tf_aks_cluster
+saravanans@myvm24:~$ cd tf_aks_cluster
+saravanans@myvm24:~/tf_aks_cluster$ vi providers.tf
+saravanans@myvm24:~/tf_aks_cluster$ cat providers.tf
+provider "azurerm" {
+  features {}
+}
+
+saravanans@myvm24:~/tf_aks_cluster$ 
+
+saravanans@myvm24:~/tf_aks_cluster$ vi main.tf
+saravanans@myvm24:~/tf_aks_cluster$ cat main.tf
+resource "random_pet" "prefix" {}
+
+resource "azurerm_resource_group" "default" {
+  name     = "${random_pet.prefix.id}-rg"
+  location = var.location
+  tags = {
+    environment = "Demo"
+  }
+
+}
+
+resource "azurerm_kubernetes_cluster" "default" {
+  name                = "${random_pet.prefix.id}-aks"
+  location            = azurerm_resource_group.default.location
+  resource_group_name = azurerm_resource_group.default.name
+  dns_prefix          = "${random_pet.prefix.id}-k8s"
+  kubernetes_version  = "1.26.3"
+
+  default_node_pool {
+    name            = "default"
+    node_count      = 2
+    vm_size         = "Standard_D2_v2"
+    os_disk_size_gb = 30
+  }
+
+  service_principal {
+    client_id     = var.appId
+    client_secret = var.password
+  }
+
+  role_based_access_control_enabled = true
+
+  tags = {
+    environment = "Demo"
+  }
+}
+
+saravanans@myvm24:~/tf_aks_cluster$
+
+saravanans@myvm24:~/tf_aks_cluster$ cat variables.tf
+variable "appId" {
+  description = "Azure Kubernetes Service Cluster service principal"
+}
+
+variable "password" {
+  description = "Azure Kubernetes Service Cluster password"
+}
+saravanans@myvm24:~/tf_aks_cluster$
+
+saravanans@myvm24:~/tf_aks_cluster$ ls
+main.tf  providers.tf  variables.tf
+saravanans@myvm24:~/tf_aks_cluster$ terraform init
+
+Initializing the backend...
+
+Initializing provider plugins...
+- Finding latest version of hashicorp/azurerm...
+- Finding latest version of hashicorp/random...
+- Installing hashicorp/azurerm v3.71.0...
+- Installed hashicorp/azurerm v3.71.0 (signed by HashiCorp)
+- Installing hashicorp/random v3.5.1...
+- Installed hashicorp/random v3.5.1 (signed by HashiCorp)
+
+Terraform has created a lock file .terraform.lock.hcl to record the provider
+selections it made above. Include this file in your version control repository
+so that Terraform can guarantee to make the same selections by default when
+you run "terraform init" in the future.
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+saravanans@myvm24:~/tf_aks_cluster$ terraform apply
+
+
+
+
+
+
+
+var.appId
+  Azure Kubernetes Service Cluster service principal
+
+  Enter a value: ^C
+
+Interrupt received.
+Please wait for Terraform to exit or data loss may occur.
+Gracefully shutting down...
+
+╷
+│ Error: No value for required variable
+│
+│   on variables.tf line 1:
+│    1: variable "appId" {
+│
+│ The root module input variable "appId" is not set, and has no default value. Use
+│ a -var or -var-file command line argument to provide a value for this variable.
+╵
+╷
+│ Error: No value for required variable
+│
+│   on variables.tf line 5:
+│    5: variable "password" {
+│
+│ The root module input variable "password" is not set, and has no default value.
+│ Use a -var or -var-file command line argument to provide a value for this
+│ variable.
+╵
+
+
+##########################################################################################
+### Create service_principal account for aks cluster
+
+
+saravanans@myvm24:~/tf_aks_cluster$ az ad sp create-for-rbac --skip-assignment
+Option '--skip-assignment' has been deprecated and will be removed in a future release.
+The output includes credentials that you must protect. Be sure that you do not include these credentials in your code or check the credentials into your source control. For more information, see https://aka.ms/azadsp-cli
+{
+  "appId": "b3132cf9-be63-46e6-a552-0d46b9605a3b",
+  "displayName": "azure-cli-2023-08-31-10-05-58",
+  "password": "pu~8Q~j-8RfsgE_ulKXfE731DEbfJvsBheMHddc8",
+  "tenant": "dfe5e65b-079b-4f7f-9f4e-0decd57cb743"
+}
+saravanans@myvm24:~/tf_aks_cluster$ ls
+main.tf  providers.tf  variables.tf
+saravanans@myvm24:~/tf_aks_cluster$ vi terraform.tfvars
+saravanans@myvm24:~/tf_aks_cluster$ vi terraform.tfvars
+saravanans@myvm24:~/tf_aks_cluster$ cat terraform.tfvars
+appId    = "b3132cf9-be63-46e6-a552-0d46b9605a3b"
+password = "pu~8Q~j-8RfsgE_ulKXfE731DEbfJvsBheMHddc8"
+
+saravanans@myvm24:~/tf_aks_cluster$
+
+
+saravanans@myvm24:~/tf_aks_cluster$ cat terraform.tfvars
+appId    = "b3132cf9-be63-46e6-a552-0d46b9605a3b"
+password = "pu~8Q~j-8RfsgE_ulKXfE731DEbfJvsBheMHddc8"
+location = "westus"
+saravanans@myvm24:~/tf_aks_cluster$ cat variables.tf
+variable "appId" {
+  description = "Azure Kubernetes Service Cluster service principal"
+}
+
+variable "password" {
+  description = "Azure Kubernetes Service Cluster password"
+}
+
+
+variable "location" { }
+
+saravanans@myvm24:~/tf_aks_cluster$
+saravanans@myvm24:~/tf_aks_cluster$ terraform apply
+
+Terraform used the selected providers to generate the following execution plan.
+Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # azurerm_kubernetes_cluster.default will be created
+  + resource "azurerm_kubernetes_cluster" "default" {
+      + api_server_authorized_ip_ranges     = (known after apply)
+      + dns_prefix                          = (known after apply)
+      + fqdn                                = (known after apply)
+      + http_application_routing_zone_name  = (known after apply)
+      + id                                  = (known after apply)
+      + image_cleaner_enabled               = false
+      + image_cleaner_interval_hours        = 48
+      + kube_admin_config                   = (sensitive value)
+      + kube_admin_config_raw               = (sensitive value)
+      + kube_config                         = (sensitive value)                          + kube_config_raw                     = (sensitive value)
+      + kubernetes_version                  = "1.26.3"
+      + location                            = "westus"
+      .....
+
+
+
+  # random_pet.prefix will be created
+  + resource "random_pet" "prefix" {
+      + id        = (known after apply)
+      + length    = 2
+      + separator = "-"
+    }
+
+Plan: 3 to add, 0 to change, 0 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+
+random_pet.prefix: Creating...
+random_pet.prefix: Creation complete after 0s [id=pet-hedgehog]
+azurerm_resource_group.default: Creating...
+azurerm_resource_group.default: Creation complete after 1s [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/pet-hedgehog-rg]
+azurerm_kubernetes_cluster.default: Creating...
+azurerm_kubernetes_cluster.default: Still creating... [10s elapsed]
+azurerm_kubernetes_cluster.default: Still creating... [20s elapsed]
+azurerm_kubernetes_cluster.default: Still creating... [30s elapsed]
+azurerm_kubernetes_cluster.default: Still creating... [40s elapsed]
+azurerm_kubernetes_cluster.default: Still creating... [50s elapsed]
+azurerm_kubernetes_cluster.default: Still creating... [1m0s elapsed]
+azurerm_kubernetes_cluster.default: Still creating... [1m10s elapsed]
+azurerm_kubernetes_cluster.default: Still creating... [1m20s elapsed]
+azurerm_kubernetes_cluster.default: Still creating... [1m30s elapsed]
+azurerm_kubernetes_cluster.default: Still creating... [1m40s elapsed]
+azurerm_kubernetes_cluster.default: Still creating... [1m50s elapsed]
+azurerm_kubernetes_cluster.default: Still creating... [2m0s elapsed]
+azurerm_kubernetes_cluster.default: Still creating... [2m10s elapsed]
+azurerm_kubernetes_cluster.default: Still creating... [2m20s elapsed]
+azurerm_kubernetes_cluster.default: Still creating... [2m30s elapsed]
+azurerm_kubernetes_cluster.default: Still creating... [2m40s elapsed]
+azurerm_kubernetes_cluster.default: Still creating... [2m50s elapsed]
+azurerm_kubernetes_cluster.default: Still creating... [3m0s elapsed]
+azurerm_kubernetes_cluster.default: Still creating... [3m10s elapsed]
+azurerm_kubernetes_cluster.default: Still creating... [3m20s elapsed]
+azurerm_kubernetes_cluster.default: Still creating... [3m30s elapsed]
+azurerm_kubernetes_cluster.default: Still creating... [3m40s elapsed]
+azurerm_kubernetes_cluster.default: Creation complete after 3m48s [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/pet-hedgehog-rg/providers/Microsoft.ContainerService/managedClusters/pet-hedgehog-aks]
+
+Apply complete! Resources: 3 added, 0 changed, 0 destroyed.
+saravanans@myvm24:~/tf_aks_cluster$
+saravanans@myvm24:~/tf_aks_cluster$
+
+##########################################################################################
+### check azure aks to list the cluster that was created
+
+saravanans@myvm24:~/tf_aks_cluster$
+saravanans@myvm24:~/tf_aks_cluster$ az aks list -o table
+Name               Location    ResourceGroup     KubernetesVersion    CurrentKubernetesVersion    ProvisioningState    Fqdn
+-----------------  ----------  ----------------  -------------------  --------------------------  -------------------  -----------------------------------------------
+pet-hedgehog-aks   westus      pet-hedgehog-rg   1.26.3               1.26.3                      Succeeded            pet-hedgehog-k8s-tzg6nchw.hcp.westus.azmk8s.io
+saravanans@myvm24:~/tf_aks_cluster$
+
+saravanans@myvm24:~/tf_aks_cluster$ vi outputs.tf
+saravanans@myvm24:~/tf_aks_cluster$ cat outputs.tf
+output "resource_group_name" {
+  value = azurerm_resource_group.default.name
+}
+
+output "kubernetes_cluster_name" {
+  value = azurerm_kubernetes_cluster.default.name
+}
+
+saravanans@myvm24:~/tf_aks_cluster$ terraform refresh
+random_pet.prefix: Refreshing state... [id=pet-hedgehog]
+azurerm_resource_group.default: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/pet-hedgehog-rg]
+azurerm_kubernetes_cluster.default: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/pet-hedgehog-rg/providers/Microsoft.ContainerService/managedClusters/pet-hedgehog-aks]
+
+
+Outputs:
+
+kubernetes_cluster_name = "pet-hedgehog-aks"
+resource_group_name = "pet-hedgehog-rg"
+saravanans@myvm24:~/tf_aks_cluster$
+
+
+
+
