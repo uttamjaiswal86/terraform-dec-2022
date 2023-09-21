@@ -1,0 +1,481 @@
+
+saravanans@skillsasap-vm:~/tf_file_provisioner$ vi main.tf
+saravanans@skillsasap-vm:~/tf_file_provisioner$ terraform apply
+azurerm_resource_group.myterraformgroup: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup]
+azurerm_virtual_network.myterraformnetwork: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/myVnet]
+azurerm_public_ip.myterraformpublicip: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/publicIPAddresses/myPublicIP]
+azurerm_network_security_group.myterraformnsg: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup]
+azurerm_subnet.myterraformsubnet: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet]
+null_resource.copy_file: Refreshing state... [id=4127214290669630088]
+azurerm_network_interface.myterraformnic: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/myNIC]
+azurerm_network_interface_security_group_association.example: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/myNIC|/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup]
+azurerm_linux_virtual_machine.myterraformvm: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/admaticmyVM]
+
+Terraform used the selected providers to generate the following execution plan. Resource
+actions are indicated with the following symbols:
+-/+ destroy and then create replacement
+
+Terraform will perform the following actions:
+
+  # null_resource.copy_file must be replaced
+-/+ resource "null_resource" "copy_file" {
+      ~ id       = "4127214290669630088" -> (known after apply)
+      + triggers = { # forces replacement
+          + "trigger" = "100"
+        }
+    }
+
+Plan: 1 to add, 0 to change, 1 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+null_resource.copy_file: Destroying... [id=4127214290669630088]
+null_resource.copy_file: Destruction complete after 0s
+null_resource.copy_file: Creating...
+null_resource.copy_file: Provisioning with 'file'...
+null_resource.copy_file: Creation complete after 0s [id=8717727038696084730]
+
+Apply complete! Resources: 1 added, 0 changed, 1 destroyed.
+
+Outputs:
+
+public_ip = "137.117.126.110"
+saravanans@skillsasap-vm:~/tf_file_provisioner$ terraform apply
+azurerm_resource_group.myterraformgroup: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup]
+azurerm_network_security_group.myterraformnsg: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup]
+azurerm_public_ip.myterraformpublicip: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/publicIPAddresses/myPublicIP]
+azurerm_virtual_network.myterraformnetwork: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/myVnet]
+null_resource.copy_file: Refreshing state... [id=8717727038696084730]
+azurerm_subnet.myterraformsubnet: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet]
+azurerm_network_interface.myterraformnic: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/myNIC]
+azurerm_network_interface_security_group_association.example: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/myNIC|/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup]
+azurerm_linux_virtual_machine.myterraformvm: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/admaticmyVM]
+
+No changes. Your infrastructure matches the configuration.
+
+Terraform has compared your real infrastructure against your configuration and found no
+differences, so no changes are needed.
+
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+public_ip = "137.117.126.110"
+saravanans@skillsasap-vm:~/tf_file_provisioner$ terraform apply -var="data33=200"
+azurerm_resource_group.myterraformgroup: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup]
+azurerm_network_security_group.myterraformnsg: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup]
+azurerm_virtual_network.myterraformnetwork: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/myVnet]
+azurerm_public_ip.myterraformpublicip: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/publicIPAddresses/myPublicIP]
+azurerm_subnet.myterraformsubnet: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet]
+null_resource.copy_file: Refreshing state... [id=8717727038696084730]
+azurerm_network_interface.myterraformnic: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/myNIC]
+azurerm_network_interface_security_group_association.example: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/myNIC|/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup]
+azurerm_linux_virtual_machine.myterraformvm: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/admaticmyVM]
+
+Terraform used the selected providers to generate the following execution plan. Resource
+actions are indicated with the following symbols:
+-/+ destroy and then create replacement
+
+Terraform will perform the following actions:
+
+  # null_resource.copy_file must be replaced
+-/+ resource "null_resource" "copy_file" {
+      ~ id       = "8717727038696084730" -> (known after apply)
+      ~ triggers = { # forces replacement
+          ~ "trigger" = "100" -> "200"
+        }
+    }
+
+Plan: 1 to add, 0 to change, 1 to destroy.
+resource "null_resource" "copy_file" {
+  triggers = {
+        trigger = var.data33
+  }
+  connection {
+    type = "ssh"
+    host = azurerm_public_ip.myterraformpublicip.ip_address
+    user = "admatic"
+    password = "Sincere-Compete-Spoil-Private-3"
+    port = 22
+  }
+
+  provisioner "file" {
+    source = "sample_script.sh"
+    destination = "/tmp/created-script.sh"
+  }
+
+}
+
+"main.tf" 24L, 418C                                                       3,18          Top
+resource "null_resource" "copy_file" {
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+null_resource.copy_file: Destroying... [id=8717727038696084730]
+null_resource.copy_file: Destruction complete after 0s
+null_resource.copy_file: Creating...
+null_resource.copy_file: Provisioning with 'file'...
+null_resource.copy_file: Creation complete after 0s [id=5516844029415292317]
+
+Apply complete! Resources: 1 added, 0 changed, 1 destroyed.
+
+Outputs:
+
+public_ip = "137.117.126.110"
+saravanans@skillsasap-vm:~/tf_file_provisioner$ vi main.tf
+saravanans@skillsasap-vm:~/tf_file_provisioner$ cat main.tf
+resource "null_resource" "copy_file" {
+  triggers = {
+        trigger = var.data33
+  }
+  connection {
+    type = "ssh"
+    host = azurerm_public_ip.myterraformpublicip.ip_address
+    user = "admatic"
+    password = "Sincere-Compete-Spoil-Private-3"
+    port = 22
+  }
+
+  provisioner "file" {
+    source = "sample_script.sh"
+    destination = "/tmp/created-script.sh"
+  }
+
+}
+
+variable "data33" {
+   default = "100"
+}
+
+
+saravanans@skillsasap-vm:~/tf_file_provisioner$
+saravanans@skillsasap-vm:~/tf_file_provisioner$
+saravanans@skillsasap-vm:~/tf_file_provisioner$
+saravanans@skillsasap-vm:~/tf_file_provisioner$ terraform apply -var="data33=200"
+azurerm_resource_group.myterraformgroup: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup]
+azurerm_public_ip.myterraformpublicip: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/publicIPAddresses/myPublicIP]
+azurerm_virtual_network.myterraformnetwork: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/myVnet]
+azurerm_network_security_group.myterraformnsg: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup]
+azurerm_subnet.myterraformsubnet: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet]
+null_resource.copy_file: Refreshing state... [id=5516844029415292317]
+azurerm_network_interface.myterraformnic: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/myNIC]
+azurerm_network_interface_security_group_association.example: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/myNIC|/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup]
+azurerm_linux_virtual_machine.myterraformvm: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/admaticmyVM]
+
+No changes. Your infrastructure matches the configuration.
+
+Terraform has compared your real infrastructure against your configuration and found no
+differences, so no changes are needed.
+
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+public_ip = "137.117.126.110"
+
+
+saravanans@skillsasap-vm:~/tf_file_provisioner$ cat main.tf
+resource "null_resource" "copy_file" {
+  triggers = {
+        trigger = timestamp()
+  }
+  connection {
+    type = "ssh"
+    host = azurerm_public_ip.myterraformpublicip.ip_address
+    user = "admatic"
+    password = "Sincere-Compete-Spoil-Private-3"
+    port = 22
+  }
+
+  provisioner "file" {
+    source = "sample_script.sh"
+    destination = "/tmp/created-script.sh"
+  }
+
+}
+
+variable "data33" {
+   default = "100"
+}
+
+
+saravanans@skillsasap-vm:~/tf_file_provisioner$
+
+
+
+
+
+
+
+
+
+
+saravanans@skillsasap-vm24:~/tf_file_provisioner$ cat main.tf
+resource "null_resource" "copy_file" {
+
+  triggers = {
+    trigger = file("data.txt")
+  }
+
+  connection {
+    type     = "ssh"
+    host     = azurerm_public_ip.myterraformpublicip.ip_address
+    user     = "admatic"
+    password = "Sincere-Compete-Spoil-Private-3"
+    port     = 22
+    agent    = false
+
+  }
+
+
+  provisioner "file" {
+    source = "data.txt"
+    destination = "/tmp/mydata-new.txt"
+  }
+
+}
+
+variable "data33" {
+   default = "100"
+}
+
+
+output "filecont" {
+    value = file("data.txt")
+}
+
+saravanans@skillsasap-vm24:~/tf_file_provisioner$
+
+
+saravanans@skillsasap-vm24:~/tf_file_provisioner$ vi data.txt
+saravanans@skillsasap-vm24:~/tf_file_provisioner$ cat data.txt
+UPDATED LINE
+some data file
+new data contents
+saravanans@skillsasap-vm24:~/tf_file_provisioner$ terraform apply
+null_resource.touchfile: Refreshing state... [id=1481067215803537223]
+azurerm_resource_group.myterraformgroup: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/123123myResourceGroup]
+azurerm_virtual_network.myterraformnetwork: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/123123myResourceGroup/providers/Microsoft.Network/virtualNetworks/myVnet]
+azurerm_public_ip.myterraformpublicip: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/123123myResourceGroup/providers/Microsoft.Network/publicIPAddresses/myPublicIP]
+azurerm_network_security_group.myterraformnsg: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/123123myResourceGroup/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup]
+null_resource.copy_file: Refreshing state... [id=5028217202491431916]
+azurerm_subnet.myterraformsubnet: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/123123myResourceGroup/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet]
+azurerm_network_interface.myterraformnic: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/123123myResourceGroup/providers/Microsoft.Network/networkInterfaces/myNIC]
+azurerm_network_interface_security_group_association.example: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/123123myResourceGroup/providers/Microsoft.Network/networkInterfaces/myNIC|/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/123123myResourceGroup/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup]
+azurerm_linux_virtual_machine.myterraformvm: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/123123myResourceGroup/providers/Microsoft.Compute/virtualMachines/admaticmyVM]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+-/+ destroy and then create replacement
+
+Terraform will perform the following actions:
+
+  # null_resource.copy_file must be replaced
+-/+ resource "null_resource" "copy_file" {
+      ~ id       = "5028217202491431916" -> (known after apply)
+      ~ triggers = { # forces replacement
+          ~ "trigger" = <<-EOT
+              + UPDATED LINE
+                some data file
+                new data contents
+            EOT
+        }
+    }
+
+Plan: 1 to add, 0 to change, 1 to destroy.
+
+Changes to Outputs:
+  ~ filecont  = <<-EOT
+      + UPDATED LINE
+        some data file
+        new data contents
+    EOT
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+null_resource.copy_file: Destroying... [id=5028217202491431916]
+null_resource.copy_file: Destruction complete after 0s
+null_resource.copy_file: Creating...
+null_resource.copy_file: Provisioning with 'file'...
+null_resource.copy_file: Creation complete after 1s [id=7969929652838139718]
+
+Apply complete! Resources: 1 added, 0 changed, 1 destroyed.
+
+Outputs:
+
+filecont = <<EOT
+UPDATED LINE
+some data file
+new data contents
+
+EOT
+public_ip = "172.172.230.123"
+(reverse-i-search)`': ^C
+saravanans@skillsasap-vm24:~/tf_file_provisioner$ cat vm_creation.tf
+provider "azurerm" {
+	features {}
+}
+
+resource "azurerm_resource_group" "myterraformgroup" {
+    name     = "123123myResourceGroup"
+    location = "eastus"
+}
+
+resource "azurerm_virtual_network" "myterraformnetwork" {
+	name = "myVnet"
+	address_space = ["10.0.0.0/16"]
+	location = "eastus"
+	resource_group_name = azurerm_resource_group.myterraformgroup.name
+}
+
+resource "azurerm_public_ip" "myterraformpublicip" {
+    name                         = "myPublicIP"
+    location                     = "eastus"
+    resource_group_name          = azurerm_resource_group.myterraformgroup.name
+    allocation_method            = "Dynamic"
+}
+
+
+resource "azurerm_subnet" "myterraformsubnet" {
+	name = "mySubnet"
+	resource_group_name = azurerm_resource_group.myterraformgroup.name
+	virtual_network_name = azurerm_virtual_network.myterraformnetwork.name
+	address_prefixes = ["10.0.1.0/24"]
+}
+
+resource "azurerm_network_security_group" "myterraformnsg" {
+    name                = "myNetworkSecurityGroup"
+    location            = "eastus"
+    resource_group_name = azurerm_resource_group.myterraformgroup.name
+
+    security_rule {
+        name                       = "Web"
+        priority                   = 1001
+        direction                  = "Inbound"
+        access                     = "Allow"
+        protocol                   = "Tcp"
+        source_port_range          = "*"
+        destination_port_range     = "22"
+        source_address_prefix      = "*"
+        destination_address_prefix = "*"
+    }
+}
+
+resource "azurerm_network_interface" "myterraformnic" {
+    name                      = "myNIC"
+    location                  = "eastus"
+    resource_group_name       = azurerm_resource_group.myterraformgroup.name
+
+    ip_configuration {
+        name                          = "myNicConfiguration"
+        subnet_id                     = azurerm_subnet.myterraformsubnet.id
+        private_ip_address_allocation = "Dynamic"
+        public_ip_address_id          = azurerm_public_ip.myterraformpublicip.id
+    }
+}
+
+
+resource "azurerm_network_interface_security_group_association" "example" {
+    network_interface_id      = azurerm_network_interface.myterraformnic.id
+    network_security_group_id = azurerm_network_security_group.myterraformnsg.id
+}
+
+
+resource "azurerm_linux_virtual_machine" "myterraformvm" {
+    name                  = "admaticmyVM"
+    location              = "eastus"
+    resource_group_name   = azurerm_resource_group.myterraformgroup.name
+    network_interface_ids = [azurerm_network_interface.myterraformnic.id]
+    #size                  = "Standard_DS1_v2"
+    size                  = "Standard_B1s"
+
+    os_disk {
+        name              = "myOsDisk"
+        caching           = "ReadWrite"
+        storage_account_type = "Premium_LRS"
+    }
+
+    source_image_reference {
+        publisher = "Canonical"
+        offer     = "UbuntuServer"
+        sku       = "18.04-LTS"
+        version   = "latest"
+    }
+
+    admin_username = "admatic"
+    admin_password = "Sincere-Compete-Spoil-Private-3"
+    disable_password_authentication = false
+
+
+}
+
+output "public_ip" {
+  value = azurerm_public_ip.myterraformpublicip.ip_address
+  description = "The public IP address of the vm"
+}
+
+saravanans@skillsasap-vm24:~/tf_file_provisioner$ ssh admatic@172.172.230.123
+admatic@172.172.230.123's password:
+Welcome to Ubuntu 18.04.6 LTS (GNU/Linux 5.4.0-1109-azure x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Thu Sep 21 11:38:00 UTC 2023
+
+  System load:  0.06              Processes:           104
+  Usage of /:   4.6% of 28.89GB   Users logged in:     0
+  Memory usage: 21%               IP address for eth0: 10.0.1.4
+  Swap usage:   0%
+
+
+Expanded Security Maintenance for Infrastructure is not enabled.
+
+0 updates can be applied immediately.
+
+Enable ESM Infra to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+New release '20.04.6 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+
+Last login: Thu Sep 21 11:18:02 2023 from 172.174.176.245
+To run a command as administrator (user "root"), use "sudo <command>".
+See "man sudo_root" for details.
+
+admatic@admaticmyVM:~$ ls /tmp/
+mydata-new.txt
+snap-private-tmp
+systemd-private-fac4bbdcf85b43c6937698bae5f41033-systemd-resolved.service-t347y4
+systemd-private-fac4bbdcf85b43c6937698bae5f41033-systemd-timesyncd.service-p16fyF
+admatic@admaticmyVM:~$ cat /tmp/mydata-new.txt
+UPDATED LINE
+some data file
+new data contents
+admatic@admaticmyVM:~$
+admatic@admaticmyVM:~$
+admatic@admaticmyVM:~$
+admatic@admaticmyVM:~$ logout
+Connection to 172.172.230.123 closed.
+saravanans@skillsasap-vm24:~/tf_file_provisioner$
+saravanans@skillsasap-vm24:~/tf_file_provisioner$
+saravanans@skillsasap-vm24:~/tf_file_provisioner$
+saravanans@skillsasap-vm24:~/tf_file_provisioner$
+saravanans@skillsasap-vm24:~/tf_file_provisioner$
+
+
+

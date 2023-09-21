@@ -1,0 +1,195 @@
+saravanans@skillsasap-vm:~$
+saravanans@skillsasap-vm:~$ kubectl get svc
+NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+kubernetes   ClusterIP   10.0.0.1     <none>        443/TCP   177m
+saravanans@skillsasap-vm:~$
+saravanans@skillsasap-vm:~$ kubectl expose deployment robochefweb-deployment --port=80 --target-port=80
+service/robochefweb-deployment exposed
+saravanans@skillsasap-vm:~$ kubectl get svc
+NAME                     TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   AGE
+kubernetes               ClusterIP   10.0.0.1       <none>        443/TCP   178m 
+robochefweb-deployment   ClusterIP   10.0.234.250   <none>        80/TCP    16s
+saravanans@skillsasap-vm:~$
+saravanans@skillsasap-vm:~$ kubectl exec -it webpod bash
+kubectl exec [POD] [COMMAND] is DEPRECATED and will be removed in a future version. Use kubectl exec [POD] -- [COMMAND] instead.
+root@webpod:/usr/local/apache2# curl 10.0.234.250
+bash: curl: command not found
+root@webpod:/usr/local/apache2# apt update && apt install curl
+Get:1 http://deb.debian.org/debian bookworm InRelease [151 kB]
+Get:2 http://deb.debian.org/debian bookworm-updates InRelease [52.1 kB]
+Get:3 http://deb.debian.org/debian-security bookworm-security InRelease [48.0 kB]
+Get:4 http://deb.debian.org/debian bookworm/main amd64 Packages [8906 kB]
+Get:5 http://deb.debian.org/debian bookworm-updates/main amd64 Packages [4952 B]
+Get:6 http://deb.debian.org/debian-security bookworm-security/main amd64 Packages [62.0 kB]
+Fetched 9224 kB in 2s (5664 kB/s)
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+1 package can be upgraded. Run 'apt list --upgradable' to see it.
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+The following NEW packages will be installed:
+  curl
+0 upgraded, 1 newly installed, 0 to remove and 1 not upgraded.
+Need to get 314 kB of archives.
+After this operation, 496 kB of additional disk space will be used.
+Get:1 http://deb.debian.org/debian-security bookworm-security/main amd64 curl amd64 7.88.1-10+deb12u1 [314 kB]
+Fetched 314 kB in 0s (13.7 MB/s)
+debconf: delaying package configuration, since apt-utils is not installed
+Selecting previously unselected package curl.
+(Reading database ... 8502 files and directories currently installed.)
+Preparing to unpack .../curl_7.88.1-10+deb12u1_amd64.deb ...
+Unpacking curl (7.88.1-10+deb12u1) ...
+Setting up curl (7.88.1-10+deb12u1) ...
+root@webpod:/usr/local/apache2# curl 10.0.234.250
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+    body {
+        width: 35em;
+        margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+root@webpod:/usr/local/apache2# curl 10.0.234.250
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+    body {
+        width: 35em;
+        margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+root@webpod:/usr/local/apache2#
+exit
+saravanans@skillsasap-vm:~$
+saravanans@skillsasap-vm:~$ kubectl get pods
+NAME                                      READY   STATUS    RESTARTS   AGE
+robochefweb-deployment-5dddb59c56-49kkm   1/1     Running   0          7m49s
+robochefweb-deployment-5dddb59c56-cz4c8   1/1     Running   0          7m49s
+robochefweb-deployment-5dddb59c56-f9r9s   1/1     Running   0          7m49s
+robochefweb-deployment-5dddb59c56-fgrjf   1/1     Running   0          7m49s
+robochefweb-deployment-5dddb59c56-sgkbh   1/1     Running   0          6m29s
+webpod                                    1/1     Running   0          64m
+webpod2                                   1/1     Running   0          57m
+saravanans@skillsasap-vm:~$ kubectl exec -it robochefweb-deployment-5dddb59c56-49kkm bash
+kubectl exec [POD] [COMMAND] is DEPRECATED and will be removed in a future version. Use kubectl exec [POD] -- [COMMAND] instead.
+root@robochefweb-deployment-5dddb59c56-49kkm:/# find / -name index.html
+/usr/share/nginx/html/index.html
+find: '/proc/7/task/7/fdinfo': Permission denied
+find: '/proc/7/map_files': Permission denied
+find: '/proc/7/fdinfo': Permission denied
+root@robochefweb-deployment-5dddb59c56-49kkm:/# echo 1111111 > /usr/share/nginx/html/index.html
+root@robochefweb-deployment-5dddb59c56-49kkm:/# exit
+saravanans@skillsasap-vm:~$ kubectl exec -it robochefweb-deployment-5dddb59c56-cz4c8 bash
+kubectl exec [POD] [COMMAND] is DEPRECATED and will be removed in a future version. Use kubectl exec [POD] -- [COMMAND] instead.
+root@robochefweb-deployment-5dddb59c56-cz4c8:/# echo 222222 > /usr/share/nginx/html/index.html
+root@robochefweb-deployment-5dddb59c56-cz4c8:/# exit
+saravanans@skillsasap-vm:~$ kubectl exec -it robochefweb-deployment-5dddb59c56-f9r9s bash
+kubectl exec [POD] [COMMAND] is DEPRECATED and will be removed in a future version. Use kubectl exec [POD] -- [COMMAND] instead.
+root@robochefweb-deployment-5dddb59c56-f9r9s:/# echo 3333 > /usr/share/nginx/html/index.html
+root@robochefweb-deployment-5dddb59c56-f9r9s:/# exit
+saravanans@skillsasap-vm:~$ kubectl exec -it robochefweb-deployment-5dddb59c56-fgrjf bash
+kubectl exec [POD] [COMMAND] is DEPRECATED and will be removed in a future version. Use kubectl exec [POD] -- [COMMAND] instead.
+root@robochefweb-deployment-5dddb59c56-fgrjf:/# echo 44444 > /usr/share/nginx/html/index.html
+root@robochefweb-deployment-5dddb59c56-fgrjf:/# exit
+saravanans@skillsasap-vm:~$
+saravanans@skillsasap-vm:~$ kubectl exec -it webpod bash
+kubectl exec [POD] [COMMAND] is DEPRECATED and will be removed in a future version. Use kubectl exec [POD] -- [COMMAND] instead.
+root@webpod:/usr/local/apache2# curl 10.0.234.250
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+    body {
+        width: 35em;
+        margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+root@webpod:/usr/local/apache2# curl 10.0.234.250
+3333
+root@webpod:/usr/local/apache2# curl 10.0.234.250
+1111111
+root@webpod:/usr/local/apache2# curl 10.0.234.250
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+    body {
+        width: 35em;
+        margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+root@webpod:/usr/local/apache2# curl 10.0.234.250
+222222
+root@webpod:/usr/local/apache2# curl 10.0.234.250
+222222
+root@webpod:/usr/local/apache2#
+exit
+saravanans@skillsasap-vm:~$

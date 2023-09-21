@@ -1,0 +1,75 @@
+saravanans@skillsasap-vm:~$ vi myrc1.yaml
+saravanans@skillsasap-vm:~$ cat myrc1.yaml
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: webrc
+spec:
+  replicas: 5
+  template:
+    metadata:
+      name: nginx
+      labels:
+        project: robochef
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+
+saravanans@skillsasap-vm:~$ kubectl get rc
+No resources found in default namespace.
+saravanans@skillsasap-vm:~$ kubectl apply -f myrc1.yaml
+replicationcontroller/webrc created
+saravanans@skillsasap-vm:~$ kubectl get rc
+NAME    DESIRED   CURRENT   READY   AGE
+webrc   5         5         2       7s
+saravanans@skillsasap-vm:~$ kubectl get pods
+NAME          READY   STATUS    RESTARTS   AGE
+webpod        1/1     Running   0          37m
+webpod2       1/1     Running   0          30m
+webrc-2slkc   1/1     Running   0          20s
+webrc-b5drh   1/1     Running   0          20s
+webrc-c54sg   1/1     Running   0          20s
+webrc-csz9c   1/1     Running   0          20s
+webrc-wvlvs   1/1     Running   0          20s
+saravanans@skillsasap-vm:~$ kubectl get pods
+NAME          READY   STATUS    RESTARTS   AGE
+webpod        1/1     Running   0          37m
+webpod2       1/1     Running   0          30m
+webrc-2slkc   1/1     Running   0          34s
+webrc-b5drh   1/1     Running   0          34s
+webrc-c54sg   1/1     Running   0          34s
+webrc-csz9c   1/1     Running   0          34s
+webrc-wvlvs   1/1     Running   0          34s
+saravanans@skillsasap-vm:~$ kubectl get pods
+NAME          READY   STATUS    RESTARTS   AGE
+webpod        1/1     Running   0          37m
+webpod2       1/1     Running   0          31m
+webrc-2slkc   1/1     Running   0          54s
+webrc-b5drh   1/1     Running   0          54s
+webrc-c54sg   1/1     Running   0          54s
+webrc-csz9c   1/1     Running   0          54s
+webrc-wvlvs   1/1     Running   0          54s
+saravanans@skillsasap-vm:~$ kubectl get pods
+NAME          READY   STATUS    RESTARTS   AGE
+webpod        1/1     Running   0          37m
+webpod2       1/1     Running   0          31m
+webrc-2slkc   1/1     Running   0          60s
+webrc-b5drh   1/1     Running   0          60s
+webrc-c54sg   1/1     Running   0          60s
+webrc-csz9c   1/1     Running   0          60s
+webrc-wvlvs   1/1     Running   0          60s
+saravanans@skillsasap-vm:~$ kubectl delete pod webrc-c54sg
+pod "webrc-c54sg" deleted
+saravanans@skillsasap-vm:~$ kubectl get pods
+NAME          READY   STATUS    RESTARTS   AGE
+webpod        1/1     Running   0          38m
+webpod2       1/1     Running   0          32m
+webrc-2slkc   1/1     Running   0          2m4s
+webrc-845zg   1/1     Running   0          6s
+webrc-b5drh   1/1     Running   0          2m4s
+webrc-csz9c   1/1     Running   0          2m4s
+webrc-wvlvs   1/1     Running   0          2m4s
+saravanans@skillsasap-vm:~$

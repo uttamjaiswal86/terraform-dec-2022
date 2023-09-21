@@ -1,0 +1,70 @@
+saravanans@myvm24:~/tf_file_provisioner$
+saravanans@myvm24:~/tf_file_provisioner$ vi local_provisioner.tf
+
+saravanans@myvm24:~/tf_file_provisioner$ cat local_provisioner.tf
+resource "null_resource" "touchfile" {
+	provisioner "local-exec" {
+		command = "touch /tmp/robochef-india.txt"
+	}
+}
+ 
+
+
+saravanans@myvm24:~/tf_file_provisioner$ terraform init && terraform apply --auto-approve
+
+Initializing the backend... 
+
+Initializing provider plugins...
+- Reusing previous version of hashicorp/null from the dependency lock file
+- Reusing previous version of hashicorp/azurerm from the dependency lock file
+- Using previously-installed hashicorp/null v3.2.1
+- Using previously-installed hashicorp/azurerm v3.71.0
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+azurerm_resource_group.myterraformgroup: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup]
+azurerm_public_ip.myterraformpublicip: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/publicIPAddresses/myPublicIP]
+azurerm_network_security_group.myterraformnsg: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup]
+azurerm_virtual_network.myterraformnetwork: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/myVnet]
+azurerm_subnet.myterraformsubnet: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet]
+null_resource.copy_file: Refreshing state... [id=464659077521778358]
+azurerm_network_interface.myterraformnic: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/myNIC]
+azurerm_network_interface_security_group_association.example: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/myNIC|/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup]
+azurerm_linux_virtual_machine.myterraformvm: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/admaticmyVM]
+
+Terraform used the selected providers to generate the
+following execution plan. Resource actions are indicated with
+the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # null_resource.touchfile will be created
+  + resource "null_resource" "touchfile" {
+      + id = (known after apply)
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+null_resource.touchfile: Creating...
+null_resource.touchfile: Provisioning with 'local-exec'...
+null_resource.touchfile (local-exec): Executing: ["/bin/sh" "-c" "touch /tmp/robochef-india.txt"]
+null_resource.touchfile: Creation complete after 0s [id=176668117799556098]
+
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+public_ip = "52.150.10.108"
+saravanans@myvm24:~/tf_file_provisioner$ ls /tmp/
+demofile.txt
+f1.txt
+ge4ZDj.txt
+robochef-india.txt
+

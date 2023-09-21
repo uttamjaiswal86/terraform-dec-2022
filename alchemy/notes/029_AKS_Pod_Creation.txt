@@ -1,0 +1,217 @@
+saravanans@skillsasap-vm:~$
+saravanans@skillsasap-vm:~$ kubectl get nodes
+NAME                              STATUS   ROLES   AGE    VERSION
+aks-default-11926793-vmss000000   Ready    agent   112m   v1.26.3
+aks-default-11926793-vmss000001   Ready    agent   112m   v1.26.3
+saravanans@skillsasap-vm:~$ kubectl get pods
+No resources found in default namespace.
+saravanans@skillsasap-vm:~$
+saravanans@skillsasap-vm:~$ kubectl describe pod
+No resources found in default namespace.
+saravanans@skillsasap-vm:~$ kubectl explain pod
+KIND:       Pod
+VERSION:    v1 
+
+DESCRIPTION:
+    Pod is a collection of containers that can run on a host. This resource is
+    created by clients and scheduled onto hosts.
+
+FIELDS:
+  apiVersion	<string>
+    APIVersion defines the versioned schema of this representation of an object.
+    Servers should convert recognized schemas to the latest internal value, and
+    may reject unrecognized values. More info:
+    https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+
+  kind	<string>
+    Kind is a string value representing the REST resource this object
+    represents. Servers may infer this from the endpoint the client submits
+    requests to. Cannot be updated. In CamelCase. More info:
+    https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+
+  metadata	<ObjectMeta>
+    Standard object's metadata. More info:
+    https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
+
+  spec	<PodSpec>
+    Specification of the desired behavior of the pod. More info:
+    https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
+
+  status	<PodStatus>
+    Most recently observed status of the pod. This data may not be up to date.
+    Populated by the system. Read-only. More info:
+    https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
+
+
+saravanans@skillsasap-vm:~$
+
+
+saravanans@skillsasap-vm:~$ vi webpod.yaml
+saravanans@skillsasap-vm:~$ cat webpod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webpod
+spec:
+  containers:
+  - name: myweb
+    image: httpd
+saravanans@skillsasap-vm:~$ kubectl get pods
+No resources found in default namespace.
+saravanans@skillsasap-vm:~$ kubectl apply -f webpod.yaml
+pod/webpod created
+saravanans@skillsasap-vm:~$ kubectl get pods
+NAME     READY   STATUS              RESTARTS   AGE
+webpod   0/1     ContainerCreating   0          5s
+saravanans@skillsasap-vm:~$ kubectl get pods
+NAME     READY   STATUS    RESTARTS   AGE
+webpod   1/1     Running   0          14s
+saravanans@skillsasap-vm:~$ kubectl get nodes
+NAME                              STATUS   ROLES   AGE    VERSION
+aks-default-11926793-vmss000000   Ready    agent   118m   v1.26.3
+aks-default-11926793-vmss000001   Ready    agent   118m   v1.26.3
+
+saravanans@skillsasap-vm:~$
+saravanans@skillsasap-vm:~$ kubectl get pods
+NAME     READY   STATUS    RESTARTS   AGE
+webpod   1/1     Running   0          3m52s
+saravanans@skillsasap-vm:~$ kubectl get pods -o wide
+NAME     READY   STATUS    RESTARTS   AGE   IP           NODE                              NOMINATED NODE   READINESS GATES
+webpod   1/1     Running   0          4m    10.244.1.2   aks-default-11926793-vmss000000   <none>           <none>
+saravanans@skillsasap-vm:~$ ls
+admatic_terraform_workspace  tf_azure_storage     tf_new_vm
+snap                         tf_docker_demo       tf_output_demo
+tf_aks_cluster               tf_lc                tf_random_demo
+tf_azure_network             tf_local_demo        tf_variables_intro
+tf_azure_rg_demo             tf_local_state_demo  webpod.yaml
+saravanans@skillsasap-vm:~$ vi redisPod.yaml
+saravanans@skillsasap-vm:~$ cat redisPod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: redisdb
+spec:
+  containers:
+  - name: myredis
+    image: redis
+
+saravanans@skillsasap-vm:~$ kubectl apply -f redisPod.yaml
+pod/redisdb created
+saravanans@skillsasap-vm:~$ kubectl get pods
+NAME      READY   STATUS    RESTARTS   AGE
+redisdb   1/1     Running   0          8s
+webpod    1/1     Running   0          5m7s
+saravanans@skillsasap-vm:~$ kubectl get nodes -o wide
+NAME                              STATUS   ROLES   AGE    VERSION   INTERNAL-IP   EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION      CONTAINER-RUNTIME
+aks-default-11926793-vmss000000   Ready    agent   122m   v1.26.3   10.224.0.4    <none>        Ubuntu 22.04.3 LTS   5.15.0-1041-azure   containerd://1.7.1+azure-1
+aks-default-11926793-vmss000001   Ready    agent   122m   v1.26.3   10.224.0.5    <none>        Ubuntu 22.04.3 LTS   5.15.0-1041-azure   containerd://1.7.1+azure-1
+
+saravanans@skillsasap-vm:~$ kubectl get pods
+NAME      READY   STATUS    RESTARTS   AGE
+redisdb   1/1     Running   0          48s
+webpod    1/1     Running   0          5m47s
+saravanans@skillsasap-vm:~$ kubectl get pods -o wide
+NAME      READY   STATUS    RESTARTS   AGE     IP           NODE                              NOMINATED NODE   READINESS GATES
+redisdb   1/1     Running   0          52s     10.244.1.3   aks-default-11926793-vmss000000   <none>           <none>
+webpod    1/1     Running   0          5m51s   10.244.1.2   aks-default-11926793-vmss000000   <none>           <none>
+saravanans@skillsasap-vm:~$ ls
+admatic_terraform_workspace  snap            tf_azure_network  tf_azure_storage  tf_lc          tf_local_state_demo  tf_output_demo  tf_variables_intro
+redisPod.yaml                tf_aks_cluster  tf_azure_rg_demo  tf_docker_demo    tf_local_demo  tf_new_vm            tf_random_demo  webpod.yaml
+saravanans@skillsasap-vm:~$ cp webpod.yaml webpod2.yaml
+saravanans@skillsasap-vm:~$ vi webpod2.yaml
+saravanans@skillsasap-vm:~$ cat webpod2.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webpod2
+spec:
+  containers:
+  - name: myweb
+    image: httpd
+saravanans@skillsasap-vm:~$ kubectl apply -f webpod2.yaml
+pod/webpod2 created
+saravanans@skillsasap-vm:~$ kubectl get pods
+NAME      READY   STATUS    RESTARTS   AGE
+redisdb   1/1     Running   0          103s
+webpod    1/1     Running   0          6m42s
+webpod2   1/1     Running   0          11s
+saravanans@skillsasap-vm:~$ kubectl get pods -o wide
+NAME      READY   STATUS    RESTARTS   AGE    IP           NODE                              NOMINATED NODE   READINESS GATES
+redisdb   1/1     Running   0          2m2s   10.244.1.3   aks-default-11926793-vmss000000   <none>           <none>
+webpod    1/1     Running   0          7m1s   10.244.1.2   aks-default-11926793-vmss000000   <none>           <none>
+webpod2   1/1     Running   0          30s    10.244.1.4   aks-default-11926793-vmss000000   <none>           <none>
+saravanans@skillsasap-vm:~$
+saravanans@skillsasap-vm:~$
+
+saravanans@skillsasap-vm24:~/tf_aks_cluster$ kubectl get pods -o wide
+NAME      READY   STATUS    RESTARTS   AGE    IP           NODE                              NOMINATED NODE   READINESS GATES
+webpod    1/1     Running   0          116s   10.244.1.3   aks-default-36921688-vmss000001   <none>           <none>
+webpod2   1/1     Running   0          9s     10.244.1.4   aks-default-36921688-vmss000001   <none>           <none>
+saravanans@skillsasap-vm24:~/tf_aks_cluster$
+saravanans@skillsasap-vm24:~/tf_aks_cluster$ kubectl describe pod webpod
+Name:             webpod
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             aks-default-36921688-vmss000001/10.224.0.4
+Start Time:       Thu, 21 Sep 2023 09:08:33 +0000
+Labels:           <none>
+Annotations:      <none>
+Status:           Running
+IP:               10.244.1.3
+IPs:
+  IP:  10.244.1.3
+Containers:
+  myweb:
+    Container ID:   containerd://329ab1c45a6631942daa839db235d750a70c1262a2c9a42608bdbae27acc58e2
+    Image:          httpd
+    Image ID:       docker.io/library/httpd@sha256:5123fb6e039b83a4319b668b4fe1ee04c4fbd7c4c8d1d6ef843e8a943a9aed3f
+    Port:           <none>
+    Host Port:      <none>
+    State:          Running
+      Started:      Thu, 21 Sep 2023 09:08:41 +0000
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-nt2zd (ro)
+Conditions:
+  Type              Status
+  Initialized       True
+  Ready             True
+  ContainersReady   True
+  PodScheduled      True
+Volumes:
+  kube-api-access-nt2zd:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age    From               Message
+  ----    ------     ----   ----               -------
+  Normal  Scheduled  2m57s  default-scheduler  Successfully assigned default/webpod to aks-default-36921688-vmss000001
+  Normal  Pulling    2m56s  kubelet            Pulling image "httpd"
+  Normal  Pulled     2m50s  kubelet            Successfully pulled image "httpd" in 6.658803842s (6.658809842s including waiting)
+  Normal  Created    2m50s  kubelet            Created container myweb
+  Normal  Started    2m49s  kubelet            Started container myweb
+saravanans@skillsasap-vm24:~/tf_aks_cluster$
+saravanans@skillsasap-vm24:~/tf_aks_cluster$ kubectl get pods
+NAME      READY   STATUS    RESTARTS   AGE
+webpod    1/1     Running   0          3m19s
+webpod2   1/1     Running   0          92s
+saravanans@skillsasap-vm24:~/tf_aks_cluster$ kubectl delete pod webpod2
+pod "webpod2" deleted
+saravanans@skillsasap-vm24:~/tf_aks_cluster$
+saravanans@skillsasap-vm24:~/tf_aks_cluster$ kubectl get pods
+NAME     READY   STATUS    RESTARTS   AGE
+webpod   1/1     Running   0          3m31s
+saravanans@skillsasap-vm24:~/tf_aks_cluster$
+
+
+

@@ -1,0 +1,59 @@
+saravanans@skillsasap-vm:~$
+saravanans@skillsasap-vm:~$ kubectl get rc
+NAME    DESIRED   CURRENT   READY   AGE
+webrc   5         5         5       17m
+saravanans@skillsasap-vm:~$ kubectl delete rc webrc
+replicationcontroller "webrc" deleted
+saravanans@skillsasap-vm:~$ kubectl get pods
+NAME      READY   STATUS    RESTARTS   AGE
+webpod    1/1     Running   0          54m 
+webpod2   1/1     Running   0          47m
+saravanans@skillsasap-vm:~$ vi deploymet_robochefweb.yaml
+saravanans@skillsasap-vm:~$ cat deploymet_robochefweb.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: robochefweb-deployment
+spec:
+  selector:
+    matchLabels:
+      app: robochef
+  replicas: 5
+  template:
+    metadata:
+      labels:
+        app: robochef
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+
+saravanans@skillsasap-vm:~$ kubectl apply -f deploymet_robochefweb.yaml
+deployment.apps/robochefweb-deployment created
+saravanans@skillsasap-vm:~$ kubectl get deploy
+NAME                     READY   UP-TO-DATE   AVAILABLE   AGE
+robochefweb-deployment   5/5     5            5           9s
+saravanans@skillsasap-vm:~$ kubectl get pods
+NAME                                      READY   STATUS    RESTARTS   AGE
+robochefweb-deployment-5dddb59c56-49kkm   1/1     Running   0          25s
+robochefweb-deployment-5dddb59c56-cz4c8   1/1     Running   0          25s
+robochefweb-deployment-5dddb59c56-f9r9s   1/1     Running   0          25s
+robochefweb-deployment-5dddb59c56-fgrjf   1/1     Running   0          25s
+robochefweb-deployment-5dddb59c56-z9x72   1/1     Running   0          25s
+webpod                                    1/1     Running   0          56m
+webpod2                                   1/1     Running   0          50m
+saravanans@skillsasap-vm:~$ kubectl delete pod robochefweb-deployment-5dddb59c56-z9x72
+pod "robochefweb-deployment-5dddb59c56-z9x72" deleted
+saravanans@skillsasap-vm:~$ kubectl get pods
+NAME                                      READY   STATUS    RESTARTS   AGE
+robochefweb-deployment-5dddb59c56-49kkm   1/1     Running   0          83s
+robochefweb-deployment-5dddb59c56-cz4c8   1/1     Running   0          83s
+robochefweb-deployment-5dddb59c56-f9r9s   1/1     Running   0          83s
+robochefweb-deployment-5dddb59c56-fgrjf   1/1     Running   0          83s
+robochefweb-deployment-5dddb59c56-sgkbh   1/1     Running   0          3s
+webpod                                    1/1     Running   0          57m
+webpod2                                   1/1     Running   0          51m
+saravanans@skillsasap-vm:~$
+

@@ -1,0 +1,57 @@
+saravanans@skillsasap-vm:~/tf_aks_cluster$
+saravanans@skillsasap-vm:~/tf_aks_cluster$ az aks list -o table
+Name                 Location    ResourceGroup       KubernetesVersion    CurrentKubernetesVersion    ProvisioningState    Fqdn
+-------------------  ----------  ------------------  -------------------  --------------------------  -------------------  -------------------------------------------------
+patient-mudfish-aks  westus      patient-mudfish-rg  1.26.3               1.26.3                      Succeeded            patient-mudfish-k8s-6r9rvtgf.hcp.westus.azmk8s.io
+saravanans@skillsasap-vm:~/tf_aks_cluster$ terraform refresh
+random_pet.prefix: Refreshing state... [id=patient-mudfish]
+azurerm_resource_group.default: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/patient-mudfish-rg]
+azurerm_kubernetes_cluster.default: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/patient-mudfish-rg/providers/Microsoft.ContainerService/managedClusters/patient-mudfish-aks]
+
+Outputs:
+
+kubernetes_cluster_name = "patient-mudfish-aks"
+resource_group_name = "patient-mudfish-rg"
+saravanans@skillsasap-vm:~/tf_aks_cluster$ kubectl
+ 
+Command 'kubectl' not found, but can be installed with:
+
+sudo snap install kubectl
+
+saravanans@skillsasap-vm:~/tf_aks_cluster$ sudo snap install kubectl --classic
+kubectl 1.28.1 from Canonical✓ installed
+saravanans@skillsasap-vm:~/tf_aks_cluster$ kubectl get nodes
+E0914 07:50:42.107008  131806 memcache.go:265] couldn't get current server API group list: Get "http://localhost:8080/api?timeout=32s": dial tcp 127.0.0.1:8080: connect: connection refused
+E0914 07:50:42.107306  131806 memcache.go:265] couldn't get current server API group list: Get "http://localhost:8080/api?timeout=32s": dial tcp 127.0.0.1:8080: connect: connection refused
+E0914 07:50:42.108586  131806 memcache.go:265] couldn't get current server API group list: Get "http://localhost:8080/api?timeout=32s": dial tcp 127.0.0.1:8080: connect: connection refused
+E0914 07:50:42.109896  131806 memcache.go:265] couldn't get current server API group list: Get "http://localhost:8080/api?timeout=32s": dial tcp 127.0.0.1:8080: connect: connection refused
+E0914 07:50:42.111138  131806 memcache.go:265] couldn't get current server API group list: Get "http://localhost:8080/api?timeout=32s": dial tcp 127.0.0.1:8080: connect: connection refused
+The connection to the server localhost:8080 was refused - did you specify the right host or port?
+saravanans@skillsasap-vm:~/tf_aks_cluster$
+saravanans@skillsasap-vm:~/tf_aks_cluster$ ls -a ~/.kube
+ls: cannot access '/home/saravanans/.kube': No such file or directory
+
+saravanans@skillsasap-vm:~/tf_aks_cluster$
+saravanans@skillsasap-vm:~/tf_aks_cluster$ az aks list -o table
+Name                 Location    ResourceGroup       KubernetesVersion    CurrentKubernetesVersion    ProvisioningState    Fqdn
+-------------------  ----------  ------------------  -------------------  --------------------------  -------------------  -------------------------------------------------
+patient-mudfish-aks  westus      patient-mudfish-rg  1.26.3               1.26.3                      Succeeded            patient-mudfish-k8s-6r9rvtgf.hcp.westus.azmk8s.io
+saravanans@skillsasap-vm:~/tf_aks_cluster$ terraform output
+kubernetes_cluster_name = "patient-mudfish-aks"
+resource_group_name = "patient-mudfish-rg"
+saravanans@skillsasap-vm:~/tf_aks_cluster$ az aks get-credentials  --resource-group  patient-mudfish-rg --name patient-mudfish-aks
+Merged "patient-mudfish-aks" as current context in /home/saravanans/.kube/config
+saravanans@skillsasap-vm:~/tf_aks_cluster$ ls -a ~/.kube
+.  ..  config
+saravanans@skillsasap-vm:~/tf_aks_cluster$ less /home/saravanans/.kube/config
+saravanans@skillsasap-vm:~/tf_aks_cluster$ kubectl get nodes
+NAME                              STATUS   ROLES   AGE   VERSION
+aks-default-11926793-vmss000000   Ready    agent   23m   v1.26.3
+aks-default-11926793-vmss000001   Ready    agent   23m   v1.26.3
+saravanans@skillsasap-vm:~/tf_aks_cluster$
+saravanans@skillsasap-vm:~/tf_aks_cluster$ kubectl get nodes
+NAME                              STATUS   ROLES   AGE   VERSION
+aks-default-11926793-vmss000000   Ready    agent   23m   v1.26.3
+aks-default-11926793-vmss000001   Ready    agent   23m   v1.26.3
+saravanans@skillsasap-vm:~/tf_aks_cluster$
+
