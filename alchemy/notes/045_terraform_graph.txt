@@ -1,0 +1,60 @@
+saravanans@skillsasap-vm66:~/tf_azurebackend_vm$ terraform graph
+digraph {
+	compound = "true"
+	newrank = "true"
+	subgraph "root" {
+		"[root] azurerm_linux_virtual_machine.myterraformvm (expand)" [label = "azurerm_linux_virtual_machine.myterraformvm", shape = "box"]
+		"[root] azurerm_network_interface.myterraformnic (expand)" [label = "azurerm_network_interface.myterraformnic", shape = "box"]
+		"[root] azurerm_network_interface_security_group_association.example (expand)" [label = "azurerm_network_interface_security_group_association.example", shape = "box"]
+		"[root] azurerm_network_security_group.myterraformnsg (expand)" [label = "azurerm_network_security_group.myterraformnsg", shape = "box"]
+		"[root] azurerm_public_ip.myterraformpublicip (expand)" [label = "azurerm_public_ip.myterraformpublicip", shape = "box"]
+		"[root] azurerm_resource_group.myterraformgroup (expand)" [label = "azurerm_resource_group.myterraformgroup", shape = "box"]
+		"[root] azurerm_subnet.myterraformsubnet (expand)" [label = "azurerm_subnet.myterraformsubnet", shape = "box"]
+		"[root] azurerm_virtual_network.myterraformnetwork (expand)" [label = "azurerm_virtual_network.myterraformnetwork", shape = "box"]
+		"[root] null_resource.pipcheck (expand)" [label = "null_resource.pipcheck", shape = "box"]
+		"[root] provider[\"registry.terraform.io/hashicorp/azurerm\"]" [label = "provider[\"registry.terraform.io/hashicorp/azurerm\"]", shape = "diamond"]
+		"[root] provider[\"registry.terraform.io/hashicorp/null\"]" [label = "provider[\"registry.terraform.io/hashicorp/null\"]", shape = "diamond"]
+		"[root] provider[\"registry.terraform.io/hashicorp/random\"]" [label = "provider[\"registry.terraform.io/hashicorp/random\"]", shape = "diamond"]
+		"[root] provider[\"registry.terraform.io/hashicorp/time\"]" [label = "provider[\"registry.terraform.io/hashicorp/time\"]", shape = "diamond"]
+		"[root] random_string.sshpassword (expand)" [label = "random_string.sshpassword", shape = "box"]
+		"[root] time_sleep.wait_30_seconds (expand)" [label = "time_sleep.wait_30_seconds", shape = "box"]
+		"[root] var.location" [label = "var.location", shape = "note"]
+		"[root] var.ssh_port" [label = "var.ssh_port", shape = "note"]
+		"[root] azurerm_linux_virtual_machine.myterraformvm (expand)" -> "[root] azurerm_network_interface.myterraformnic (expand)"
+		"[root] azurerm_linux_virtual_machine.myterraformvm (expand)" -> "[root] random_string.sshpassword (expand)"
+		"[root] azurerm_network_interface.myterraformnic (expand)" -> "[root] azurerm_subnet.myterraformsubnet (expand)"
+		"[root] azurerm_network_interface.myterraformnic (expand)" -> "[root] time_sleep.wait_30_seconds (expand)"
+		"[root] azurerm_network_interface_security_group_association.example (expand)" -> "[root] azurerm_network_interface.myterraformnic (expand)"
+		"[root] azurerm_network_interface_security_group_association.example (expand)" -> "[root] azurerm_network_security_group.myterraformnsg (expand)"
+		"[root] azurerm_network_security_group.myterraformnsg (expand)" -> "[root] azurerm_resource_group.myterraformgroup (expand)"
+		"[root] azurerm_network_security_group.myterraformnsg (expand)" -> "[root] var.ssh_port"
+		"[root] azurerm_public_ip.myterraformpublicip (expand)" -> "[root] azurerm_resource_group.myterraformgroup (expand)"
+		"[root] azurerm_resource_group.myterraformgroup (expand)" -> "[root] provider[\"registry.terraform.io/hashicorp/azurerm\"]"
+		"[root] azurerm_resource_group.myterraformgroup (expand)" -> "[root] var.location"
+		"[root] azurerm_subnet.myterraformsubnet (expand)" -> "[root] azurerm_virtual_network.myterraformnetwork (expand)"
+		"[root] azurerm_virtual_network.myterraformnetwork (expand)" -> "[root] azurerm_resource_group.myterraformgroup (expand)"
+		"[root] null_resource.pipcheck (expand)" -> "[root] provider[\"registry.terraform.io/hashicorp/null\"]"
+		"[root] null_resource.pipcheck (expand)" -> "[root] time_sleep.wait_30_seconds (expand)"
+		"[root] output.ssh_password (expand)" -> "[root] random_string.sshpassword (expand)"
+		"[root] output.vm_public_ip (expand)" -> "[root] azurerm_public_ip.myterraformpublicip (expand)"
+		"[root] provider[\"registry.terraform.io/hashicorp/azurerm\"] (close)" -> "[root] azurerm_linux_virtual_machine.myterraformvm (expand)"
+		"[root] provider[\"registry.terraform.io/hashicorp/azurerm\"] (close)" -> "[root] azurerm_network_interface_security_group_association.example (expand)"
+		"[root] provider[\"registry.terraform.io/hashicorp/null\"] (close)" -> "[root] null_resource.pipcheck (expand)"
+		"[root] provider[\"registry.terraform.io/hashicorp/random\"] (close)" -> "[root] random_string.sshpassword (expand)"
+		"[root] provider[\"registry.terraform.io/hashicorp/time\"] (close)" -> "[root] time_sleep.wait_30_seconds (expand)"
+		"[root] random_string.sshpassword (expand)" -> "[root] provider[\"registry.terraform.io/hashicorp/random\"]"
+		"[root] root" -> "[root] output.ssh_password (expand)"
+		"[root] root" -> "[root] output.vm_public_ip (expand)"
+		"[root] root" -> "[root] provider[\"registry.terraform.io/hashicorp/azurerm\"] (close)"
+		"[root] root" -> "[root] provider[\"registry.terraform.io/hashicorp/null\"] (close)"
+		"[root] root" -> "[root] provider[\"registry.terraform.io/hashicorp/random\"] (close)"
+		"[root] root" -> "[root] provider[\"registry.terraform.io/hashicorp/time\"] (close)"
+		"[root] time_sleep.wait_30_seconds (expand)" -> "[root] azurerm_public_ip.myterraformpublicip (expand)"
+		"[root] time_sleep.wait_30_seconds (expand)" -> "[root] provider[\"registry.terraform.io/hashicorp/time\"]"
+	}
+}
+
+saravanans@skillsasap-vm66:~/tf_azurebackend_vm$ terraform graph | dot -Tsvg > /var/www/html/graph.svg
+saravanans@skillsasap-vm66:~/tf_azurebackend_vm$
+
+## open the graph.svg on imag viewer or browser 

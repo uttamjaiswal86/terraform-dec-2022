@@ -1,0 +1,285 @@
+saravanans@skillsasap-vm66:~/tf_locals_intro$ nano timeexp.tf
+saravanans@skillsasap-vm66:~/tf_locals_intro$ cat timeexp.tf
+locals {
+
+ts = timestamp()
+current_month = formatdate("MMMM",local.ts)
+today = formatdate("DD",local.ts)
+
+}
+
+output "datetime" {
+   value = "${local.ts}"
+}
+saravanans@skillsasap-vm66:~/tf_locals_intro$ nano timeexp.tf
+saravanans@skillsasap-vm66:~/tf_locals_intro$ cat timeexp.tf
+locals {
+
+ts = timestamp()
+current_month = formatdate("MMMM",local.ts)
+today = formatdate("DD",local.ts)
+
+}
+
+output "datetime" {
+   value = "${local.ts} and current month is ${local.current_month}, today ${local.today} "
+}
+saravanans@skillsasap-vm66:~/tf_locals_intro$ terraform apply
+random_string.rgprefix: Refreshing state... [id=w5A6BOvK7]
+azurerm_resource_group.myrg["blue"]: Refreshing state... [id=/subscriptions/2ce1752d-7718-4bd5-9b65-6510638e11fc/resourceGroups/w5A6BOvK7rgdemo15-blue]
+azurerm_resource_group.myrg["orange"]: Refreshing state... [id=/subscriptions/2ce1752d-7718-4bd5-9b65-6510638e11fc/resourceGroups/w5A6BOvK7rgdemo15-orange]
+azurerm_resource_group.myrg["green"]: Refreshing state... [id=/subscriptions/2ce1752d-7718-4bd5-9b65-6510638e11fc/resourceGroups/w5A6BOvK7rgdemo15-green]
+azurerm_resource_group.myrg["red"]: Refreshing state... [id=/subscriptions/2ce1752d-7718-4bd5-9b65-6510638e11fc/resourceGroups/w5A6BOvK7rgdemo15-red]
+
+Changes to Outputs:
+  ~ datetime  = "2023-09-22T05:35:42Z" -> (known after apply)
+
+You can apply this plan to save these new output values to the Terraform
+state, without changing any real infrastructure.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+datetime = "2023-09-22T05:38:04Z and current month is September, today 22 "
+l2 = [
+  "red",
+  "blue",
+  "orange",
+  "green",
+]
+localdemo = "Sum of 15 30 is 45"
+saravanans@skillsasap-vm66:~/tf_locals_intro$ nano main.tf
+saravanans@skillsasap-vm66:~/tf_locals_intro$ nano timeexp.tf
+saravanans@skillsasap-vm66:~/tf_locals_intro$ cat timeexp.tf
+locals {
+
+ts = timestamp()
+current_month = formatdate("MMMM",local.ts)
+today = formatdate("DD",local.ts)
+tomorrow = formatdate("DD", timeadd(local.ts, "24h"))
+
+}
+
+output "datetime" {
+   value = "${local.ts} and current month is ${local.current_month}, today ${local.today} tomorrow ${local.tomorrow}"
+
+}
+saravanans@skillsasap-vm66:~/tf_locals_intro$ terraform apply
+random_string.rgprefix: Refreshing state... [id=w5A6BOvK7]
+azurerm_resource_group.myrg["blue"]: Refreshing state... [id=/subscriptions/2ce1752d-7718-4bd5-9b65-6510638e11fc/resourceGroups/w5A6BOvK7rgdemo15-blue]
+azurerm_resource_group.myrg["green"]: Refreshing state... [id=/subscriptions/2ce1752d-7718-4bd5-9b65-6510638e11fc/resourceGroups/w5A6BOvK7rgdemo15-green]
+azurerm_resource_group.myrg["red"]: Refreshing state... [id=/subscriptions/2ce1752d-7718-4bd5-9b65-6510638e11fc/resourceGroups/w5A6BOvK7rgdemo15-red]
+azurerm_resource_group.myrg["orange"]: Refreshing state... [id=/subscriptions/2ce1752d-7718-4bd5-9b65-6510638e11fc/resourceGroups/w5A6BOvK7rgdemo15-orange]
+
+Changes to Outputs:
+  ~ datetime  = "2023-09-22T05:38:04Z and current month is September, today 22 " -> (known after apply)
+
+You can apply this plan to save these new output values to the Terraform
+state, without changing any real infrastructure.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+datetime = "2023-09-22T05:39:21Z and current month is September, today 22 tomorrow 23"
+l2 = [
+  "red",
+  "blue",
+  "orange",
+  "green",
+]
+localdemo = "Sum of 15 30 is 45"
+saravanans@skillsasap-vm66:~/tf_locals_intro$ nano timeexp.tf
+saravanans@skillsasap-vm66:~/tf_locals_intro$ cat timeexp.tf
+locals {
+
+ts = timestamp()
+current_month = formatdate("MMMM",local.ts)
+today = formatdate("DD",local.ts)
+tomorrow = formatdate("DD", timeadd(local.ts, "24h"))
+
+}
+
+output "datetime" {
+   value = "${local.ts} and current month is ${local.current_month}, today ${local.today} tomorrow ${local.tomorrow}"
+
+}
+
+locals {
+  lcase = "${lower("A mixed case String")}"
+  ucase = "${upper("a lower case string")}"
+}
+
+output "string_functions" {
+  value = "${local.ucase} and ${local.lcase}"
+}
+saravanans@skillsasap-vm66:~/tf_locals_intro$ terraform apply
+random_string.rgprefix: Refreshing state... [id=w5A6BOvK7]
+azurerm_resource_group.myrg["blue"]: Refreshing state... [id=/subscriptions/2ce1752d-7718-4bd5-9b65-6510638e11fc/resourceGroups/w5A6BOvK7rgdemo15-blue]
+azurerm_resource_group.myrg["green"]: Refreshing state... [id=/subscriptions/2ce1752d-7718-4bd5-9b65-6510638e11fc/resourceGroups/w5A6BOvK7rgdemo15-green]
+azurerm_resource_group.myrg["red"]: Refreshing state... [id=/subscriptions/2ce1752d-7718-4bd5-9b65-6510638e11fc/resourceGroups/w5A6BOvK7rgdemo15-red]
+azurerm_resource_group.myrg["orange"]: Refreshing state... [id=/subscriptions/2ce1752d-7718-4bd5-9b65-6510638e11fc/resourceGroups/w5A6BOvK7rgdemo15-orange]
+
+Changes to Outputs:
+  ~ datetime         = "2023-09-22T05:39:21Z and current month is September, today 22 tomorrow 23" -> (known after apply)
+  + string_functions = "A LOWER CASE STRING and a mixed case string"
+
+You can apply this plan to save these new output values to the Terraform
+state, without changing any real infrastructure.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+datetime = "2023-09-22T05:40:34Z and current month is September, today 22 tomorrow 23"
+l2 = [
+  "red",
+  "blue",
+  "orange",
+  "green",
+]
+localdemo = "Sum of 15 30 is 45"
+string_functions = "A LOWER CASE STRING and a mixed case string"
+saravanans@skillsasap-vm66:~/tf_locals_intro$
+saravanans@skillsasap-vm66:~/tf_locals_intro$ nano timeexp.tf
+saravanans@skillsasap-vm66:~/tf_locals_intro$ nano timeexp.tf
+saravanans@skillsasap-vm66:~/tf_locals_intro$ cat timeexp.tf
+locals {
+
+ts = timestamp()
+current_month = formatdate("MMMM",local.ts)
+today = formatdate("DD",local.ts)
+tomorrow = formatdate("DD", timeadd(local.ts, "24h"))
+
+}
+
+output "datetime" {
+   value = "${local.ts} and current month is ${local.current_month}, today ${local.today} tomorrow ${local.tomorrow}"
+
+}
+
+locals {
+  lcase = "${lower("A mixed case String")}"
+  ucase = "${upper("a lower case string")}"
+trimmed = "${trimspace(" A string with leading and trailing spaces    ")}"
+}
+
+output "string_functions" {
+  value = "${local.ucase} and ${local.lcase} , ${local.trimmed} "
+}
+saravanans@skillsasap-vm66:~/tf_locals_intro$ terraform apply
+random_string.rgprefix: Refreshing state... [id=w5A6BOvK7]
+azurerm_resource_group.myrg["green"]: Refreshing state... [id=/subscriptions/2ce1752d-7718-4bd5-9b65-6510638e11fc/resourceGroups/w5A6BOvK7rgdemo15-green]
+azurerm_resource_group.myrg["orange"]: Refreshing state... [id=/subscriptions/2ce1752d-7718-4bd5-9b65-6510638e11fc/resourceGroups/w5A6BOvK7rgdemo15-orange]
+azurerm_resource_group.myrg["blue"]: Refreshing state... [id=/subscriptions/2ce1752d-7718-4bd5-9b65-6510638e11fc/resourceGroups/w5A6BOvK7rgdemo15-blue]
+azurerm_resource_group.myrg["red"]: Refreshing state... [id=/subscriptions/2ce1752d-7718-4bd5-9b65-6510638e11fc/resourceGroups/w5A6BOvK7rgdemo15-red]
+
+Changes to Outputs:
+  ~ datetime         = "2023-09-22T05:40:34Z and current month is September, today 22 tomorrow 23" -> (known after apply)
+  ~ string_functions = "A LOWER CASE STRING and a mixed case string" -> "A LOWER CASE STRING and a mixed case string , A string with leading and trailing spaces "
+
+You can apply this plan to save these new output values to the Terraform
+state, without changing any real infrastructure.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+datetime = "2023-09-22T05:43:10Z and current month is September, today 22 tomorrow 23"
+l2 = [
+  "red",
+  "blue",
+  "orange",
+  "green",
+]
+localdemo = "Sum of 15 30 is 45"
+string_functions = "A LOWER CASE STRING and a mixed case string , A string with leading and trailing spaces "
+saravanans@skillsasap-vm66:~/tf_locals_intro$
+saravanans@skillsasap-vm66:~/tf_locals_intro$
+saravanans@skillsasap-vm66:~/tf_locals_intro$ nano for_demo.tf
+saravanans@skillsasap-vm66:~/tf_locals_intro$ cat for_demo.tf
+locals {
+  n = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  evens = [ for u in local.n: u if u % 2 == 0 ]
+}
+
+output "filtered" {
+  value = local.evens
+}
+saravanans@skillsasap-vm66:~/tf_locals_intro$ terraform apply
+random_string.rgprefix: Refreshing state... [id=w5A6BOvK7]
+azurerm_resource_group.myrg["green"]: Refreshing state... [id=/subscriptions/2ce1752d-7718-4bd5-9b65-6510638e11fc/resourceGroups/w5A6BOvK7rgdemo15-green]
+azurerm_resource_group.myrg["red"]: Refreshing state... [id=/subscriptions/2ce1752d-7718-4bd5-9b65-6510638e11fc/resourceGroups/w5A6BOvK7rgdemo15-red]
+azurerm_resource_group.myrg["orange"]: Refreshing state... [id=/subscriptions/2ce1752d-7718-4bd5-9b65-6510638e11fc/resourceGroups/w5A6BOvK7rgdemo15-orange]
+azurerm_resource_group.myrg["blue"]: Refreshing state... [id=/subscriptions/2ce1752d-7718-4bd5-9b65-6510638e11fc/resourceGroups/w5A6BOvK7rgdemo15-blue]
+
+Changes to Outputs:
+  ~ datetime         = "2023-09-22T05:43:10Z and current month is September, today 22 tomorrow 23" -> (known after apply)
+  + filtered         = [
+      + 0,
+      + 2,
+      + 4,
+      + 6,
+      + 8,
+    ]
+
+You can apply this plan to save these new output values to the Terraform
+state, without changing any real infrastructure.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+datetime = "2023-09-22T05:46:35Z and current month is September, today 22 tomorrow 23"
+filtered = [
+  0,
+  2,
+  4,
+  6,
+  8,
+]
+l2 = [
+  "red",
+  "blue",
+  "orange",
+  "green",
+]
+localdemo = "Sum of 15 30 is 45"
+string_functions = "A LOWER CASE STRING and a mixed case string , A string with leading and trailing spaces "
+saravanans@skillsasap-vm66:~/tf_locals_intro$

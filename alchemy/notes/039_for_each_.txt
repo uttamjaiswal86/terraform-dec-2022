@@ -1,0 +1,156 @@
+saravanans@skillsasap-vm66:~/tf_locals_intro$ cat main.tf
+resource "azurerm_resource_group" "myrg" {
+	for_each = local.a_list
+	name = "${random_string.rgprefix.result}rgdemo${local.a_number}-${each.key}"
+	location = "westus"
+}
+
+resource "random_string" "rgprefix" {
+   length = "9"
+   special = false
+}
+
+locals {
+  a_string = "Robochef is an automated robotic kitchen"
+  a_number = 15
+  a_boolean = true
+  b_number = 30
+  absum = local.a_number + local.b_number
+
+  add = 300 + 500
+  sub = 500 - 100
+  multip = 20 * 600
+
+  a_list = ["red","blue","orange","green"]
+
+}
+
+
+output "localdemo" {
+  value = "Sum of ${local.a_number} ${local.b_number} is ${local.absum}"
+}
+
+output "l2" {
+  value = local.a_list
+}
+
+saravanans@skillsasap-vm66:~/tf_locals_intro$
+
+saravanans@skillsasap-vm66:~/tf_locals_intro$ cat main.tf
+resource "azurerm_resource_group" "myrg" {
+	for_each = toset(local.a_list)
+	name = "${random_string.rgprefix.result}rgdemo${local.a_number}-${each.key}"
+	location = "westus"
+}
+
+resource "random_string" "rgprefix" {
+   length = "9"
+   special = false
+}
+
+locals {
+  a_string = "Robochef is an automated robotic kitchen"
+  a_number = 15
+  a_boolean = true
+  b_number = 30
+  absum = local.a_number + local.b_number
+
+  add = 300 + 500
+  sub = 500 - 100
+  multip = 20 * 600
+
+  a_list = ["red","blue","orange","green"]
+
+}
+
+
+output "localdemo" {
+  value = "Sum of ${local.a_number} ${local.b_number} is ${local.absum}"
+}
+
+output "l2" {
+  value = local.a_list
+}
+
+saravanans@skillsasap-vm66:~/tf_locals_intro$ terraform apply
+random_string.rgprefix: Refreshing state... [id=w5A6BOvK7]
+azurerm_resource_group.myrg: Refreshing state... [id=/subscriptions/2ce1752d-7718-4bd5-9b65-6510638e11fc/resourceGroups/w5A6BOvK7rgdemo15]
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are
+indicated with the following symbols:
+  + create
+  - destroy
+
+Terraform will perform the following actions:
+
+  # azurerm_resource_group.myrg will be destroyed
+  # (because resource uses count or for_each)
+  - resource "azurerm_resource_group" "myrg" {
+      - id       = "/subscriptions/2ce1752d-7718-4bd5-9b65-6510638e11fc/resourceGroups/w5A6BOvK7rgdemo15" -> null
+      - location = "westus" -> null
+      - name     = "w5A6BOvK7rgdemo15" -> null
+      - tags     = {} -> null
+    }
+
+  # azurerm_resource_group.myrg["blue"] will be created
+  + resource "azurerm_resource_group" "myrg" {
+      + id       = (known after apply)
+      + location = "westus"
+      + name     = "w5A6BOvK7rgdemo15-blue"
+    }
+
+  # azurerm_resource_group.myrg["green"] will be created
+  + resource "azurerm_resource_group" "myrg" {
+      + id       = (known after apply)
+      + location = "westus"
+      + name     = "w5A6BOvK7rgdemo15-green"
+    }
+
+  # azurerm_resource_group.myrg["orange"] will be created
+  + resource "azurerm_resource_group" "myrg" {
+      + id       = (known after apply)
+      + location = "westus"
+      + name     = "w5A6BOvK7rgdemo15-orange"
+    }
+
+  # azurerm_resource_group.myrg["red"] will be created
+  + resource "azurerm_resource_group" "myrg" {
+      + id       = (known after apply)
+      + location = "westus"
+      + name     = "w5A6BOvK7rgdemo15-red"
+    }
+
+Plan: 4 to add, 0 to change, 1 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+azurerm_resource_group.myrg: Destroying... [id=/subscriptions/2ce1752d-7718-4bd5-9b65-6510638e11fc/resourceGroups/w5A6BOvK7rgdemo15]
+azurerm_resource_group.myrg["green"]: Creating...
+azurerm_resource_group.myrg["orange"]: Creating...
+azurerm_resource_group.myrg["red"]: Creating...
+azurerm_resource_group.myrg["blue"]: Creating...
+azurerm_resource_group.myrg["green"]: Creation complete after 2s [id=/subscriptions/2ce1752d-7718-4bd5-9b65-6510638e11fc/resourceGroups/w5A6BOvK7rgdemo15-green]
+azurerm_resource_group.myrg["orange"]: Creation complete after 3s [id=/subscriptions/2ce1752d-7718-4bd5-9b65-6510638e11fc/resourceGroups/w5A6BOvK7rgdemo15-orange]
+azurerm_resource_group.myrg["blue"]: Creation complete after 3s [id=/subscriptions/2ce1752d-7718-4bd5-9b65-6510638e11fc/resourceGroups/w5A6BOvK7rgdemo15-blue]
+azurerm_resource_group.myrg["red"]: Creation complete after 3s [id=/subscriptions/2ce1752d-7718-4bd5-9b65-6510638e11fc/resourceGroups/w5A6BOvK7rgdemo15-red]
+azurerm_resource_group.myrg: Still destroying... [id=/subscriptions/2ce1752d-7718-4bd5-9b65-...e11fc/resourceGroups/w5A6BOvK7rgdemo15, 10s elapsed]
+azurerm_resource_group.myrg: Destruction complete after 18s
+
+Apply complete! Resources: 4 added, 0 changed, 1 destroyed.
+
+Outputs:
+
+l2 = [
+  "red",
+  "blue",
+  "orange",
+  "green",
+]
+localdemo = "Sum of 15 30 is 45"
+saravanans@skillsasap-vm66:~/tf_locals_intro$
+
+

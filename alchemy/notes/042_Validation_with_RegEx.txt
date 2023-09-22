@@ -1,0 +1,217 @@
+saravanans@myvm24:~/tf_var_validation$
+saravanans@myvm24:~/tf_var_validation$ ls
+main.tf  providers.tf  terraform.tfstate  variables.tf
+saravanans@myvm24:~/tf_var_validation$
+saravanans@myvm24:~/tf_var_validation$
+saravanans@myvm24:~/tf_var_validation$ vi variables.tf
+saravanans@myvm24:~/tf_var_validation$
+saravanans@myvm24:~/tf_var_validation$
+saravanans@myvm24:~/tf_var_validation$
+saravanans@myvm24:~/tf_var_validation$
+saravanans@myvm24:~/tf_var_validation$ vi variables.tf
+saravanans@myvm24:~/tf_var_validation$ cat variables.tf
+variable "location" {
+        description = "used to mention the resourc group location"
+        default = "westus"
+}
+
+variable "suffix" {
+  description = "numerical suffix for rg"
+  dafault = "12345"
+  validation {
+    condition = length(var.suffix) > 3
+    error_message = "give atleast a 4 digit numeric value"
+
+  } 
+}
+
+variable "environment" {
+  description = "The environment short name to use for the deployed resources."
+  validation {
+    condition     = can(regex("^dev$|^uat$|^prd$", var.environment))
+    error_message = "invalid env name"
+  }
+}
+
+saravanans@myvm24:~/tf_var_validation$ vi variables.tf
+saravanans@myvm24:~/tf_var_validation$ cat variables.tf
+variable "location" {
+        description = "used to mention the resourc group location"
+        default = "westus"
+}
+
+variable "suffix" {
+  description = "numerical suffix for rg"
+  default = 12345
+  validation {
+    condition = length(var.suffix) > 3
+    error_message = "give atleast a 4 digit numeric value"
+
+  }
+}
+
+variable "environment" {
+  description = "The environment short name to use for the deployed resources."
+  validation {
+    condition     = can(regex("^dev$|^uat$|^prd$", var.environment))
+    error_message = "invalid env name"
+  }
+}
+
+saravanans@myvm24:~/tf_var_validation$ vi main.tf
+saravanans@myvm24:~/tf_var_validation$ cat main.tf
+resource "azurerm_resource_group" "rg" {
+  name = "${var.environment}${var.suffix}robochefRG"
+  # location = "westus"
+  location = var.location
+}
+
+
+saravanans@myvm24:~/tf_var_validation$ terraform apply
+var.environment
+  The environment short name to use for the deployed resources.
+
+  Enter a value: bofam
+
+╷
+│ Error: Invalid value for variable
+│
+│   on variables.tf line 16:
+│   16: variable "environment" {
+│     ├────────────────
+│     │ var.environment is "bofam"
+│
+│ invalid env name
+│
+│ This was checked by the validation rule at variables.tf:18,3-13.
+╵
+saravanans@myvm24:~/tf_var_validation$ vi variables.tf
+saravanans@myvm24:~/tf_var_validation$
+saravanans@myvm24:~/tf_var_validation$
+saravanans@myvm24:~/tf_var_validation$ terraform apply
+var.environment
+  The environment short name to use for the deployed resources.
+
+  Enter a value: dev
+
+╷
+│ Error: Error in function call
+│
+│   on variables.tf line 10, in variable "suffix":
+│   10:     condition = length(var.suffix) > 3
+│     ├────────────────
+│     │ while calling length(value)
+│     │ var.suffix is 12345
+│
+│ Call to function "length" failed: argument must be a string, a collection type, or a structural type.
+╵
+saravanans@myvm24:~/tf_var_validation$ vi variables.tf
+saravanans@myvm24:~/tf_var_validation$ terraform apply
+var.environment
+  The environment short name to use for the deployed resources.
+
+  Enter a value: dev
+
+azurerm_resource_group.rg: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/1234robochefRG]
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the
+following symbols:
+-/+ destroy and then create replacement
+
+Terraform will perform the following actions:
+
+  # azurerm_resource_group.rg must be replaced
+-/+ resource "azurerm_resource_group" "rg" {
+      ~ id       = "/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/1234robochefRG" -> (known after apply)
+      ~ name     = "1234robochefRG" -> "dev12345robochefRG" # forces replacement
+      - tags     = {} -> null
+        # (1 unchanged attribute hidden)
+    }
+
+Plan: 1 to add, 0 to change, 1 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+azurerm_resource_group.rg: Destroying... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/1234robochefRG]
+azurerm_resource_group.rg: Still destroying... [id=/subscriptions/d9bd5677-040c-4455-a75e-...c2c503f9/resourceGroups/1234robochefRG, 10s elapsed]
+azurerm_resource_group.rg: Still destroying... [id=/subscriptions/d9bd5677-040c-4455-a75e-...c2c503f9/resourceGroups/1234robochefRG, 20s elapsed]
+azurerm_resource_group.rg: Still destroying... [id=/subscriptions/d9bd5677-040c-4455-a75e-...c2c503f9/resourceGroups/1234robochefRG, 30s elapsed]
+azurerm_resource_group.rg: Still destroying... [id=/subscriptions/d9bd5677-040c-4455-a75e-...c2c503f9/resourceGroups/1234robochefRG, 40s elapsed]
+azurerm_resource_group.rg: Still destroying... [id=/subscriptions/d9bd5677-040c-4455-a75e-...c2c503f9/resourceGroups/1234robochefRG, 50s elapsed]
+azurerm_resource_group.rg: Still destroying... [id=/subscriptions/d9bd5677-040c-4455-a75e-...c2c503f9/resourceGroups/1234robochefRG, 1m0s elapsed]
+azurerm_resource_group.rg: Still destroying... [id=/subscriptions/d9bd5677-040c-4455-a75e-...c2c503f9/resourceGroups/1234robochefRG, 1m10s elapsed]
+azurerm_resource_group.rg: Destruction complete after 1m18s
+azurerm_resource_group.rg: Creating...
+azurerm_resource_group.rg: Creation complete after 1s [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/dev12345robochefRG]
+
+Apply complete! Resources: 1 added, 0 changed, 1 destroyed.
+saravanans@myvm24:~/tf_var_validation$ terraform apply
+var.environment
+  The environment short name to use for the deployed resources.
+
+  Enter a value: stage
+
+╷
+│ Error: Invalid value for variable
+│
+│   on variables.tf line 16:
+│   16: variable "environment" {
+│     ├────────────────
+│     │ var.environment is "stage"
+│
+│ invalid env name
+│
+│ This was checked by the validation rule at variables.tf:18,3-13.
+╵
+saravanans@myvm24:~/tf_var_validation$ terraform apply
+var.environment
+  The environment short name to use for the deployed resources.
+  
+    Enter a value: prd
+
+azurerm_resource_group.rg: Refreshing state... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/dev12345robochefRG]
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the
+following symbols:
+-/+ destroy and then create replacement
+
+Terraform will perform the following actions:
+
+  # azurerm_resource_group.rg must be replaced
+-/+ resource "azurerm_resource_group" "rg" {
+      ~ id       = "/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/dev12345robochefRG" -> (known after apply)
+      ~ name     = "dev12345robochefRG" -> "prd12345robochefRG" # forces replacement
+      - tags     = {} -> null
+        # (1 unchanged attribute hidden)
+    }
+
+Plan: 1 to add, 0 to change, 1 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+azurerm_resource_group.rg: Destroying... [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/dev12345robochefRG]
+azurerm_resource_group.rg: Still destroying... [id=/subscriptions/d9bd5677-040c-4455-a75e-...03f9/resourceGroups/dev12345robochefRG, 10s elapsed]
+azurerm_resource_group.rg: Still destroying... [id=/subscriptions/d9bd5677-040c-4455-a75e-...03f9/resourceGroups/dev12345robochefRG, 20s elapsed]
+azurerm_resource_group.rg: Still destroying... [id=/subscriptions/d9bd5677-040c-4455-a75e-...03f9/resourceGroups/dev12345robochefRG, 30s elapsed]
+azurerm_resource_group.rg: Still destroying... [id=/subscriptions/d9bd5677-040c-4455-a75e-...03f9/resourceGroups/dev12345robochefRG, 40s elapsed]
+azurerm_resource_group.rg: Still destroying... [id=/subscriptions/d9bd5677-040c-4455-a75e-...03f9/resourceGroups/dev12345robochefRG, 50s elapsed]
+azurerm_resource_group.rg: Still destroying... [id=/subscriptions/d9bd5677-040c-4455-a75e-...03f9/resourceGroups/dev12345robochefRG, 1m0s elapsed]
+azurerm_resource_group.rg: Still destroying... [id=/subscriptions/d9bd5677-040c-4455-a75e-...03f9/resourceGroups/dev12345robochefRG, 1m10s elapsed]
+azurerm_resource_group.rg: Destruction complete after 1m17s
+azurerm_resource_group.rg: Creating...
+azurerm_resource_group.rg: Creation complete after 1s [id=/subscriptions/d9bd5677-040c-4455-a75e-5830c2c503f9/resourceGroups/prd12345robochefRG]
+
+Apply complete! Resources: 1 added, 0 changed, 1 destroyed.
+saravanans@myvm24:~/tf_var_validation$
+saravanans@myvm24:~/tf_var_validation$
+saravanans@myvm24:~/tf_var_validation$
+saravanans@myvm24:~/tf_var_validation$
+saravanans@myvm24:~/tf_var_validation$

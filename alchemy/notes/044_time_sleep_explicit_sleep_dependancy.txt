@@ -1,0 +1,158 @@
+saravanans@skillsasap-vm66:~/tf_azurebackend_vm$
+saravanans@skillsasap-vm66:~/tf_azurebackend_vm$ ls
+main.tf          providers.tf       terraform.tfstate.backup
+outputs.tf       terraform.tf       terraform.tfvars
+precondition.tf  terraform.tfstate  variables.tf
+saravanans@skillsasap-vm66:~/tf_azurebackend_vm$ cat main.tf
+resource "azurerm_resource_group" "myterraformgroup" {
+  name     = "myadmatic-rg-network-demo"
+  location = var.location
+}
+
+resource "azurerm_virtual_network" "myterraformnetwork" {
+  name                = "myVnet"
+  address_space       = ["10.0.0.0/16"]
+  location            = var.location
+  resource_group_name = azurerm_resource_group.myterraformgroup.name
+}
+
+resource "azurerm_subnet" "myterraformsubnet" {
+  name                 = "mySubnnet"
+  resource_group_name  = azurerm_resource_group.myterraformgroup.name
+  virtual_network_name = azurerm_virtual_network.myterraformnetwork.name
+  address_prefixes     = ["10.0.1.0/24"]
+}
+
+resource "azurerm_network_security_group" "myterraformnsg" {
+  name                = "myNetworkSecurityGroup"
+  location            = var.location
+  resource_group_name = azurerm_resource_group.myterraformgroup.name
+
+  security_rule {
+    name                       = "Web"
+    priority                   = 1001
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = var.ssh_port
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+}
+
+resource "azurerm_network_interface" "myterraformnic" {
+  name                = "myNIC"
+  location            = var.location
+  resource_group_name = azurerm_resource_group.myterraformgroup.name
+
+  ip_configuration {
+    name                          = "myNicConfiguration"
+    subnet_id                     = azurerm_subnet.myterraformsubnet.id
+    private_ip_address_allocation = "Dynamic"
+    public_ip_address_id        = azurerm_public_ip.myterraformpublicip.id
+  }
+  depends_on = [time_sleep.wait_30_seconds]
+}
+
+
+resource "azurerm_network_interface_security_group_association" "example" {
+  network_interface_id      = azurerm_network_interface.myterraformnic.id
+  network_security_group_id = azurerm_network_security_group.myterraformnsg.id
+}
+
+resource "azurerm_public_ip" "myterraformpublicip" {
+  name                = "myPublicIP"
+  location            = var.location
+  resource_group_name = azurerm_resource_group.myterraformgroup.name
+  allocation_method   = "Dynamic"
+
+}
+
+resource "azurerm_linux_virtual_machine" "myterraformvm" {
+  name                  = "myAdmaticVM"
+  location              = var.location
+  resource_group_name   = azurerm_resource_group.myterraformgroup.name
+  network_interface_ids = [azurerm_network_interface.myterraformnic.id]
+
+  size = "Standard_B2s"
+
+  os_disk {
+    name                 = "myOsDisk"
+    caching              = "ReadWrite"
+    storage_account_type = "Premium_LRS"
+  }
+
+  source_image_reference {
+    publisher = "Canonical"
+    offer     = "UbuntuServer"
+    sku       = "18.04-LTS"
+    version   = "latest"
+  }
+
+  admin_username                  = "saravanans"
+  admin_password                  = random_string.sshpassword.result
+  disable_password_authentication = false
+}
+
+resource "random_string" "sshpassword" {
+  length  = 20
+  special = true
+}
+
+saravanans@skillsasap-vm66:~/tf_azurebackend_vm$ cat variables.tf
+variable "location" {
+        description = "location for the azure resources "
+       default = "eastus"
+}
+
+variable "ssh_port" {
+  description = "port number of ssh on vm"
+}
+
+
+saravanans@skillsasap-vm66:~/tf_azurebackend_vm$ cat terraform.tfvars
+ssh_port = "22"
+location = "eastus"
+saravanans@skillsasap-vm66:~/tf_azurebackend_vm$
+saravanans@skillsasap-vm66:~/tf_azurebackend_vm$ ls
+main.tf          providers.tf       terraform.tfstate.backup
+outputs.tf       terraform.tf       terraform.tfvars
+precondition.tf  terraform.tfstate  variables.tf
+saravanans@skillsasap-vm66:~/tf_azurebackend_vm$ cat pr
+cat: pr: No such file or directory
+saravanans@skillsasap-vm66:~/tf_azurebackend_vm$ cat providers.tf
+provider "azurerm" {
+  features {}
+}
+
+saravanans@skillsasap-vm66:~/tf_azurebackend_vm$ cat precondition.tf
+resource "time_sleep" "wait_30_seconds" {
+  depends_on = [azurerm_public_ip.myterraformpublicip]
+  create_duration = "3m"
+}
+
+
+resource "null_resource" "pipcheck" {
+  triggers = {
+        trigger = timestamp()
+  }
+  lifecycle {
+    precondition {
+      condition = azurerm_public_ip.myterraformpublicip.ip_address != ""
+      error_message = "Public Ip must not be empty"
+    }
+  }
+  depends_on = [time_sleep.wait_30_seconds]
+}
+
+saravanans@skillsasap-vm66:~/tf_azurebackend_vm$ cat outputs.tf
+output "ssh_password" {
+  value = random_string.sshpassword.result
+}
+
+output "vm_public_ip" {
+  value = azurerm_public_ip.myterraformpublicip.ip_address
+}
+
+saravanans@skillsasap-vm66:~/tf_azurebackend_vm$
